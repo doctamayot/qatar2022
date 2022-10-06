@@ -19,7 +19,8 @@ interface SeedUser {
 
 interface SeedData {
   users?: SeedUser[];
-  equipos: Equipo[];
+  equipos?: Equipo[];
+  partidos:any[]
 }
 
 export const initialData: SeedData = {
@@ -40,6 +41,300 @@ export const initialData: SeedData = {
   //     activo: true,
   //   },
   // ],
+
+  partidos: [
+    {
+      nombre:"1",
+      local:"633ef8a306712422aaf6ffa4",//qatar
+      visitante:"633ef8a306712422aaf6ffa5",//ecuador
+      fecha:"Nov 20 11:00 am"
+
+    },
+    {
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    },
+    {
+      nombre:"3",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }{
+      nombre:"2",
+      local:"633ef8a306712422aaf6ffa8",//inglaterra
+      visitante:"633ef8a306712422aaf6ffa9",//iran
+      fecha:"Nov 21 .8:00 am"
+
+    }
+  ],
   equipos: [
     {
       name: "Qatar",

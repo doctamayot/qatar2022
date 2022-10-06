@@ -1,6 +1,6 @@
 export interface IPartido {
   _id: string;
-  name: string;
+  nombre: string;
   local: string;
   visitante: string;
   golocal: number;

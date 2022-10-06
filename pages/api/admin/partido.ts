@@ -1,0 +1,175 @@
+import type { NextApiRequest, NextApiResponse } from "next";
+import { isValidObjectId } from "mongoose";
+
+
+
+import { db } from "../../../database";
+import { IPartido } from "../../../interfaces";
+import { Partido } from "../../../models";
+
+type Data = { message: string } | IPartido[] | IPartido;
+
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) {
+  switch (req.method) {
+    case "GET":
+      return getPartidos(req, res);
+
+    case "POST":
+      return createPartido(req, res);
+
+    // case "PUT":
+    //   return updateProduct(req, res);
+    // case "DELETE":
+    //   return deleteProduct(req, res);
+
+    default:
+      return res.status(400).json({ message: "Bad request" });
+  }
+}
+
+const getPartidos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  await db.connect();
+
+  const partidos = await Partido.find()
+    .sort({ titulo: "asc" })
+    .populate("partes")
+    .lean();
+
+  await db.disconnect();
+
+  
+
+  res.status(200).json(partidos);
+};
+
+const createPartido = async (
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) => {
+  //const { images = [] } = req.body as IPartido;
+
+//   if (images.length < 1) {
+//     return res
+//       .status(400)
+//       .json({ message: "El producto necesita al menos 1 imágen" });
+//   }
+
+  // TODO: posiblemente tendremos un localhost:3000/products/asdasd.jpg
+
+  try {
+    await db.connect();
+    const productInDB = await Partido.findOne({ titulo: req.body.nombre });
+    if (productInDB) {
+      await db.disconnect();
+      return res
+        .status(400)
+        .json({ message: "Ya existe un partido con ese nombre" });
+    }
+
+    const partido = new Partido(req.body);
+    await partido.save();
+    await db.disconnect();
+
+    res.status(201).json(partido);
+  } catch (error) {
+    console.log(error);
+    await db.disconnect();
+    return res.status(400).json({ message: "Revisar logs del servidor" });
+  }
+};
+
+// const updateProduct = async (
+//   req: NextApiRequest,
+//   res: NextApiResponse<Data>
+// ) => {
+//   const { _id = "", images = [] } = req.body as IInventory;
+
+//   if (!isValidObjectId(_id)) {
+//     return res.status(400).json({ message: "El id del producto no es válido" });
+//   }
+
+//   if (images.length < 1) {
+//     return res.status(400).json({ message: "Es necesario al menos 1 imágen" });
+//   }
+
+//   // TODO: posiblemente tendremos un localhost:3000/products/asdasd.jpg
+
+//   try {
+//     await db.connect();
+//     const product = await Inventory.findById(_id);
+//     if (!product) {
+//       await db.disconnect();
+//       return res
+//         .status(400)
+//         .json({ message: "No existe un producto con ese ID" });
+//     }
+
+//     // TODO: eliminar fotos en Cloudinary
+//     // https://res.cloudinary.com/cursos-udemy/image/upload/v1645914028/nct31gbly4kde6cncc6i.jpg
+//     product.images.forEach(async (image) => {
+//       if (!images.includes(image)) {
+//         // Borrar de cloudinary
+//         const [fileId, extension] = image
+//           .substring(image.lastIndexOf("/") + 1)
+//           .split(".");
+//         console.log({ image, fileId, extension });
+//         await cloudinary.uploader.destroy(fileId);
+//       }
+//     });
+
+//     await product.updateOne(req.body);
+//     await db.disconnect();
+
+//     return res.status(200).json(product);
+//   } catch (error) {
+//     console.log(error);
+//     await db.disconnect();
+//     return res.status(400).json({ message: "Revisar la consola del servidor" });
+//   }
+// };
+
+// const deleteProduct = async (
+//   req: NextApiRequest,
+//   res: NextApiResponse<Data>
+// ) => {
+//   const { _id, images = [] } = req.body as IInventory;
+
+//   try {
+//     await db.connect();
+//     const product = await Inventory.findById(_id);
+
+//     if (!product) {
+//       await db.disconnect();
+//       return res
+//         .status(400)
+//         .json({ message: "No existe un producto con ese ID" });
+//     }
+
+//     // TODO: eliminar fotos en Cloudinary
+//     // https://res.cloudinary.com/cursos-udemy/image/upload/v1645914028/nct31gbly4kde6cncc6i.jpg
+//     product.images.map(async (image) => {
+//       // if (!images.includes(image)) {
+//       // Borrar de cloudinary
+//       const [fileId, extension] = image
+//         .substring(image.lastIndexOf("/") + 1)
+//         .split(".");
+//       // console.log({ image, fileId, extension });
+//       // console.log(fileId);
+//       // console.log(fileId);
+
+//       await cloudinary.uploader.destroy(fileId);
+//       //}
+//     });
+//     await Inventory.deleteOne({ _id });
+//     await db.disconnect();
+
+//     res.status(200).json({ message: "Producto Borrado" });
+//   } catch (error) {
+//     console.log(error);
+//     await db.disconnect();
+//     return res.status(400).json({ message: "Revisar logs del servidor" });
+//   }
+//};
