@@ -6,3 +6,4 @@ export * from "./semi";
 export * from "./final";
 export * from "./extra";
 export * from "./grupo";
+export * from "./equipo";

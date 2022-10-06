@@ -6,3 +6,4 @@ export { default as Partido } from "./Partido";
 export { default as Semis } from "./Semi";
 export { default as Cuartos } from "./Cuarto";
 export { default as Extras } from "./Extra";
+export { default as Equipo } from "./Equipo";
