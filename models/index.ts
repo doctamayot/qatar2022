@@ -1,9 +1,11 @@
 export { default as User } from "./User";
 export { default as Final } from "./Final";
-export { default as Grupos } from "./Grupo";
-export { default as Octavos } from "./Octavo";
+
+export { default as Octavo } from "./Octavo";
 export { default as Partido } from "./Partido";
-export { default as Semis } from "./Semi";
-export { default as Cuartos } from "./Cuarto";
-export { default as Extras } from "./Extra";
+export { default as Semi } from "./Semi";
+export { default as Cuarto } from "./Cuarto";
+export { default as Extra } from "./Extra";
 export { default as Equipo } from "./Equipo";
+export { default as Resultado } from "./Resultado";
+export { default as Grupo } from "./Grupo";

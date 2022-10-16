@@ -9,4 +9,5 @@ export interface IPartido {
   golvisitante: number;
   resultado: string;
   fecha: string;
+  idapi: number;
 }

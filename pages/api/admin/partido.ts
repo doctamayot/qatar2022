@@ -1,13 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { isValidObjectId } from "mongoose";
 
-
-
 import { db } from "../../../database";
 import { IPartido } from "../../../interfaces";
-import { Partido } from "../../../models";
+import { Partido, Equipo } from "../../../models";
 
-type Data = { message: string } | IPartido[] | IPartido;
+type Data = { message: string } | any | any[];
 
 export default function handler(
   req: NextApiRequest,
@@ -17,11 +15,11 @@ export default function handler(
     case "GET":
       return getPartidos(req, res);
 
-    case "POST":
-      return createPartido(req, res);
+    // case "POST":
+    //   return createPartido(req, res);
 
-    // case "PUT":
-    //   return updateProduct(req, res);
+    case "PUT":
+      return updatePartido(req, res);
     // case "DELETE":
     //   return deleteProduct(req, res);
 
@@ -35,141 +33,94 @@ const getPartidos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const partidos = await Partido.find()
     .sort({ titulo: "asc" })
-    .populate("partes")
+    .populate("local visitante")
     .lean();
 
   await db.disconnect();
 
-  
-
   res.status(200).json(partidos);
 };
 
-const createPartido = async (
+const updatePartido = async (
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) => {
-  //const { images = [] } = req.body as IPartido;
+  const { _id = "", resultado } = req.body;
 
-//   if (images.length < 1) {
-//     return res
-//       .status(400)
-//       .json({ message: "El producto necesita al menos 1 imágen" });
-//   }
+  if (!isValidObjectId(_id)) {
+    return res.status(400).json({ message: "El id del producto no es válido" });
+  }
 
-  // TODO: posiblemente tendremos un localhost:3000/products/asdasd.jpg
+  // TODO: posiblemente tendremos un localhost:3000/product
 
   try {
     await db.connect();
-    const productInDB = await Partido.findOne({ titulo: req.body.nombre });
-    if (productInDB) {
-      await db.disconnect();
-      return res
-        .status(400)
-        .json({ message: "Ya existe un partido con ese nombre" });
+
+    const partido: any = await Partido.findById(_id);
+
+    if (partido.ronda === "grupos") {
+      await partido.updateOne(req.body);
+
+      const partido2: any = await Partido.findById(_id);
+
+      const equipoLocal: any = await Equipo.findById(partido.local._id);
+      const equipoVisitante: any = await Equipo.findById(partido.visitante._id);
+
+      if (resultado === "local") {
+        equipoLocal.puntos = equipoLocal.puntos + 3;
+        await equipoLocal.updateOne({ puntos: equipoLocal.puntos });
+      }
+
+      if (resultado === "visitante") {
+        equipoVisitante.puntos = equipoVisitante.puntos + 3;
+        await equipoVisitante.updateOne({ puntos: equipoVisitante.puntos });
+      }
+
+      if (resultado === "empate") {
+        equipoVisitante.puntos = equipoVisitante.puntos + 1;
+        equipoLocal.puntos = equipoLocal.puntos + 1;
+        await equipoLocal.updateOne({ puntos: equipoLocal.puntos });
+        await equipoVisitante.updateOne({ puntos: equipoVisitante.puntos });
+      }
+      await equipoLocal.updateOne({
+        // golesfavor: equipoLocal.golesfavor + partido.golocal,
+        // golescontra: equipoLocal.golescontra + partido.golvisitante,
+        // difgoles: equipoLocal.golesfavor - equipoLocal.golescontra,
+        $inc: {
+          golesfavor: partido2.golocal,
+          golescontra: partido2.golvisitante,
+          difgoles: partido2.golocal - partido2.golvisitante,
+        },
+      });
+
+      await equipoVisitante.updateOne({
+        $inc: {
+          golesfavor: partido2.golvisitante,
+          golescontra: partido2.golocal,
+          difgoles: partido2.golvisitante - partido2.golocal,
+        },
+      });
+    } else {
+      await partido.updateOne(req.body);
     }
 
-    const partido = new Partido(req.body);
-    await partido.save();
+    // console.log(equipoLocal.golesfavor);
+
+    // const partUpdated = await Equipo.findByIdAndUpdate(
+    //   partido.local._id,
+    //   {
+    //     puntos: "3",
+    //   },
+
+    //   { useFindAndModify: false }
+    // );
+
     await db.disconnect();
 
-    res.status(201).json(partido);
+    return res.status(200).json(partido);
   } catch (error) {
     console.log(error);
     await db.disconnect();
-    return res.status(400).json({ message: "Revisar logs del servidor" });
+    return res.status(400).json({ message: "Revisar la consola del servidor" });
   }
 };
-
-// const updateProduct = async (
-//   req: NextApiRequest,
-//   res: NextApiResponse<Data>
-// ) => {
-//   const { _id = "", images = [] } = req.body as IInventory;
-
-//   if (!isValidObjectId(_id)) {
-//     return res.status(400).json({ message: "El id del producto no es válido" });
-//   }
-
-//   if (images.length < 1) {
-//     return res.status(400).json({ message: "Es necesario al menos 1 imágen" });
-//   }
-
-//   // TODO: posiblemente tendremos un localhost:3000/products/asdasd.jpg
-
-//   try {
-//     await db.connect();
-//     const product = await Inventory.findById(_id);
-//     if (!product) {
-//       await db.disconnect();
-//       return res
-//         .status(400)
-//         .json({ message: "No existe un producto con ese ID" });
-//     }
-
-//     // TODO: eliminar fotos en Cloudinary
-//     // https://res.cloudinary.com/cursos-udemy/image/upload/v1645914028/nct31gbly4kde6cncc6i.jpg
-//     product.images.forEach(async (image) => {
-//       if (!images.includes(image)) {
-//         // Borrar de cloudinary
-//         const [fileId, extension] = image
-//           .substring(image.lastIndexOf("/") + 1)
-//           .split(".");
-//         console.log({ image, fileId, extension });
-//         await cloudinary.uploader.destroy(fileId);
-//       }
-//     });
-
-//     await product.updateOne(req.body);
-//     await db.disconnect();
-
-//     return res.status(200).json(product);
-//   } catch (error) {
-//     console.log(error);
-//     await db.disconnect();
-//     return res.status(400).json({ message: "Revisar la consola del servidor" });
-//   }
-// };
-
-// const deleteProduct = async (
-//   req: NextApiRequest,
-//   res: NextApiResponse<Data>
-// ) => {
-//   const { _id, images = [] } = req.body as IInventory;
-
-//   try {
-//     await db.connect();
-//     const product = await Inventory.findById(_id);
-
-//     if (!product) {
-//       await db.disconnect();
-//       return res
-//         .status(400)
-//         .json({ message: "No existe un producto con ese ID" });
-//     }
-
-//     // TODO: eliminar fotos en Cloudinary
-//     // https://res.cloudinary.com/cursos-udemy/image/upload/v1645914028/nct31gbly4kde6cncc6i.jpg
-//     product.images.map(async (image) => {
-//       // if (!images.includes(image)) {
-//       // Borrar de cloudinary
-//       const [fileId, extension] = image
-//         .substring(image.lastIndexOf("/") + 1)
-//         .split(".");
-//       // console.log({ image, fileId, extension });
-//       // console.log(fileId);
-//       // console.log(fileId);
-
-//       await cloudinary.uploader.destroy(fileId);
-//       //}
-//     });
-//     await Inventory.deleteOne({ _id });
-//     await db.disconnect();
-
-//     res.status(200).json({ message: "Producto Borrado" });
-//   } catch (error) {
-//     console.log(error);
-//     await db.disconnect();
-//     return res.status(400).json({ message: "Revisar logs del servidor" });
-//   }
-//};
