@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 //     timezone: "America/Bogota",
 //   },
 //   headers: {
-//     "X-RapidAPI-Key": "a554d9c755mshce5f186db9e6066p1a0aeajsn9d88b7d58946",
+//     "X-RapidAPI-Key": process.env.RAPIDAPI,
 //     "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
 //   },
 // };
