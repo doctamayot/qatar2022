@@ -20,6 +20,9 @@ export default function handler(
 
     case "PUT":
       return updatePartido(req, res);
+
+    case "PATCH":
+      return deletePartido(req, res);
     // case "DELETE":
     //   return deleteProduct(req, res);
 
@@ -31,8 +34,7 @@ export default function handler(
 const getPartidos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   await db.connect();
 
-  const partidos = await Partido.find()
-    .sort({ titulo: "asc" })
+  const partidos = await Partido.find({ grupo: "A" })
     .populate("local visitante")
     .lean();
 
@@ -46,10 +48,11 @@ const updatePartido = async (
   res: NextApiResponse<Data>
 ) => {
   const { _id = "", resultado } = req.body;
+  console.log(req.body);
 
-  if (!isValidObjectId(_id)) {
-    return res.status(400).json({ message: "El id del producto no es válido" });
-  }
+  // if (!isValidObjectId(_id)) {
+  //   return res.status(400).json({ message: "El id del producto no es válido" });
+  // }
 
   // TODO: posiblemente tendremos un localhost:3000/product
 
@@ -65,6 +68,9 @@ const updatePartido = async (
 
       const equipoLocal: any = await Equipo.findById(partido.local._id);
       const equipoVisitante: any = await Equipo.findById(partido.visitante._id);
+
+      if (partido2.ronda === "uno") {
+      }
 
       if (resultado === "local") {
         equipoLocal.puntos = equipoLocal.puntos + 3;
@@ -98,6 +104,90 @@ const updatePartido = async (
           golesfavor: partido2.golvisitante,
           golescontra: partido2.golocal,
           difgoles: partido2.golvisitante - partido2.golocal,
+        },
+      });
+    } else {
+      await partido.updateOne(req.body);
+    }
+
+    // console.log(equipoLocal.golesfavor);
+
+    // const partUpdated = await Equipo.findByIdAndUpdate(
+    //   partido.local._id,
+    //   {
+    //     puntos: "3",
+    //   },
+
+    //   { useFindAndModify: false }
+    // );
+
+    await db.disconnect();
+
+    return res.status(200).json(partido);
+  } catch (error) {
+    console.log(error);
+    await db.disconnect();
+    return res.status(400).json({ message: "Revisar la consola del servidor" });
+  }
+};
+const deletePartido = async (
+  req: NextApiRequest,
+  res: NextApiResponse<any>
+) => {
+  const { _id = "", resultado } = req.body;
+  console.log(req.body);
+
+  // if (!isValidObjectId(_id)) {
+  //   return res.status(400).json({ message: "El id del producto no es válido" });
+  // }
+
+  // TODO: posiblemente tendremos un localhost:3000/product
+
+  try {
+    await db.connect();
+
+    const partido: any = await Partido.findById(_id);
+
+    if (partido.ronda === "grupos") {
+      //await partido.updateOne(req.body);
+
+      const partido2: any = await Partido.findById(_id);
+
+      const equipoLocal: any = await Equipo.findById(partido.local._id);
+      const equipoVisitante: any = await Equipo.findById(partido.visitante._id);
+
+      if (partido2.resultado === "local") {
+        equipoLocal.puntos = equipoLocal.puntos - 3;
+        await equipoLocal.updateOne({ puntos: equipoLocal.puntos });
+      }
+
+      if (partido2.resultado === "visitante") {
+        equipoVisitante.puntos = equipoVisitante.puntos - 3;
+        await equipoVisitante.updateOne({ puntos: equipoVisitante.puntos });
+      }
+
+      if (partido2.resultado === "empate") {
+        equipoVisitante.puntos = equipoVisitante.puntos - 1;
+        equipoLocal.puntos = equipoLocal.puntos - 1;
+        await equipoLocal.updateOne({ puntos: equipoLocal.puntos });
+        await equipoVisitante.updateOne({ puntos: equipoVisitante.puntos });
+      }
+      await equipoLocal.updateOne({
+        // golesfavor: equipoLocal.golesfavor + partido.golocal,
+        // golescontra: equipoLocal.golescontra + partido.golvisitante,
+        // difgoles: equipoLocal.golesfavor - equipoLocal.golescontra,
+        $inc: {
+          golesfavor: -partido2.golocal,
+          golescontra: -partido2.golvisitante,
+          difgoles: -partido2.golocal + partido2.golvisitante,
+        },
+      });
+
+      await equipoVisitante.updateOne({
+        $inc: {
+          golesfavor: -partido2.golvisitante,
+          golescontra: -partido2.golocal,
+          difgoles: -partido2.golvisitante + partido2.golocal,
         },
       });
     } else {

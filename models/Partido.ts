@@ -10,6 +10,7 @@ const partidoSchema = new Schema(
       ref: "Equipo",
       autopopulate: true,
     },
+    jugado: { type: Boolean },
 
     visitante: {
       type: Schema.Types.ObjectId,
@@ -21,6 +22,7 @@ const partidoSchema = new Schema(
     golvisitante: { type: Number },
     resultado: { type: String },
     ronda: { type: String },
+    grupo: { type: String },
 
     idapi: { type: Number, required: true },
   },

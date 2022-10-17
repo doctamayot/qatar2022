@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Grupoa } from "../components/Grupoa";
 
 // const options = {
 //   method: "GET",
@@ -22,7 +23,7 @@ import { useEffect, useState } from "react";
 // };
 
 const Home: NextPage = () => {
-  const [data, setData] = useState([] as any);
+  //const [data, setData] = useState([] as any);
   // useEffect(() => {
   //   axios
   //     .request(options)
@@ -36,7 +37,7 @@ const Home: NextPage = () => {
   //     });
   // }, []);
 
-  return <>hugo</>;
+  return <Grupoa />;
 };
 
 export default Home;

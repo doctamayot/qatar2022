@@ -31,6 +31,7 @@ export default async function handler(
 
   // await Grupo.deleteMany();
   // await Grupo.insertMany(seedDatabase.initialData.grupos);
+  //await Grupo.insertMany(seedDatabase.initialData.grupos);
   // await Octavo.deleteMany();
   // await Octavo.insertMany(seedDatabase.initialData.octavos);
 
