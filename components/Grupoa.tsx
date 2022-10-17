@@ -40,7 +40,7 @@ export const Grupoa = () => {
     async function fetchData() {
       //You can await here
       const data: any = await tesloApi({
-        url: `/grupo`,
+        url: `/grupos/grupoa`,
         method: "PUT",
         //data: form,
       });
@@ -56,7 +56,7 @@ export const Grupoa = () => {
     async function fetchData() {
       //You can await here
       const data: any = await tesloApi({
-        url: `/grupo`,
+        url: `/grupos/grupoa`,
         method: "GET",
         //data: form,
       });
@@ -71,7 +71,7 @@ export const Grupoa = () => {
   console.log(grupo2 && grupo2.data);
 
   const onSubmit = async (form: any) => {
-    setFormu(form);
+    
     if (parseInt(getValues("golocal")) > parseInt(getValues("golvisitante"))) {
       form.resultado = "local";
     } else if (
@@ -88,6 +88,7 @@ export const Grupoa = () => {
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
+      setFormu(form);
 
       //console.log(form);
       // await Swal.fire({

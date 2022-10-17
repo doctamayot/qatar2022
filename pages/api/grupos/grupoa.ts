@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { isValidObjectId } from "mongoose";
 
-import { db } from "../../database";
+import { db } from "../../../database";
 
-import { Partido, Equipo, Grupo, Octavo } from "../../models";
+import { Partido, Equipo, Grupo, Octavo } from "../../../models";
 
 type Data = { message: string } | any | any[];
 
