@@ -359,15 +359,56 @@ export const Grupoa = () => {
           backgroundColor: "#e9b721",
           textAlign: "center",
           color: "#fff",
+          display:{md:"flex"}
         }}
       >
-        <Typography
+        <Grid container sx={{display:{sm:"flex"}, alignItems:"center"}}>
+          <Grid item md={4}>
+          <Typography
           variant="h5"
           component="div"
-          sx={{ fontSize: "30px", padding: 4 }}
+          sx={{ fontSize: "30px", padding: 4, fontFamily: "'Yanone Kaffeesatz', sans-serif" }}
         >
           Grupo {grupo2 && grupo2.data[0].name}
         </Typography>
+          </Grid>
+          <Grid item md={2} sx={{display:{xs:"none", md:"flex"}}}>
+          <Image
+                  src={datos&&datos.data[0].local.bandera}
+                  alt={datos&&datos.data[0].nombre}
+                  width={70}
+                  height={40}
+                />
+          </Grid>
+          <Grid item md={2} sx={{display:{xs:"none", md:"flex"}}}>
+          <Image
+                  src={datos&&datos.data[1].local.bandera}
+                  alt={datos&&datos.data[1].nombre}
+                  width={70}
+                  height={40}
+                />
+          </Grid>
+          <Grid item md={2} sx={{display:{xs:"none", md:"flex"}}}>
+          <Image
+                  src={datos&&datos.data[3].local.bandera}
+                  alt={datos&&datos.data[3].nombre}
+                  width={70}
+                  height={40}
+                />
+          </Grid>
+          <Grid item md={2} sx={{display:{xs:"none", md:"flex"}}}>
+          <Image
+                  src={datos&&datos.data[3].visitante.bandera}
+                  alt={datos&&datos.data[3].nombre}
+                  width={70}
+                  height={40}
+                />
+          </Grid>
+          
+        </Grid>
+        
+        
+        
       </Grid>
       <form onSubmit={handleSubmit(onSubmit1)}></form>
       <Grid
@@ -384,7 +425,7 @@ export const Grupoa = () => {
             sx={{ padding: "10px" }}
           >
             <Grid item md={2} xs={3} textAlign="center">
-              <Typography component="span" sx={{ fontWeight: "bold" }}>
+              <Typography component="span" sx={{ fontWeight: "bold", }}>
                 {datos && datos.data[0].local.name}
               </Typography>
             </Grid>
@@ -1080,7 +1121,7 @@ export const Grupoa = () => {
         }}
       >
         <Grid container>
-          <Grid item xs={1} display="flex" flexDirection="column">
+          <Grid item sm={1} xs={2} display="flex" flexDirection="column">
             <Typography
               variant="h5"
               component="span"
@@ -1125,7 +1166,8 @@ export const Grupoa = () => {
           </Grid>
           <Grid
             item
-            xs={2}
+            xs={6}
+            sm={2}
             display="flex"
             flexDirection="column"
             sx={{ marginLeft: "5px" }}
@@ -1137,47 +1179,62 @@ export const Grupoa = () => {
             >
               Equipo
             </Typography>
-            <Typography
-              sx={{
+            <Box display="flex"  sx={{
                 backgroundColor: "#95eb99",
                 padding: "10px",
                 marginTop: "10px",
-              }}
+                
+              }}>
+            <Image src={grupo2 && grupo2.data[0] && grupo2.data[0].posicion1.bandera} alt="polla" width={40} height={20} />
+              <Typography
+             sx={{marginLeft:"5px", fontSize:"15px"}}
             >
               {grupo2 && grupo2.data[0] && grupo2.data[0].posicion1.name}
-            </Typography>
-            <Typography
-              sx={{
+            </Typography></Box>
+            
+            <Box display="flex"  sx={{
                 backgroundColor: "#95eb99",
                 padding: "10px",
                 marginTop: "10px",
-              }}
+                
+              }}>
+            <Image src={grupo2 && grupo2.data[0] && grupo2.data[0].posicion2.bandera} alt="polla" width={40} height={20} />
+              <Typography
+             sx={{marginLeft:"5px", fontSize:"15px"}}
             >
               {grupo2 && grupo2.data[0] && grupo2.data[0].posicion2.name}
-            </Typography>
-            <Typography
-              sx={{
+            </Typography></Box>
+            <Box display="flex"  sx={{
+                backgroundColor: "#95eb99",
                 padding: "10px",
                 marginTop: "10px",
-              }}
+                
+              }}>
+            <Image src={grupo2 && grupo2.data[0] && grupo2.data[0].posicion3.bandera} alt="polla" width={40} height={20} />
+              <Typography
+             sx={{marginLeft:"5px", fontSize:"15px"}}
             >
               {grupo2 && grupo2.data[0] && grupo2.data[0].posicion3.name}
-            </Typography>
-            <Typography
-              sx={{
+            </Typography></Box>
+            <Box display="flex"  sx={{
+                backgroundColor: "#95eb99",
                 padding: "10px",
                 marginTop: "10px",
-              }}
+                
+              }}>
+            <Image src={grupo2 && grupo2.data[0] && grupo2.data[0].posicion4.bandera} alt="polla" width={40} height={20} />
+              <Typography
+             sx={{marginLeft:"5px", fontSize:"15px"}}
             >
               {grupo2 && grupo2.data[0] && grupo2.data[0].posicion4.name}
-            </Typography>
+            </Typography></Box>
           </Grid>
           <Grid
             item
             xs={2}
             display="flex"
             flexDirection="column"
-            sx={{ marginLeft: "5px" }}
+            sx={{ marginLeft: "5px", display:{xs:"none", sm:"flex"} }}
           >
             <Typography
               variant="h5"
@@ -1216,6 +1273,7 @@ export const Grupoa = () => {
               sx={{
                 padding: "10px",
                 marginTop: "10px",
+                
               }}
             >
               {grupo2 && grupo2.data[0] && grupo2.data[0].posicion4.golesfavor}
@@ -1226,7 +1284,7 @@ export const Grupoa = () => {
             xs={2}
             display="flex"
             flexDirection="column"
-            sx={{ marginLeft: "5px" }}
+            sx={{ marginLeft: "5px",display:{xs:"none", sm:"flex"} }}
           >
             <Typography
               variant="h5"
