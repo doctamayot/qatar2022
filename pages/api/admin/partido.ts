@@ -48,7 +48,7 @@ const updatePartido = async (
   res: NextApiResponse<Data>
 ) => {
   const { _id = "", resultado } = req.body;
-  console.log(req.body);
+  //console.log(req.body);
 
   // if (!isValidObjectId(_id)) {
   //   return res.status(400).json({ message: "El id del producto no es válido" });
@@ -134,8 +134,8 @@ const deletePartido = async (
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) => {
-  const { _id = "", resultado } = req.body;
-  console.log(req.body);
+  const { _id = "", jugado } = req.body;
+  console.log(jugado);
 
   // if (!isValidObjectId(_id)) {
   //   return res.status(400).json({ message: "El id del producto no es válido" });
@@ -191,9 +191,9 @@ const deletePartido = async (
         },
       });
     } else {
-      await partido.updateOne(req.body);
+      //await partido.updateOne(req.body);
     }
-
+    await partido.updateOne({ jugado: false });
     // console.log(equipoLocal.golesfavor);
 
     // const partUpdated = await Equipo.findByIdAndUpdate(

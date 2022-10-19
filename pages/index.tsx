@@ -17,13 +17,13 @@ import { Grupoa } from "../components/Grupoa";
 //     timezone: "America/Bogota",
 //   },
 //   headers: {
-//     "X-RapidAPI-Key": process.env.RAPIDAPI,
+//     "X-RapidAPI-Key": "a554d9c755mshce5f186db9e6066p1a0aeajsn9d88b7d58946",
 //     "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
 //   },
 // };
 
 const Home: NextPage = () => {
-  //const [data, setData] = useState([] as any);
+  const [data, setData] = useState([] as any);
   // useEffect(() => {
   //   axios
   //     .request(options)
@@ -36,6 +36,7 @@ const Home: NextPage = () => {
   //       console.error(error);
   //     });
   // }, []);
+  // console.log(data);
 
   return <Grupoa />;
 };

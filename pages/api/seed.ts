@@ -21,10 +21,17 @@ export default async function handler(
   // await Equipo.deleteMany();
   await Equipo.updateMany(
     { _v: 0 },
-    { $set: { golesfavor: 0, golescontra: 0, difgoles: 0, puntos: 0 } }
+    {
+      $set: {
+        golesfavor: 0,
+        golescontra: 0,
+        difgoles: 0,
+        puntos: 0,
+      },
+    }
   );
 
-  //await Partido.updateMany({ _v: 0 }, { $set: { ronda: "grupos" } });
+  await Partido.updateMany({ _v: 0 }, { $set: { jugado: false } });
 
   // await Resultado.deleteMany();
   // await Resultado.insertMany(seedDatabase.initialData.resultados);

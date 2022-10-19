@@ -4,6 +4,7 @@ import { IPartido } from "../interfaces";
 const partidoSchema = new Schema(
   {
     //user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+
     nombre: { type: String, required: true, unique: true },
     local: {
       type: Schema.Types.ObjectId,

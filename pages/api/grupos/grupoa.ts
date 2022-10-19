@@ -4,6 +4,7 @@ import { isValidObjectId } from "mongoose";
 import { db } from "../../../database";
 
 import { Partido, Equipo, Grupo, Octavo } from "../../../models";
+import { BUILD_ID_FILE } from "next/dist/shared/lib/constants";
 
 type Data = { message: string } | any | any[];
 
@@ -33,7 +34,7 @@ const getGrupos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const grupos = await Grupo.find({ name: "A" })
     // .sort({ titulo: "asc" })
-    // .populate("equipos partidos")
+    .populate("equipos partidos posicion1 posicion2 posicion3 posicion4")
     .lean();
 
   await db.disconnect();
@@ -59,10 +60,25 @@ const updatePartido = async (
       "634b3d06056ab725a4e93acc"
     ).populate("equipos");
 
+    // let porPuntos = grupo.equipos.sort((a: any, b: any) => {
+    //   if (a.puntos === b.puntos) {
+    //     return a.difgoles < a.difgoles ? -1 : 1;
+    //   } else if (a.puntos === b.puntos && a.difgoles === b.difgoles) {
+    //     return a.golesfavor < b.golesfavor ? 1 : -1;
+    //   } else {
+    //     return a.puntos < b.puntos ? 1 : -1;
+    //   }
+    // });
     let porPuntos = grupo.equipos.sort((a: any, b: any) => {
+      if (a.puntos === b.puntos && a.difgoles === b.difgoles) {
+        return a.golesfavor < b.golesfavor ? 1 : -1;
+      }
+
       if (a.puntos === b.puntos) {
         return a.difgoles < a.difgoles ? -1 : 1;
-      } else {
+      }
+
+      if (a.puntos != b.puntos) {
         return a.puntos < b.puntos ? 1 : -1;
       }
     });
