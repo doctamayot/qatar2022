@@ -5,7 +5,7 @@ import Image from "next/image";
 import { tesloApi } from "../axios";
 import { useForm } from "react-hook-form";
 
-export const Grupoa = () => {
+export const Grupob = () => {
   const [datos, setDatos] = useState<any>();
   const [formu, setFormu] = useState<any>();
   const [grupo, setGrupo] = useState<any>();
@@ -70,9 +70,9 @@ export const Grupoa = () => {
     async function fetchData() {
       //You can await here
       const data: any = await tesloApi({
-        url: `/partidos/partidosa`,
+        url: `/partidos/partidosb`,
         method: "GET",
-        //data: grupo2 && grupo2.data[0].name,
+        //data: form,
       });
 
       setDatos(data);
@@ -86,7 +86,7 @@ export const Grupoa = () => {
     async function fetchData() {
       //You can await here
       const data: any = await tesloApi({
-        url: `/grupos/grupoa`,
+        url: `/grupos/grupob`,
         method: "PUT",
         //data: form,
       });
@@ -102,7 +102,7 @@ export const Grupoa = () => {
     async function fetchData() {
       //You can await here
       const data: any = await tesloApi({
-        url: `/grupos/grupoa`,
+        url: `/grupos/grupob`,
         method: "GET",
         //data: form,
       });
@@ -141,8 +141,6 @@ export const Grupoa = () => {
     }
     fetchData();
   }, [formu, grupo2]);
-
-  //console.log(octavo && octavo.data);
 
   const onSubmit1 = async (form: any) => {
     if (parseInt(getValues("golocal")) > parseInt(getValues("golvisitante"))) {
@@ -414,8 +412,8 @@ export const Grupoa = () => {
           </Grid>
           <Grid item md={2} sx={{ display: { xs: "none", md: "flex" } }}>
             <Image
-              src={datos && datos.data[1].local.bandera}
-              alt={datos && datos.data[1].nombre}
+              src={datos && datos.data[4].visitante.bandera}
+              alt={datos && datos.data[2].nombre}
               width={70}
               height={40}
             />

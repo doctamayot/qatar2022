@@ -33,7 +33,7 @@ const getOctavos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const octavos = await Octavo.find()
     // .sort({ titulo: "asc" })
-    .populate("partido")
+    .populate({ path: "partido", populate: { path: "local visitante" } })
     .lean();
 
   await db.disconnect();

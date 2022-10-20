@@ -41,7 +41,7 @@ const getFinal = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const tercer = await Final.find()
     // .sort({ titulo: "asc" })
-    .populate("partido")
+    .populate({ path: "partido", populate: { path: "local visitante" } })
     .lean();
 
   await db.disconnect();

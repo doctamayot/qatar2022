@@ -33,7 +33,7 @@ const getCuartos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const cuartos = await Cuarto.find()
     // .sort({ titulo: "asc" })
-    .populate("partido")
+    .populate({ path: "partido", populate: { path: "local visitante" } })
     .lean();
 
   await db.disconnect();

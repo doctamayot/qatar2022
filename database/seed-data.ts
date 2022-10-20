@@ -498,8 +498,8 @@ export const initialData = {
     //   {
     //     idapi: 855739,
     //     nombre: "7",
-    //     local: "634085b00b436c115a56d2af", //mexico
-    //     visitante: "634085b00b436c115a56d2b0", //polonia
+    //     local: "634085b00b436c115a56d2ab", //mexico
+    //     visitante: "634085b00b436c115a56d2ac", //polonia
     //   },
     //   {
     //     idapi: 855740,
@@ -577,7 +577,7 @@ export const initialData = {
     //     idapi: 855752,
     //     nombre: "24",
     //     local: "634085b00b436c115a56d2a9", //arg
-    //     visitante: "634085b00b436c115a56d2af", //mex
+    //     visitante: "634085b00b436c115a56d2ab", //mex
     //   },
     //   {
     //     idapi: 855753,

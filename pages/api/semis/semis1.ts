@@ -33,7 +33,7 @@ const getSemis = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const semis = await Semi.find()
     // .sort({ titulo: "asc" })
-    .populate("partido")
+    .populate({ path: "partido", populate: { path: "local visitante" } })
     .lean();
 
   await db.disconnect();

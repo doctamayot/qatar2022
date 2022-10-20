@@ -31,7 +31,7 @@ export default function handler(
 const getPartidos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   await db.connect();
 
-  const partidos = await Partido.find({ grupo: "A" })
+  const partidos = await Partido.find({ grupo: "B" })
     .populate("local visitante")
     .lean();
 

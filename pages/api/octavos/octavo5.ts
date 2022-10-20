@@ -33,7 +33,7 @@ const getOctavos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const octavos = await Octavo.find()
     // .sort({ titulo: "asc" })
-    .populate("partido")
+    .populate({ path: "partido", populate: { path: "local visitante" } })
     .lean();
 
   await db.disconnect();
@@ -81,7 +81,7 @@ const updateOctavos = async (
       },
     });
 
-    let result = "empate";
+    let result;
     if (partido.resultado === "local") {
       result = grupo1.posicion1;
     }

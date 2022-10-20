@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Octavos } from "../components/Octavos";
 import { Grupoa } from "../components/Grupoa";
 
 // const options = {
@@ -38,7 +39,11 @@ const Home: NextPage = () => {
   // }, []);
   // console.log(data);
 
-  return <Grupoa />;
+  return (
+    <>
+      <Octavos /> <Grupoa />
+    </>
+  );
 };
 
 export default Home;
