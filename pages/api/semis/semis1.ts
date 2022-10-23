@@ -100,6 +100,34 @@ const updateSemis = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       "ganador partido"
     );
 
+    const partido4: any = await Partido.findById(
+      "634c0b80fa76e7502ea6de22" //63
+    );
+
+    await partido4.updateOne({
+      $set: {
+        local: semi2.perdedor,
+
+        // golocal: 0,
+        // golvisitante: 0,
+        // resultado: "nada",
+      },
+    });
+
+    const partido5: any = await Partido.findById(
+      "634c0b80fa76e7502ea6de23" //64
+    );
+
+    await partido5.updateOne({
+      $set: {
+        local: semi2.ganador,
+
+        // golocal: 0,
+        // golvisitante: 0,
+        // resultado: "nada",
+      },
+    });
+
     await db.disconnect();
 
     return res.status(200).json(semi2);

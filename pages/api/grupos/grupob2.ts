@@ -32,7 +32,7 @@ export default function handler(
 const getGrupos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   await db.connect();
 
-  const grupos = await Grupo.find({ name: "F" })
+  const grupos = await Grupo.find({ name: "B" })
     // .sort({ titulo: "asc" })
     .populate("equipos partidos posicion1 posicion2 posicion3 posicion4")
     .lean();
@@ -57,7 +57,7 @@ const updatePartido = async (
   try {
     await db.connect();
     const grupo: any = await Grupo.findById(
-      "634b3d06056ab725a4e93ad1"
+      "634b3d06056ab725a4e93acd"
     ).populate("equipos");
 
     // let porPuntos = grupo.equipos.sort((a: any, b: any) => {

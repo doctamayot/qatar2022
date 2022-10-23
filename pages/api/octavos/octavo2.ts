@@ -71,6 +71,10 @@ const updateOctavos = async (
       "634b40fe851f8db62de95ee0" //50
     );
 
+    const partido4: any = await Partido.findById(
+      "634c0b80fa76e7502ea6de1c" //57
+    );
+
     await partido.updateOne({
       $set: {
         local: grupo1.posicion1,
@@ -92,6 +96,20 @@ const updateOctavos = async (
     await octavo.updateOne({
       $set: {
         ganador: result,
+      },
+    });
+
+    const octavo2: any = await Octavo.findById(
+      "634b433d1a57fda6d09dec8c"
+    ).populate("ganador");
+
+    await partido4.updateOne({
+      $set: {
+        visitante: octavo2.ganador,
+
+        // golocal: 0,
+        // golvisitante: 0,
+        // resultado: "nada",
       },
     });
 

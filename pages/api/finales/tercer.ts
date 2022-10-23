@@ -23,6 +23,9 @@ export default function handler(
     case "GET":
       return getFinal(req, res);
 
+    case "PATCH":
+      return getResult(req, res);
+
     // case "POST":
     //   return createPartido(req, res);
 
@@ -40,8 +43,20 @@ const getFinal = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   await db.connect();
 
   const tercer = await Final.find()
-    // .sort({ titulo: "asc" })
     .populate({ path: "partido", populate: { path: "local visitante" } })
+    .lean();
+
+  await db.disconnect();
+
+  res.status(200).json(tercer);
+};
+
+const getResult = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  await db.connect();
+
+  const tercer = await Final.find()
+    // .sort({ titulo: "asc" })
+    .populate("tercero cuarto campeon sub")
     .lean();
 
   await db.disconnect();
@@ -76,31 +91,31 @@ const updateFinal = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       "634c14e90b6a9502b357f13f" //Semi1
     ).populate("ganador");
 
-    await partido.updateOne({
-      $set: {
-        local: semi1.perdedor,
-        visitante: semi2.perdedor,
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
-      },
-    });
+    // await partido.updateOne({
+    //   $set: {
+    //     local: semi1.perdedor,
+    //     visitante: semi2.perdedor,
+    //     // golocal: 0,
+    //     // golvisitante: 0,
+    //     // resultado: "nada",
+    //   },
+    // });
 
-    let result, perdedor1;
+    let tercero, cuarto1;
 
     if (partido.resultado === "local") {
-      result = semi1.ganador;
-      perdedor1 = semi2.ganador;
+      tercero = semi1.perdedor;
+      cuarto1 = semi2.perdedor;
     }
 
     if (partido.resultado === "visitante") {
-      result = semi2.ganador;
-      perdedor1 = semi1.ganador;
+      tercero = semi2.perdedor;
+      cuarto1 = semi1.perdedor;
     }
     await tercer.updateOne({
       $set: {
-        ganador: result,
-        perdedor: perdedor1,
+        tercero: tercero,
+        cuarto: cuarto1,
       },
     });
 

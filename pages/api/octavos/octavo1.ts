@@ -3,7 +3,7 @@ import { isValidObjectId } from "mongoose";
 
 import { db } from "../../../database";
 
-import { Partido, Equipo, Grupo, Octavo } from "../../../models";
+import { Partido, Equipo, Grupo, Octavo, Cuarto } from "../../../models";
 
 type Data = { message: string } | any | any[];
 
@@ -45,7 +45,7 @@ const updateOctavos = async (
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) => {
-  const { _id = "", resultado } = req.body;
+  const { resultado } = req.body;
 
   // if (!isValidObjectId(_id)) {
   //   return res.status(400).json({ message: "El id del producto no es válido" });
@@ -65,6 +65,10 @@ const updateOctavos = async (
 
     const partido: any = await Partido.findById(
       "634b40fe851f8db62de95edf" //49
+    );
+
+    const partido4: any = await Partido.findById(
+      "634c0b80fa76e7502ea6de1c" //57
     );
     const octavo: any = await Octavo.findById(
       "634b433d1a57fda6d09dec8b"
@@ -94,13 +98,27 @@ const updateOctavos = async (
       },
     });
 
+    const octavo2: any = await Octavo.findById(
+      "634b433d1a57fda6d09dec8b"
+    ).populate("ganador");
+
+    await partido4.updateOne({
+      $set: {
+        local: octavo2.ganador,
+
+        // golocal: 0,
+        // golvisitante: 0,
+        // resultado: "nada",
+      },
+    });
+
     const partido2: any = await Partido.findById(
       "634b40fe851f8db62de95edf" //49
     );
 
-    const octavo2: any = await Octavo.findById(
-      "634b433d1a57fda6d09dec8b"
-    ).populate("ganador");
+    const partido5: any = await Partido.findById(
+      "634c0b80fa76e7502ea6de1c" //57
+    );
 
     // await grupo.updateOne({
     //   // golesfavor: equipoLocal.golesfavor + partido.golocal,
@@ -116,7 +134,7 @@ const updateOctavos = async (
 
     await db.disconnect();
 
-    return res.status(200).json(octavo2);
+    return res.status(200).json([octavo2, partido4]);
   } catch (error) {
     console.log(error);
     await db.disconnect();

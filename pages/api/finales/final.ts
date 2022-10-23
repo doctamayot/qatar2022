@@ -23,6 +23,9 @@ export default function handler(
     case "GET":
       return getFinal(req, res);
 
+    case "PATCH":
+      return getResult(req, res);
+
     // case "POST":
     //   return createPartido(req, res);
 
@@ -41,7 +44,23 @@ const getFinal = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const tercer = await Final.find()
     // .sort({ titulo: "asc" })
-    .populate({ path: "partido", populate: { path: "local visitante" } })
+    .populate({
+      path: "partido",
+      populate: { path: "local visitante" },
+    })
+    .lean();
+
+  await db.disconnect();
+
+  res.status(200).json(tercer);
+};
+
+const getResult = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  await db.connect();
+
+  const tercer = await Final.find()
+    // .sort({ titulo: "asc" })
+    .populate("campeon sub")
     .lean();
 
   await db.disconnect();
@@ -72,45 +91,45 @@ const updateFinal = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       "634c14087426434671bb46a9" //cuartos2
     ).populate("ganador");
 
-    const tercer: any = await Final.findById(
+    const campeon: any = await Final.findById(
       "634c14e90b6a9502b357f140" //Final
     ).populate("ganador");
 
-    await partido.updateOne({
-      $set: {
-        local: semi1.ganador,
-        visitante: semi2.ganador,
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
-      },
-    });
+    // await partido.updateOne({
+    //   $set: {
+    //     local: semi1.ganador,
+    //     visitante: semi2.ganador,
+    //     // golocal: 0,
+    //     // golvisitante: 0,
+    //     // resultado: "nada",
+    //   },
+    // });
 
-    let result, perdedor1;
+    let campeon1, subcampeon;
 
     if (partido.resultado === "local") {
-      result = semi1.ganador;
-      perdedor1 = semi2.ganador;
+      campeon1 = semi1.ganador;
+      subcampeon = semi2.ganador;
     }
 
     if (partido.resultado === "visitante") {
-      result = semi2.ganador;
-      perdedor1 = semi1.ganador;
+      campeon1 = semi2.ganador;
+      subcampeon = semi1.ganador;
     }
-    await tercer.updateOne({
+    await campeon.updateOne({
       $set: {
-        ganador: result,
-        perdedor: perdedor1,
+        campeon: campeon1,
+        sub: subcampeon,
       },
     });
 
-    const tercer2: any = await Final.findById(
+    const campeon2: any = await Final.findById(
       "634c14e90b6a9502b357f140"
-    ).populate("ganador partido");
+    ).populate("campeon sub");
 
     await db.disconnect();
 
-    return res.status(200).json(tercer2);
+    return res.status(200).json(campeon2);
   } catch (error) {
     console.log(error);
     await db.disconnect();

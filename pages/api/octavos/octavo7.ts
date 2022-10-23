@@ -95,6 +95,20 @@ const updateOctavos = async (
       },
     });
 
+    const partido4: any = await Partido.findById(
+      "634c0b80fa76e7502ea6de1f" //59
+    );
+
+    const octavo2: any = await Octavo.findById(
+      "634b433d1a57fda6d09dec91"
+    ).populate("ganador");
+
+    await partido4.updateOne({
+      $set: {
+        local: octavo2.ganador,
+      },
+    });
+
     const partido2: any = await Partido.findById(
       "634b40fe851f8db62de95ee5" //55
     ).populate("local visitante");

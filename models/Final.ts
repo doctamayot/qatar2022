@@ -19,6 +19,27 @@ const finalSchema = new Schema(
       ref: "Partido",
       autopopulate: true,
     },
+    campeon: {
+      type: Schema.Types.ObjectId,
+      ref: "Equipo",
+      autopopulate: true,
+    },
+    sub: {
+      type: Schema.Types.ObjectId,
+      ref: "Equipo",
+      autopopulate: true,
+    },
+    tercero: {
+      type: Schema.Types.ObjectId,
+      ref: "Equipo",
+      autopopulate: true,
+    },
+
+    cuarto: {
+      type: Schema.Types.ObjectId,
+      ref: "Equipo",
+      autopopulate: true,
+    },
   },
   {
     timestamps: true,

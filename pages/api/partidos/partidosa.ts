@@ -35,7 +35,7 @@ const getPartidos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     .populate("local visitante")
     .lean();
 
-  await db.disconnect();
+  //await db.disconnect();
 
   res.status(200).json(partidos);
 };

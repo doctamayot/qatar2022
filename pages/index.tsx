@@ -39,11 +39,7 @@ const Home: NextPage = () => {
   // }, []);
   // console.log(data);
 
-  return (
-    <>
-      <Octavos /> <Grupoa />
-    </>
-  );
+  return <>hola</>;
 };
 
 export default Home;

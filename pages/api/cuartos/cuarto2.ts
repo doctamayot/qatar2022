@@ -99,6 +99,20 @@ const updateCuartos = async (
       "634c0cc5fa76e7502ea6de27"
     ).populate("ganador partido");
 
+    const partido4: any = await Partido.findById(
+      "634c0b80fa76e7502ea6de20" //61
+    );
+
+    await partido4.updateOne({
+      $set: {
+        visitante: cuarto2.ganador,
+
+        // golocal: 0,
+        // golvisitante: 0,
+        // resultado: "nada",
+      },
+    });
+
     await db.disconnect();
 
     return res.status(200).json(cuarto2);

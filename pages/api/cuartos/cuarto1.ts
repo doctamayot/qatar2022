@@ -3,7 +3,7 @@ import { isValidObjectId } from "mongoose";
 
 import { db } from "../../../database";
 
-import { Partido, Equipo, Grupo, Octavo, Cuarto } from "../../../models";
+import { Partido, Equipo, Grupo, Octavo, Cuarto, Semi } from "../../../models";
 
 type Data = { message: string } | any | any[];
 
@@ -71,23 +71,23 @@ const updateCuartos = async (
       "634c0cc5fa76e7502ea6de26" //cuartos1
     ).populate("ganador");
 
-    await partido.updateOne({
-      $set: {
-        local: octavo1.ganador,
-        visitante: octavo2.ganador,
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
-      },
-    });
+    // await partido.updateOne({
+    //   $set: {
+    //     local: octavo1.ganador,
+    //     visitante: octavo2.ganador,
+    //     // golocal: 0,
+    //     // golvisitante: 0,
+    //     // resultado: "nada",
+    //   },
+    // });
 
     let result;
     if (partido.resultado === "local") {
-      result = octavo1.ganador;
+      result = partido.local;
     }
 
     if (partido.resultado === "visitante") {
-      result = octavo2.ganador;
+      result = partido.visitante;
     }
     await cuarto1.updateOne({
       $set: {
@@ -98,6 +98,20 @@ const updateCuartos = async (
     const cuarto2: any = await Cuarto.findById(
       "634c0cc5fa76e7502ea6de26"
     ).populate("ganador partido");
+
+    const partido4: any = await Partido.findById(
+      "634c0b80fa76e7502ea6de20" //61
+    );
+
+    await partido4.updateOne({
+      $set: {
+        local: cuarto2.ganador,
+
+        // golocal: 0,
+        // golvisitante: 0,
+        // resultado: "nada",
+      },
+    });
 
     await db.disconnect();
 

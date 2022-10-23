@@ -1,24 +1,18 @@
 import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import { SWRConfig } from "swr";
+
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { lightTheme } from "../themes";
+import { UiProvider } from "../context";
+//import { SessionProvider } from "next-auth/react";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: any) {
   return (
-    <SWRConfig
-      value={{
-        // refreshInterval:500,
-        fetcher: (resource, init) =>
-          fetch(resource, init).then((res) => res.json()),
-      }}
-    >
-      <ThemeProvider theme={lightTheme}>
-        <CssBaseline />
-
+    <ThemeProvider theme={lightTheme}>
+      <CssBaseline />
+      <UiProvider>
         <Component {...pageProps} />
-      </ThemeProvider>
-    </SWRConfig>
+      </UiProvider>
+    </ThemeProvider>
   );
 }
 

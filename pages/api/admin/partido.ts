@@ -48,7 +48,6 @@ const updatePartido = async (
   res: NextApiResponse<Data>
 ) => {
   const { _id = "", resultado } = req.body;
-  //console.log(req.body);
 
   // if (!isValidObjectId(_id)) {
   //   return res.status(400).json({ message: "El id del producto no es válido" });
@@ -61,16 +60,13 @@ const updatePartido = async (
 
     const partido: any = await Partido.findById(_id);
 
+    //await partido.updateOne(req.body);
     if (partido.ronda === "grupos") {
       await partido.updateOne(req.body);
-
       const partido2: any = await Partido.findById(_id);
 
       const equipoLocal: any = await Equipo.findById(partido.local._id);
       const equipoVisitante: any = await Equipo.findById(partido.visitante._id);
-
-      if (partido2.ronda === "uno") {
-      }
 
       if (resultado === "local") {
         equipoLocal.puntos = equipoLocal.puntos + 3;
@@ -135,7 +131,6 @@ const deletePartido = async (
   res: NextApiResponse<any>
 ) => {
   const { _id = "", jugado } = req.body;
-  console.log(jugado);
 
   // if (!isValidObjectId(_id)) {
   //   return res.status(400).json({ message: "El id del producto no es válido" });
@@ -149,7 +144,7 @@ const deletePartido = async (
     const partido: any = await Partido.findById(_id);
 
     if (partido.ronda === "grupos") {
-      //await partido.updateOne(req.body);
+      await partido.updateOne({ jugado: false });
 
       const partido2: any = await Partido.findById(_id);
 
@@ -191,9 +186,9 @@ const deletePartido = async (
         },
       });
     } else {
-      //await partido.updateOne(req.body);
+      await partido.updateOne({ jugado: false });
     }
-    await partido.updateOne({ jugado: false });
+
     // console.log(equipoLocal.golesfavor);
 
     // const partUpdated = await Equipo.findByIdAndUpdate(
