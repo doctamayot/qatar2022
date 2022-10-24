@@ -16,6 +16,13 @@ const userSchema = new Schema(
         autopopulate: true,
       },
     ],
+    equipo: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Equipo",
+        autopopulate: true,
+      },
+    ],
     cuarto: [
       {
         type: Schema.Types.ObjectId,

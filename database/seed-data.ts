@@ -76,14 +76,14 @@ export const initialData = {
       //   "634085b00b436c115a56d2a3",
       //   "634085b00b436c115a56d2a4",
       // ],
-      partidos: [
-        "63488036a6d16036a1225776",
-        "63488036a6d16036a122574f",
-        "63488036a6d16036a1225750",
-        "63488036a6d16036a1225751",
-        "63488036a6d16036a1225752",
-        "63488036a6d16036a1225753",
-      ],
+      // partidos: [
+      //   "63488036a6d16036a1225776",
+      //   "63488036a6d16036a122574f",
+      //   "63488036a6d16036a1225750",
+      //   "63488036a6d16036a1225751",
+      //   "63488036a6d16036a1225752",
+      //   "63488036a6d16036a1225753",
+      // ],
     },
     // {
     //   name: "B",
@@ -187,283 +187,276 @@ export const initialData = {
   // ],
 
   equipos: [
-    // {
-    //   apiteamid: 1569,
-    //   name: "Qatar",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665065609/qatar/xkeknodzjo60l8cqhh04.webp",
-    //   grupo: "A",
-    //   puntos: 0,
-    // },
-    // {
-    //   apiteamid: 2382,
-    //   name: "Ecuador",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665065609/qatar/ep449yvzkuvmpl0g9hsn.jpg",
-    //   grupo: "A",
-    //   puntos: 0,
-    // },
-    // {
-    //   apiteamid: 13,
-    //   name: "Senegal",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665065609/qatar/ayxkedeqkfj0albq61vf.jpg",
-    //   grupo: "A",
-    // },
-    // {
-    //   apiteamid: 1118,
-    //   name: "Paises Bajos",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665065609/qatar/znaikdr1hon2fiotuh1e.png",
-    //   grupo: "A",
-    // },
-    // {
-    //   apiteamid: 10,
-    //   name: "Inglaterra",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665065847/qatar/l6iaupibucwi2axrlatq.webp",
-    //   grupo: "B",
-    // },
-    // {
-    //   apiteamid: 22,
-    //   name: "Iran",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665065846/qatar/qogn8urxxh0y8llodv9s.jpg",
-    //   grupo: "B",
-    // },
-    // {
-    //   apiteamid: 2384,
-    //   name: "USA",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665065917/qatar/ctuu9dlfvbza0hqoxism.webp",
-    //   grupo: "B",
-    // },
-    // {
-    //   apiteamid: 767,
-    //   name: "Wales",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665065846/qatar/y9kr6c5ebqhob4qedkrn.jpg",
-    //   grupo: "B",
-    // },
-    // {
-    //   apiteamid: 26,
-    //   name: "Argentina",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066225/qatar/lyuxf7hie3vd5fdu1rsz.webp",
-    //   grupo: "C",
-    // },
-    // {
-    //   apiteamid: 23,
-    //   name: "Arabia Saudita",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066225/qatar/a1ghajll4ivdbhy7rfnb.jpg",
-    //   grupo: "C",
-    // },
-    // {
-    //   apiteamid: 16,
-    //   name: "Mexico",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066224/qatar/uasmn6h2euucu1zrs1rt.jpg",
-    //   grupo: "C",
-    // },
-    // {
-    //   apiteamid: 24,
-    //   name: "Polonia",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066224/qatar/n3rhppgcnoif5bwhd14t.jpg",
-    //   grupo: "C",
-    // },
-    // {
-    //   apiteamid: 2,
-    //   name: "Francia",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066543/qatar/atzl2xtuamrbcl8gksz8.webp",
-    //   grupo: "D",
-    // },
-    // {
-    //   apiteamid: 20,
-    //   name: "Australia",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066543/qatar/pmsck0x7vfhhfuyot846.webp",
-    //   grupo: "D",
-    // },
-    // {
-    //   apiteamid: 21,
-    //   name: "Dinamarca",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066543/qatar/n7orw7rqyrsqqjfhmmvm.webp",
-    //   grupo: "D",
-    // },
-    // {
-    //   apiteamid: 28,
-    //   name: "Tunez",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066543/qatar/hnataxit8bhmipozvwoj.jpg",
-    //   grupo: "D",
-    // },
-    // {
-    //   apiteamid: 9,
-    //   name: "España",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066744/qatar/lnkkj7hnekt4rnmlcdv0.webp",
-    //   grupo: "E",
-    // },
-    // {
-    //   apiteamid: 29,
-    //   name: "Costa Rica",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066743/qatar/ajlo7rsmlnnetzdi0hwe.webp",
-    //   grupo: "E",
-    // },
-    // {
-    //   apiteamid: 25,
-    //   name: "Alemania",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066744/qatar/dlng87kxte5lvtmhe2io.webp",
-    //   grupo: "E",
-    // },
-    // {
-    //   apiteamid: 12,
-    //   name: "Japon",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066743/qatar/lwk8w8cxdjgnqfcwdscr.jpg",
-    //   grupo: "E",
-    // },
-    // {
-    //   apiteamid: 1,
-    //   name: "Belgica",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066992/qatar/dyvprbnu1beyjhxx7odx.jpg",
-    //   grupo: "F",
-    // },
-    // {
-    //   apiteamid: 5529,
-    //   name: "Canada",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066993/qatar/u0tahusoaavibh3stndj.jpg",
-    //   grupo: "F",
-    // },
-    // {
-    //   apiteamid: 31,
-    //   name: "Marruecos",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066972/qatar/f7gstfaohmaeh7k3mav1.webp",
-    //   grupo: "F",
-    // },
-    // {
-    //   apiteamid: 3,
-    //   name: "Croacia",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665066972/qatar/zjrxzcmme7udhgvuulrb.jpg",
-    //   grupo: "F",
-    // },
-    // {
-    //   apiteamid: 6,
-    //   name: "Brasil",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665067246/qatar/mrtgsgyrhzssy6ujh8wl.jpg",
-    //   grupo: "G",
-    // },
-    // {
-    //   apiteamid: 14,
-    //   name: "Serbia",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665067246/qatar/xymayifgltpvuwwredsp.jpg",
-    //   grupo: "G",
-    // },
-    // {
-    //   apiteamid: 15,
-    //   name: "Suiza",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665067245/qatar/uxljgynjtvyphueiczug.jpg",
-    //   grupo: "G",
-    // },
-    // {
-    //   apiteamid: 1530,
-    //   name: "Camerun",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665067245/qatar/hu1epngg0lmp51x4xhkw.jpg",
-    //   grupo: "G",
-    // },
-    // {
-    //   apiteamid: 27,
-    //   name: "Portugal",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665067441/qatar/fm3k5kl1ogdihhagz7v9.jpg",
-    //   grupo: "H",
-    // },
-    // {
-    //   apiteamid: 1504,
-    //   name: "Ghana",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665067441/qatar/crz028ius5epv1zyctgk.jpg",
-    //   grupo: "H",
-    // },
-    // {
-    //   apiteamid: 7,
-    //   name: "Uruguay",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665067441/qatar/jagaphnmvqbzawxakbkk.webp",
-    //   grupo: "H",
-    // },
-    // {
-    //   apiteamid: 17,
-    //   name: "Corea del Sur",
-    //   bandera:
-    //     "https://res.cloudinary.com/hugotamayo/image/upload/v1665067441/qatar/qcwufgwt7dzn5felcpqv.webp",
-    //   grupo: "H",
-    // },
+    {
+      apiteamid: 1569,
+      name: "Qatar",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665065609/qatar/xkeknodzjo60l8cqhh04.webp",
+      grupo: "A",
+      puntos: 0,
+    },
+    {
+      apiteamid: 2382,
+      name: "Ecuador",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665065609/qatar/ep449yvzkuvmpl0g9hsn.jpg",
+      grupo: "A",
+      puntos: 0,
+    },
+    {
+      apiteamid: 13,
+      name: "Senegal",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665065609/qatar/ayxkedeqkfj0albq61vf.jpg",
+      grupo: "A",
+    },
+    {
+      apiteamid: 1118,
+      name: "Paises Bajos",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665065609/qatar/znaikdr1hon2fiotuh1e.png",
+      grupo: "A",
+    },
+    {
+      apiteamid: 10,
+      name: "Inglaterra",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665065847/qatar/l6iaupibucwi2axrlatq.webp",
+      grupo: "B",
+    },
+    {
+      apiteamid: 22,
+      name: "Iran",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665065846/qatar/qogn8urxxh0y8llodv9s.jpg",
+      grupo: "B",
+    },
+    {
+      apiteamid: 2384,
+      name: "USA",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665065917/qatar/ctuu9dlfvbza0hqoxism.webp",
+      grupo: "B",
+    },
+    {
+      apiteamid: 767,
+      name: "Wales",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665065846/qatar/y9kr6c5ebqhob4qedkrn.jpg",
+      grupo: "B",
+    },
+    {
+      apiteamid: 26,
+      name: "Argentina",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066225/qatar/lyuxf7hie3vd5fdu1rsz.webp",
+      grupo: "C",
+    },
+    {
+      apiteamid: 23,
+      name: "Arabia Saudita",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066225/qatar/a1ghajll4ivdbhy7rfnb.jpg",
+      grupo: "C",
+    },
+    {
+      apiteamid: 16,
+      name: "Mexico",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066224/qatar/uasmn6h2euucu1zrs1rt.jpg",
+      grupo: "C",
+    },
+    {
+      apiteamid: 24,
+      name: "Polonia",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066224/qatar/n3rhppgcnoif5bwhd14t.jpg",
+      grupo: "C",
+    },
+    {
+      apiteamid: 2,
+      name: "Francia",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066543/qatar/atzl2xtuamrbcl8gksz8.webp",
+      grupo: "D",
+    },
+    {
+      apiteamid: 20,
+      name: "Australia",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066543/qatar/pmsck0x7vfhhfuyot846.webp",
+      grupo: "D",
+    },
+    {
+      apiteamid: 21,
+      name: "Dinamarca",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066543/qatar/n7orw7rqyrsqqjfhmmvm.webp",
+      grupo: "D",
+    },
+    {
+      apiteamid: 28,
+      name: "Tunez",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066543/qatar/hnataxit8bhmipozvwoj.jpg",
+      grupo: "D",
+    },
+    {
+      apiteamid: 9,
+      name: "España",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066744/qatar/lnkkj7hnekt4rnmlcdv0.webp",
+      grupo: "E",
+    },
+    {
+      apiteamid: 29,
+      name: "Costa Rica",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066743/qatar/ajlo7rsmlnnetzdi0hwe.webp",
+      grupo: "E",
+    },
+    {
+      apiteamid: 25,
+      name: "Alemania",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066744/qatar/dlng87kxte5lvtmhe2io.webp",
+      grupo: "E",
+    },
+    {
+      apiteamid: 12,
+      name: "Japon",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066743/qatar/lwk8w8cxdjgnqfcwdscr.jpg",
+      grupo: "E",
+    },
+    {
+      apiteamid: 1,
+      name: "Belgica",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066992/qatar/dyvprbnu1beyjhxx7odx.jpg",
+      grupo: "F",
+    },
+    {
+      apiteamid: 5529,
+      name: "Canada",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066993/qatar/u0tahusoaavibh3stndj.jpg",
+      grupo: "F",
+    },
+    {
+      apiteamid: 31,
+      name: "Marruecos",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066972/qatar/f7gstfaohmaeh7k3mav1.webp",
+      grupo: "F",
+    },
+    {
+      apiteamid: 3,
+      name: "Croacia",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665066972/qatar/zjrxzcmme7udhgvuulrb.jpg",
+      grupo: "F",
+    },
+    {
+      apiteamid: 6,
+      name: "Brasil",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665067246/qatar/mrtgsgyrhzssy6ujh8wl.jpg",
+      grupo: "G",
+    },
+    {
+      apiteamid: 14,
+      name: "Serbia",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665067246/qatar/xymayifgltpvuwwredsp.jpg",
+      grupo: "G",
+    },
+    {
+      apiteamid: 15,
+      name: "Suiza",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665067245/qatar/uxljgynjtvyphueiczug.jpg",
+      grupo: "G",
+    },
+    {
+      apiteamid: 1530,
+      name: "Camerun",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665067245/qatar/hu1epngg0lmp51x4xhkw.jpg",
+      grupo: "G",
+    },
+    {
+      apiteamid: 27,
+      name: "Portugal",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665067441/qatar/fm3k5kl1ogdihhagz7v9.jpg",
+      grupo: "H",
+    },
+    {
+      apiteamid: 1504,
+      name: "Ghana",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665067441/qatar/crz028ius5epv1zyctgk.jpg",
+      grupo: "H",
+    },
+    {
+      apiteamid: 7,
+      name: "Uruguay",
+      bandera:
+        "https://res.cloudinary.com/hugotamayo/image/upload/v1665067441/qatar/jagaphnmvqbzawxakbkk.webp",
+      grupo: "H",
+     },
   ],
 
-  partidos: [
-    {
-      idapi: 8557361,
-      nombre: "49",
-      local: "634085b00b436c115a56d2a1", //qatar
-      visitante: "634085b00b436c115a56d2a5", //ecuador
-    },
-    {
-      idapi: 8557362,
-      nombre: "50",
-      local: "634085b00b436c115a56d2a1", //qatar
-      visitante: "634085b00b436c115a56d2a5", //ecuador
-    },
-    {
-      idapi: 8557363,
-      nombre: "51",
-      local: "634085b00b436c115a56d2a1", //qatar
-      visitante: "634085b00b436c115a56d2a5", //ecuador
-    },
-    {
-      idapi: 8557364,
-      nombre: "52",
-      local: "634085b00b436c115a56d2a1", //qatar
-      visitante: "634085b00b436c115a56d2a5", //ecuador
-    },
-    {
-      idapi: 8557365,
-      nombre: "53",
-      local: "634085b00b436c115a56d2a1", //qatar
-      visitante: "634085b00b436c115a56d2a5", //ecuador
-    },
-    {
-      idapi: 8557366,
-      nombre: "54",
-      local: "634085b00b436c115a56d2a1", //qatar
-      visitante: "634085b00b436c115a56d2a5", //ecuador
-    },
-    {
-      idapi: 8557367,
-      nombre: "55",
-      local: "634085b00b436c115a56d2a1", //qatar
-      visitante: "634085b00b436c115a56d2a5", //ecuador
-    },
-    {
-      idapi: 8557368,
-      nombre: "56",
-      local: "634085b00b436c115a56d2a1", //qatar
-      visitante: "634085b00b436c115a56d2a5", //ecuador
-    },
+  // partidos: [
+  //   {
+  //     idapi: 8557361,
+  //     nombre: "49",
+  //     local: "634085b00b436c115a56d2a1", //qatar
+  //     visitante: "634085b00b436c115a56d2a5", //ecuador
+  //   },
+  //   {
+  //     idapi: 8557362,
+  //     nombre: "50",
+  //     local: "634085b00b436c115a56d2a1", //qatar
+  //     visitante: "634085b00b436c115a56d2a5", //ecuador
+  //   },
+  //   {
+  //     idapi: 8557363,
+  //     nombre: "51",
+  //     local: "634085b00b436c115a56d2a1", //qatar
+  //     visitante: "634085b00b436c115a56d2a5", //ecuador
+  //   },
+  //   {
+  //     idapi: 8557364,
+  //     nombre: "52",
+  //     local: "634085b00b436c115a56d2a1", //qatar
+  //     visitante: "634085b00b436c115a56d2a5", //ecuador
+  //   },
+  //   {
+  //     idapi: 8557365,
+  //     nombre: "53",
+  //     local: "634085b00b436c115a56d2a1", //qatar
+  //     visitante: "634085b00b436c115a56d2a5", //ecuador
+  //   },
+  //   {
+  //     idapi: 8557366,
+  //     nombre: "54",
+  //     local: "634085b00b436c115a56d2a1", //qatar
+  //     visitante: "634085b00b436c115a56d2a5", //ecuador
+  //   },
+  //   {
+  //     idapi: 8557367,
+  //     nombre: "55",
+  //     local: "634085b00b436c115a56d2a1", //qatar
+  //     visitante: "634085b00b436c115a56d2a5", //ecuador
+  //   },
+  //   {
+  //     idapi: 8557368,
+  //     nombre: "56",
+  //     local: "634085b00b436c115a56d2a1", //qatar
+  //     visitante: "634085b00b436c115a56d2a5", //ecuador
+  //   },
     //   {
     //     idapi: 855736,
     //     nombre: "1",
@@ -753,5 +746,5 @@ export const initialData = {
     //     local: "634085b00b436c115a56d2b2", //cos
     //     visitante: "634085b00b436c115a56d2b3", //ale
     //   },
-  ],
+  //],
 };

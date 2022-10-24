@@ -1,7 +1,7 @@
 import mongoose, { Schema, model, Model } from "mongoose";
 import { IPartido } from "../interfaces";
 
-const partidoSchema = new Schema(
+const partidoapSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: "User" },
 
@@ -32,7 +32,7 @@ const partidoSchema = new Schema(
   }
 );
 
-const Partido: Model<IPartido> =
-  mongoose.models.Partido || model("Partido", partidoSchema);
+const PartidoAp: Model<IPartido> =
+  mongoose.models.PartidoAp || model("PartidoAp", partidoapSchema);
 
-export default Partido;
+export default PartidoAp;
