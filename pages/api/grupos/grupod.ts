@@ -34,12 +34,12 @@ const getGrupos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const grupos = await GrupoAp.find({
     user: session.user._id,
-    name: "C",
+    name: "D",
   })
     .populate("posicion1 posicion2 posicion3 posicion4")
     .lean();
 
-  const partidos = await PartidoAp.find({ user: session.user._id, grupo: "C" })
+  const partidos = await PartidoAp.find({ user: session.user._id, grupo: "D" })
     .populate("local visitante")
     .lean();
 
@@ -332,7 +332,7 @@ const editarPartido = async (
 
     const grupo: any = await GrupoAp.find({
       user: session.user._id,
-      name: "C",
+      name: "D",
     }).populate("equipos");
 
     let porPuntos = grupo[0].equipos.sort((a: any, b: any) => {

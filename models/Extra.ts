@@ -3,6 +3,7 @@ import { IExtra } from "../interfaces";
 
 const extraSchema = new Schema(
   {
+    user: { type: Schema.Types.ObjectId, ref: "User" },
     name: { type: String, required: true },
     extras: [
       {

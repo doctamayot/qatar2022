@@ -13,15 +13,14 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.9",
-   
-    
+    "@next-auth/mongodb-adapter": "^1.1.1",
     "axios": "^1.1.2",
     "bcryptjs": "^2.4.3",
-   
+    "mongodb": "^4.11.0",
     "mongoose": "^6.6.5",
     "mongoose-autopopulate": "^0.16.1",
     "next": "12.3.1",
-   
+    "next-auth": "^4.10.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.37.0",

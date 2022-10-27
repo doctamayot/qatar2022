@@ -34,12 +34,12 @@ const getGrupos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const grupos = await GrupoAp.find({
     user: session.user._id,
-    name: "C",
+    name: "F",
   })
     .populate("posicion1 posicion2 posicion3 posicion4")
     .lean();
 
-  const partidos = await PartidoAp.find({ user: session.user._id, grupo: "C" })
+  const partidos = await PartidoAp.find({ user: session.user._id, grupo: "F" })
     .populate("local visitante")
     .lean();
 
@@ -140,29 +140,29 @@ const updatePartido = async (
     //Numero de partido de octavos
     const partidoOctavo: any = await PartidoAp.find({
       user: session.user._id,
-      nombre: "50",
+      nombre: "53",
     });
 
     //grupo del local octavos
     const grupo1: any = await GrupoAp.find({
       user: session.user._id,
-      name: "C",
+      name: "E",
     }).populate("posicion1 posicion2 posicion3 posicion4");
     //grupo del visitante octavos
     const grupo2: any = await GrupoAp.find({
       user: session.user._id,
-      name: "D",
+      name: "F",
     }).populate("posicion1 posicion2 posicion3 posicion4");
 
     //partido de cuartos al que pertenece el octavo
     const partido4: any = await PartidoAp.find({
       user: session.user._id,
-      nombre: "57",
+      nombre: "58",
     });
     //llama el modelo octavos
     const octavo: any = await OctavoAp.find({
       user: session.user._id,
-      name: "Octavos 2",
+      name: "Octavos 5",
     }).populate("ganador");
     //actualiza el local y visitante del partido de octavos 1
     await partidoOctavo[0].updateOne({
@@ -189,7 +189,7 @@ const updatePartido = async (
     //llama el ganador del partido de octavos 1
     const octavo2: any = await OctavoAp.find({
       user: session.user._id,
-      name: "Octavos 2",
+      name: "Octavos 5",
     }).populate("ganador");
     //actualiza el local del partido de cuartos
     await partido4[0].updateOne({
@@ -201,22 +201,22 @@ const updatePartido = async (
     //Partido Octavos 2 al que pertenece el grupo
     const octavo3: any = await OctavoAp.find({
       user: session.user._id,
-      name: "Octavos 4",
+      name: "Octavos 7",
     }).populate("ganador");
     const grupo13: any = await GrupoAp.find({
       user: session.user._id,
-      name: "C",
+      name: "E",
     }).populate("posicion1 posicion2 posicion3 posicion4");
 
     const grupo23: any = await GrupoAp.find({
       user: session.user._id,
-      name: "D",
+      name: "F",
     }).populate("posicion1 posicion2 posicion3 posicion4");
 
     //Partido octavos 2 al que pertenece el grupo
     const partido3: any = await PartidoAp.find({
       user: session.user._id,
-      nombre: "52",
+      nombre: "55",
     });
 
     await partido3[0].updateOne({
@@ -243,12 +243,12 @@ const updatePartido = async (
     //llama partido de cuartos al que pertenece el octavo 2
     const partido43: any = await PartidoAp.find({
       user: session.user._id,
-      nombre: "59",
+      nombre: "60",
     });
 
     const octavo23: any = await OctavoAp.find({
       user: session.user._id,
-      name: "Octavos 4",
+      name: "Octavos 7",
     }).populate("ganador");
 
     await partido43[0].updateOne({
@@ -259,7 +259,7 @@ const updatePartido = async (
 
     const partido23: any = await PartidoAp.find({
       user: session.user._id,
-      nombre: "52",
+      nombre: "55",
     });
 
     await db.disconnect();
@@ -332,7 +332,7 @@ const editarPartido = async (
 
     const grupo: any = await GrupoAp.find({
       user: session.user._id,
-      name: "C",
+      name: "F",
     }).populate("equipos");
 
     let porPuntos = grupo[0].equipos.sort((a: any, b: any) => {
@@ -360,29 +360,29 @@ const editarPartido = async (
 
     const grupo1: any = await GrupoAp.find({
       user: session.user._id,
-      name: "C",
+      name: "E",
     }).populate("posicion1 posicion2 posicion3 posicion4");
 
     const grupo2: any = await GrupoAp.find({
       user: session.user._id,
-      name: "D",
+      name: "F",
     }).populate("posicion1 posicion2 posicion3 posicion4");
 
     const partidoOctavo: any = await PartidoAp.find({
       user: session.user._id,
-      nombre: "50",
+      nombre: "53",
     }).populate("local");
 
     console.log(partidoOctavo[1]);
 
     const partido4: any = await PartidoAp.find({
       user: session.user._id,
-      nombre: "57",
+      nombre: "58",
     });
 
     const octavo: any = await OctavoAp.find({
       user: session.user._id,
-      name: "Octavos 2",
+      name: "Octavos 5",
     }).populate("ganador");
 
     await partidoOctavo[0].updateOne({
@@ -408,7 +408,7 @@ const editarPartido = async (
 
     const octavo2: any = await OctavoAp.find({
       user: session.user._id,
-      name: "Octavos 2",
+      name: "Octavos 5",
     }).populate("ganador");
 
     await partido4[0].updateOne({
@@ -419,32 +419,32 @@ const editarPartido = async (
 
     const partido2: any = await PartidoAp.find({
       user: session.user._id,
-      nombre: "50",
+      nombre: "55",
     });
 
     const partido5: any = await PartidoAp.find({
       user: session.user._id,
-      nombre: "57",
+      nombre: "60",
     });
 
     const grupo13: any = await GrupoAp.find({
       user: session.user._id,
-      name: "C",
+      name: "E",
     }).populate("posicion1 posicion2 posicion3 posicion4");
 
     const grupo23: any = await GrupoAp.find({
       user: session.user._id,
-      name: "D",
+      name: "F",
     }).populate("posicion1 posicion2 posicion3 posicion4");
 
     const octavo3: any = await OctavoAp.find({
       user: session.user._id,
-      name: "Octavos 4",
+      name: "Octavos 7",
     }).populate("ganador");
 
     const partido3: any = await PartidoAp.find({
       user: session.user._id,
-      nombre: "52",
+      nombre: "55",
     });
 
     await partido3[0].updateOne({
@@ -470,12 +470,12 @@ const editarPartido = async (
 
     const partido43: any = await PartidoAp.find({
       user: session.user._id,
-      nombre: "59",
+      nombre: "60",
     });
 
     const octavo23: any = await OctavoAp.find({
       user: session.user._id,
-      name: "Octavos 4",
+      name: "Octavos 7",
     }).populate("ganador");
 
     await partido43[0].updateOne({
@@ -486,7 +486,7 @@ const editarPartido = async (
 
     const partido23: any = await PartidoAp.find({
       user: session.user._id,
-      nombre: "52",
+      nombre: "55",
     });
 
     await db.disconnect();

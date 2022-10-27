@@ -8,9 +8,11 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useSession, signOut, signIn, getProviders } from "next-auth/react";
 
 import { tesloApi } from "../axios";
 import { useForm } from "react-hook-form";
+import { Loading } from "./ui";
 
 export const Octavos = () => {
   const [octavos, setOctavos] = useState<any>();
@@ -20,7 +22,11 @@ export const Octavos = () => {
   const [final, setFinal] = useState<any>();
   const [result, setResult] = useState<any>();
   const [jugado, setJugado] = useState<any>();
+  const [datosf, setDatosf] = useState<any>();
+  const [cargando, setCargando] = useState<any>(false);
+
   // const [checked, setChecked] = useState(true);
+  const { data: session, status }: any = useSession();
 
   const [checkGroup, setCheckGroup] = useState({
     local: true,
@@ -240,76 +246,16 @@ export const Octavos = () => {
         //data: grupo2 && grupo2.data[0].name,
       });
 
-      setOctavos(data);
+      setOctavos(data.data.octavos);
+      setCuartos(data.data.cuartos);
+      setSemis(data.data.semis);
+      setFinal(data.data.finales);
+      setDatosf(data.data.datosFinales);
 
       // ...
     }
     fetchData();
   }, [jugado, formu]);
-
-  useEffect(() => {
-    async function fetchData() {
-      //You can await here
-      const data: any = await tesloApi({
-        url: `/cuartos/cuarto1`,
-        method: "GET",
-        //data: grupo2 && grupo2.data[0].name,
-      });
-
-      setCuartos(data);
-
-      // ...
-    }
-    fetchData();
-  }, [jugado, formu]);
-
-  useEffect(() => {
-    async function fetchData() {
-      //You can await here
-      const data: any = await tesloApi({
-        url: `/semis/semis1`,
-        method: "GET",
-        //data: grupo2 && grupo2.data[0].name,
-      });
-
-      setSemis(data);
-
-      // ...
-    }
-    fetchData();
-  }, [jugado, formu]);
-
-  useEffect(() => {
-    async function fetchData() {
-      //You can await here
-      const data: any = await tesloApi({
-        url: `/finales/tercer`,
-        method: "GET",
-        //data: grupo2 && grupo2.data[0].name,
-      });
-
-      setFinal(data);
-
-      // ...
-    }
-    fetchData();
-  }, [formu, jugado]);
-
-  useEffect(() => {
-    async function fetchData() {
-      //You can await here
-      const data: any = await tesloApi({
-        url: `/finales/tercer`,
-        method: "PATCH",
-        //data: grupo2 && grupo2.data[0].name,
-      });
-
-      setResult(data);
-
-      // ...
-    }
-    fetchData();
-  }, [formu, jugado]);
 
   const onSubmit1 = async (form: any) => {
     if (parseInt(getValues("golocal")) > parseInt(getValues("golvisitante"))) {
@@ -325,32 +271,13 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = octavos.data[0].partido._id;
+    //form._id = octavos[0].partido._id;
+    form._idoctavo = octavos[0]._id;
     form.jugado = true;
-    console.log(form);
+    setCargando(true);
 
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
-    } catch (error) {
-      console.log(error);
-      //setIsSaving(false);
-    }
-
-    try {
-      await tesloApi({
         url: `/octavos/octavo1`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
@@ -358,6 +285,8 @@ export const Octavos = () => {
     } catch (error) {
       console.log(error);
     }
+
+    setCargando(false);
 
     setFormu(form);
   };
@@ -371,38 +300,19 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local2 === true) {
+      if (local === true) {
         form.resultado = "local";
       } else {
         form.resultado = "visitante";
       }
     }
-    form._id = octavos.data[1].partido._id;
+    //form._id = octavos[0].partido._id;
+    form._idoctavo = octavos[1]._id;
     form.jugado = true;
-    console.log(form);
+    setCargando(true);
 
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
-    } catch (error) {
-      console.log(error);
-      //setIsSaving(false);
-    }
-
-    try {
-      await tesloApi({
         url: `/octavos/octavo2`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
@@ -410,6 +320,8 @@ export const Octavos = () => {
     } catch (error) {
       console.log(error);
     }
+
+    setCargando(false);
 
     setFormu(form);
   };
@@ -429,34 +341,21 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = octavos.data[2].partido._id;
+    form._idoctavo = octavos[2]._id;
     form.jugado = true;
+    setCargando(true);
 
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
-
-      await tesloApi({
         url: `/octavos/octavo3`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
 
     setFormu(form);
   };
@@ -476,34 +375,21 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = octavos.data[3].partido._id;
+    form._idoctavo = octavos[3]._id;
     form.jugado = true;
+    setCargando(true);
 
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
-
-      await tesloApi({
         url: `/octavos/octavo4`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
 
     setFormu(form);
   };
@@ -523,34 +409,21 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = octavos.data[4].partido._id;
+    form._idoctavo = octavos[4]._id;
     form.jugado = true;
+    setCargando(true);
 
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
-
-      await tesloApi({
         url: `/octavos/octavo5`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
 
     setFormu(form);
   };
@@ -570,34 +443,21 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = octavos.data[5].partido._id;
+    form._idoctavo = octavos[5]._id;
     form.jugado = true;
+    setCargando(true);
 
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
-
-      await tesloApi({
         url: `/octavos/octavo6`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
 
     setFormu(form);
   };
@@ -617,34 +477,21 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = octavos.data[6].partido._id;
+    form._idoctavo = octavos[6]._id;
     form.jugado = true;
+    setCargando(true);
 
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
-
-      await tesloApi({
         url: `/octavos/octavo7`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
 
     setFormu(form);
   };
@@ -665,34 +512,21 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = octavos.data[7].partido._id;
+    form._idoctavo = octavos[7]._id;
     form.jugado = true;
+    setCargando(true);
 
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
-
-      await tesloApi({
         url: `/octavos/octavo8`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
 
     setFormu(form);
   };
@@ -713,41 +547,22 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = cuartos.data[0].partido._id;
+    form._idoctavo = cuartos[0]._id;
     form.jugado = true;
+    setCargando(true);
+
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
-
-      await tesloApi({
         url: `/cuartos/cuarto1`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
+
     setFormu(form);
   };
   const onSubmit10 = async (form: any) => {
@@ -766,37 +581,26 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = cuartos.data[1].partido._id;
+    form._idoctavo = cuartos[1]._id;
     form.jugado = true;
+    setCargando(true);
+
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
+        url: `cuartos/cuarto2`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-
-      await tesloApi({
-        url: `/cuartos/cuarto2`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
+
     setFormu(form);
   };
 
   const onSubmit11 = async (form: any) => {
-    console.log(form);
     if (
       parseInt(getValues11("golocal")) > parseInt(getValues11("golvisitante"))
     ) {
@@ -812,38 +616,26 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = cuartos.data[2].partido._id;
+    form._idoctavo = cuartos[2]._id;
     form.jugado = true;
-    try {
-      console.log(form);
-      const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
+    setCargando(true);
 
-      await tesloApi({
+    try {
+      const { data } = await tesloApi({
         url: `/cuartos/cuarto3`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
+
     setFormu(form);
   };
 
   const onSubmit12 = async (form: any) => {
-    console.log(form);
     if (
       parseInt(getValues12("golocal")) > parseInt(getValues12("golvisitante"))
     ) {
@@ -859,38 +651,26 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = cuartos.data[3].partido._id;
+    form._idoctavo = cuartos[3]._id;
     form.jugado = true;
-    try {
-      console.log(form);
-      const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
+    setCargando(true);
 
-      await tesloApi({
+    try {
+      const { data } = await tesloApi({
         url: `/cuartos/cuarto4`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
+
     setFormu(form);
   };
 
   const onSubmit13 = async (form: any) => {
-    console.log(form);
     if (
       parseInt(getValues13("golocal")) > parseInt(getValues13("golvisitante"))
     ) {
@@ -906,38 +686,26 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = semis.data[0].partido._id;
+    form._idoctavo = semis[0]._id;
     form.jugado = true;
-    try {
-      console.log(form);
-      const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
+    setCargando(true);
 
-      await tesloApi({
+    try {
+      const { data } = await tesloApi({
         url: `/semis/semis1`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
+
     setFormu(form);
   };
 
   const onSubmit14 = async (form: any) => {
-    console.log(form);
     if (
       parseInt(getValues14("golocal")) > parseInt(getValues14("golvisitante"))
     ) {
@@ -953,33 +721,22 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = semis.data[1].partido._id;
+    form._idoctavo = semis[1]._id;
     form.jugado = true;
-    try {
-      console.log(form);
-      const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
+    setCargando(true);
 
-      await tesloApi({
+    try {
+      const { data } = await tesloApi({
         url: `/semis/semis2`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
+
     setFormu(form);
   };
 
@@ -999,33 +756,22 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = final.data[0].partido._id;
+    form._idoctavo = final[0]._id;
     form.jugado = true;
+    setCargando(true);
+
     try {
-      console.log(form);
-      await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
-      await tesloApi({
+      const { data } = await tesloApi({
         url: `/finales/tercer`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
+
     setFormu(form);
   };
 
@@ -1045,129 +791,82 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    form._id = final.data[1].partido._id;
+    form._idoctavo = final[1]._id;
     form.jugado = true;
+    setCargando(true);
 
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
-        method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
-        data: form,
-      });
-      await tesloApi({
         url: `/finales/final`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+
+    setCargando(false);
+
     setFormu(form);
   };
 
   const editar = async (id: any) => {
+    setCargando(true);
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
+        url: `/octavos/octavo1`,
         method: "PATCH", // si tenemos un _id, entonces actualizar, si no crear
-        data: octavos && octavos.data[id].partido,
+        data: octavos && octavos[id].partido,
       });
       setJugado(data);
-      // ""(form);
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+    setCargando(false);
   };
 
   const editarCuartos = async (id: any) => {
+    setCargando(true);
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
+        url: `/cuartos/cuarto1`,
         method: "PATCH", // si tenemos un _id, entonces actualizar, si no crear
-        data: cuartos && cuartos.data[id].partido,
+        data: cuartos && cuartos[id].partido,
       });
       setJugado(data);
-      // ""(form);
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+    setCargando(false);
   };
   const editarSemis = async (id: any) => {
+    setCargando(true);
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
+        url: `/semis/semis1`,
         method: "PATCH", // si tenemos un _id, entonces actualizar, si no crear
-        data: semis && semis.data[id].partido,
+        data: semis && semis[id].partido,
       });
       setJugado(data);
-      // ""(form);
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+    setCargando(false);
   };
 
   const editarFinales = async (id: any) => {
+    setCargando(true);
     try {
       const { data } = await tesloApi({
-        url: `/admin/partido`,
+        url: `/semis/semis1`,
         method: "PATCH", // si tenemos un _id, entonces actualizar, si no crear
-        data: final && final.data[id].partido,
+        data: final && final[id].partido,
       });
       setJugado(data);
-      // ""(form);
-
-      //console.log(form);
-      // await Swal.fire({
-      //   title: form._id ? "Producto Editado" : "Producto Creado",
-      //   text: "Continuar",
-      //   icon: "success",
-      //   confirmButtonText: "Ok",
-      // });
-      // await router.push(`/admin/invproducts/${idver}`);
     } catch (error) {
       console.log(error);
-      //setIsSaving(false);
     }
+    setCargando(false);
   };
 
   const { local, visitante } = checkGroup;
@@ -1287,2364 +986,2370 @@ export const Octavos = () => {
   };
 
   return (
-    <Grid container sx={{ padding: "5px", marginTop: "100px" }}>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "140px",
-          right: "180px",
-          display: { xs: "none", md: "flex" },
-        }}
-      >
-        <Image
-          src="https://res.cloudinary.com/hugotamayo/image/upload/v1666234923/qatar/azhwx6u2xznmrvjn8vpp.png"
-          alt="qatar"
-          width={450}
-          height={450}
-        />
-      </Box>
-      {octavos && (
-        <Grid item md={3} xs={12}>
-          <Grid container>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {octavos && octavos.data[0].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit(onSubmit1)}>
+    <>
+      {cargando ? (
+        <Loading />
+      ) : (
+        <Grid container sx={{ padding: "5px", marginTop: "100px" }}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "140px",
+              right: "180px",
+              display: { xs: "none", md: "flex" },
+            }}
+          >
+            <Image
+              src="https://res.cloudinary.com/hugotamayo/image/upload/v1666234923/qatar/azhwx6u2xznmrvjn8vpp.png"
+              alt="qatar"
+              width={450}
+              height={450}
+            />
+          </Box>
+          {octavos && (
+            <Grid item md={3} xs={12}>
+              <Grid container>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
                   <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
                   >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
+                    {octavos && octavos[0].name}
                   </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      {octavos && (
-                        <Image
-                          src={octavos && octavos.data[0].partido.local.bandera}
-                          alt={octavos && octavos.data[0].nombre}
-                          width={60}
-                          height={40}
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit(onSubmit1)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          {octavos && (
+                            <Image
+                              src={octavos && octavos[0].partido.local.bandera}
+                              alt={octavos && octavos[0].nombre}
+                              width={60}
+                              height={40}
+                            />
+                          )}
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {octavos && octavos[0].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local}
+                          onChange={handleChange}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
                         />
-                      )}
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {octavos && octavos.data[0].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local}
-                      onChange={handleChange}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      variant="filled"
-                      fullWidth
-                      //sx={{ width: "100px" }}
-                      {...register("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors.golocal}
-                      helperText={errors.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      variant="filled"
-                      fullWidth
-                      //sx={{ width: "100px" }}
-                      {...register("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors.golvisitante}
-                      helperText={errors.golvisitante?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local}
-                      onChange={handleChange}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {octavos && octavos.data[0].partido.visitante.name}
-                    </Typography>
-
-                    <Box>
-                      {octavos && (
-                        <Image
-                          src={
-                            octavos && octavos.data[0].partido.visitante.bandera
-                          }
-                          alt={octavos && octavos.data[0].nombre}
-                          width={60}
-                          height={40}
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          variant="filled"
+                          fullWidth
+                          //sx={{ width: "100px" }}
+                          {...register("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors.golocal}
+                          helperText={errors.golocal?.message}
                         />
-                      )}
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {octavos && octavos.data[0].partido.jugado ? (
-                      <Button
-                        onClick={() => editar(0)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {octavos && octavos.data[1].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit2(onSubmit2)}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
-                  >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
-                  </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={octavos && octavos.data[1].partido.local.bandera}
-                        alt={octavos && octavos.data[1].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {octavos && octavos.data[1].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local2}
-                      onChange={handleChange2}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local2"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      variant="filled"
-                      fullWidth
-                      //sx={{ width: "100px" }}
-                      {...register2("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors2.golocal}
-                      helperText={errors2.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      variant="filled"
-                      fullWidth
-                      //sx={{ width: "100px" }}
-                      {...register2("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors.golvisitante}
-                      helperText={errors.golvisitante?.message}
-                    />
-                    <Checkbox
-                      // sx={{ display: "none" }}
-                      checked={!local2}
-                      onChange={handleChange2}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local2"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {octavos && octavos.data[1].partido.visitante.name}
-                    </Typography>
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          variant="filled"
+                          fullWidth
+                          //sx={{ width: "100px" }}
+                          {...register("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors.golvisitante}
+                          helperText={errors.golvisitante?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local}
+                          onChange={handleChange}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
 
-                    <Box>
-                      <Image
-                        src={
-                          octavos && octavos.data[1].partido.visitante.bandera
-                        }
-                        alt={octavos && octavos.data[1].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {octavos && octavos.data[1].partido.jugado ? (
-                      <Button
-                        onClick={() => editar(1)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {octavos && octavos.data[2].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit3(onSubmit3)}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
-                  >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
-                  </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={octavos && octavos.data[2].partido.local.bandera}
-                        alt={octavos && octavos.data[2].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {octavos && octavos.data[2].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local3}
-                      onChange={handleChange3}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local3"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      variant="filled"
-                      fullWidth
-                      //sx={{ width: "100px" }}
-                      {...register3("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors3.golocal}
-                      helperText={errors3.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register3("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors3.golocal}
-                      helperText={errors3.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local3}
-                      onChange={handleChange3}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local3"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {octavos && octavos.data[2].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={
-                          octavos && octavos.data[2].partido.visitante.bandera
-                        }
-                        alt={octavos && octavos.data[2].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {octavos && octavos.data[2].partido.jugado ? (
-                      <Button
-                        onClick={() => editar(2)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {octavos && octavos.data[3].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit4(onSubmit4)}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
-                  >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
-                  </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={octavos && octavos.data[3].partido.local.bandera}
-                        alt={octavos && octavos.data[3].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {octavos && octavos.data[3].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local4}
-                      onChange={handleChange4}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local4"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register4("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors4.golocal}
-                      helperText={errors4.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      variant="filled"
-                      fullWidth
-                      //sx={{ width: "100px" }}
-                      {...register4("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors4.golocal}
-                      helperText={errors4.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local4}
-                      onChange={handleChange4}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local4"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {octavos && octavos.data[3].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={
-                          octavos && octavos.data[3].partido.visitante.bandera
-                        }
-                        alt={octavos && octavos.data[3].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {octavos && octavos.data[3].partido.jugado ? (
-                      <Button
-                        onClick={() => editar(3)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {octavos && octavos.data[4].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit5(onSubmit5)}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
-                  >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
-                  </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={octavos && octavos.data[4].partido.local.bandera}
-                        alt={octavos && octavos.data[4].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {octavos && octavos.data[4].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local5}
-                      onChange={handleChange5}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local5"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register5("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors5.golocal}
-                      helperText={errors5.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register5("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors5.golocal}
-                      helperText={errors5.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local5}
-                      onChange={handleChange5}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local5"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {octavos && octavos.data[4].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={
-                          octavos && octavos.data[4].partido.visitante.bandera
-                        }
-                        alt={octavos && octavos.data[4].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {octavos && octavos.data[4].partido.jugado ? (
-                      <Button
-                        onClick={() => editar(4)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {octavos && octavos.data[5].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit6(onSubmit6)}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
-                  >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
-                  </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={octavos && octavos.data[5].partido.local.bandera}
-                        alt={octavos && octavos.data[5].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {octavos && octavos.data[5].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local6}
-                      onChange={handleChange6}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local6"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      variant="filled"
-                      fullWidth
-                      //sx={{ width: "100px" }}
-                      {...register6("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors6.golocal}
-                      helperText={errors6.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register6("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors6.golocal}
-                      helperText={errors6.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local6}
-                      onChange={handleChange6}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local6"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {octavos && octavos.data[5].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={
-                          octavos && octavos.data[5].partido.visitante.bandera
-                        }
-                        alt={octavos && octavos.data[5].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {octavos && octavos.data[5].partido.jugado ? (
-                      <Button
-                        onClick={() => editar(5)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {octavos && octavos.data[6].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit7(onSubmit7)}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
-                  >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
-                  </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={octavos && octavos.data[6].partido.local.bandera}
-                        alt={octavos && octavos.data[6].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {octavos && octavos.data[6].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local7}
-                      onChange={handleChange7}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local7"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {octavos && octavos[0].partido.visitante.name}
+                        </Typography>
 
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register7("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors7.golocal}
-                      helperText={errors7.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register7("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors7.golocal}
-                      helperText={errors7.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local7}
-                      onChange={handleChange7}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local7"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {octavos && octavos.data[6].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={
-                          octavos && octavos.data[6].partido.visitante.bandera
-                        }
-                        alt={octavos && octavos.data[6].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
+                        <Box>
+                          {octavos && (
+                            <Image
+                              src={
+                                octavos && octavos[0].partido.visitante.bandera
+                              }
+                              alt={octavos && octavos[0].nombre}
+                              width={60}
+                              height={40}
+                            />
+                          )}
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {octavos && octavos[0].partido.jugado ? (
+                          <Button
+                            onClick={() => editar(0)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
                   </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {octavos && octavos.data[6].partido.jugado ? (
-                      <Button
-                        onClick={() => editar(6)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {octavos && octavos.data[7].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit8(onSubmit8)}>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
                   <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
                   >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
+                    {octavos && octavos[1].name}
                   </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={octavos && octavos.data[7].partido.local.bandera}
-                        alt={octavos && octavos.data[7].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {octavos && octavos.data[7].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local8}
-                      onChange={handleChange8}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local8"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      variant="filled"
-                      fullWidth
-                      //sx={{ width: "100px" }}
-                      {...register8("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors8.golocal}
-                      helperText={errors8.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register8("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors8.golocal}
-                      helperText={errors8.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local8}
-                      onChange={handleChange8}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local8"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {octavos && octavos.data[7].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={
-                          octavos && octavos.data[7].partido.visitante.bandera
-                        }
-                        alt={octavos && octavos.data[7].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {octavos && octavos.data[7].partido.jugado ? (
-                      <Button
-                        onClick={() => editar(7)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      )}
-      {cuartos && (
-        <Grid item md={3} xs={12} display="flex" alignItems="center">
-          <Grid container>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {cuartos && cuartos.data[0].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit9(onSubmit9)}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
                   >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
-                  </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={cuartos && cuartos.data[0].partido.local.bandera}
-                        alt={cuartos && cuartos.data[0].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {cuartos && cuartos.data[0].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local9}
-                      onChange={handleChange9}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local9"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register9("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors9.golocal}
-                      helperText={errors9.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register9("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors9.golocal}
-                      helperText={errors9.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local9}
-                      onChange={handleChange9}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local9"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {cuartos && cuartos.data[0].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={
-                          cuartos && cuartos.data[0].partido.visitante.bandera
-                        }
-                        alt={cuartos && cuartos.data[0].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {cuartos && cuartos.data[0].partido.jugado ? (
-                      <Button
-                        onClick={() => editarCuartos(0)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
+                    <form onSubmit={handleSubmit2(onSubmit2)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {cuartos && cuartos.data[1].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit10(onSubmit10)}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
-                  >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
-                  </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={cuartos && cuartos.data[1].partido.local.bandera}
-                        alt={cuartos && cuartos.data[1].nombre}
-                        width={80}
-                        height={60}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {cuartos && cuartos.data[1].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local10}
-                      onChange={handleChange10}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local10"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register10("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors10.golocal}
-                      helperText={errors10.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register10("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors10.golocal}
-                      helperText={errors10.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local10}
-                      onChange={handleChange10}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local10"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    10
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {cuartos && cuartos.data[1].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={
-                          cuartos && cuartos.data[1].partido.visitante.bandera
-                        }
-                        alt={cuartos && cuartos.data[1].nombre}
-                        width={80}
-                        height={60}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {cuartos && cuartos.data[1].partido.jugado ? (
-                      <Button
-                        onClick={() => editarCuartos(1)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {cuartos && cuartos.data[2].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit11(onSubmit11)}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
-                  >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
-                  </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={cuartos && cuartos.data[2].partido.local.bandera}
-                        alt={cuartos && cuartos.data[2].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {cuartos && cuartos.data[2].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local11}
-                      onChange={handleChange11}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local11"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register11("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors11.golocal}
-                      helperText={errors11.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register11("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors11.golocal}
-                      helperText={errors11.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local11}
-                      onChange={handleChange11}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local11"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {cuartos && cuartos.data[2].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={
-                          cuartos && cuartos.data[2].partido.visitante.bandera
-                        }
-                        alt={cuartos && cuartos.data[2].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {cuartos && cuartos.data[2].partido.jugado ? (
-                      <Button
-                        onClick={() => editarCuartos(2)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {cuartos && cuartos.data[3].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit12(onSubmit12)}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
-                  >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
-                  </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={cuartos && cuartos.data[3].partido.local.bandera}
-                        alt={cuartos && cuartos.data[3].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {cuartos && cuartos.data[3].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local12}
-                      onChange={handleChange12}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local12"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register12("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors12.golocal}
-                      helperText={errors12.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register12("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors12.golocal}
-                      helperText={errors12.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local12}
-                      onChange={handleChange12}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local12"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {cuartos && cuartos.data[3].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={
-                          cuartos && cuartos.data[3].partido.visitante.bandera
-                        }
-                        alt={cuartos && cuartos.data[3].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {cuartos && cuartos.data[3].partido.jugado ? (
-                      <Button
-                        onClick={() => editarCuartos(3)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      )}
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={octavos && octavos[1].partido.local.bandera}
+                            alt={octavos && octavos[1].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {octavos && octavos[1].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local2}
+                          onChange={handleChange2}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local2"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          variant="filled"
+                          fullWidth
+                          //sx={{ width: "100px" }}
+                          {...register2("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors2.golocal}
+                          helperText={errors2.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          variant="filled"
+                          fullWidth
+                          //sx={{ width: "100px" }}
+                          {...register2("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors.golvisitante}
+                          helperText={errors.golvisitante?.message}
+                        />
+                        <Checkbox
+                          // sx={{ display: "none" }}
+                          checked={!local2}
+                          onChange={handleChange2}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local2"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {octavos && octavos[1].partido.visitante.name}
+                        </Typography>
 
-      {semis && (
-        <Grid item md={3} xs={12} display="flex" alignItems="center">
-          <Grid container>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {semis && semis.data[0].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit13(onSubmit13)}>
+                        <Box>
+                          <Image
+                            src={
+                              octavos && octavos[1].partido.visitante.bandera
+                            }
+                            alt={octavos && octavos[1].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {octavos && octavos[1].partido.jugado ? (
+                          <Button
+                            onClick={() => editar(1)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
                   <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
                   >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
+                    {octavos && octavos[2].name}
                   </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={semis && semis.data[0].partido.local.bandera}
-                        alt={semis && semis.data[0].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {semis && semis.data[0].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local13}
-                      onChange={handleChange13}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local13"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register13("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors13.golocal}
-                      helperText={errors13.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register13("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors13.golocal}
-                      helperText={errors13.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local13}
-                      onChange={handleChange13}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local13"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    13
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {semis && semis.data[0].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={semis && semis.data[0].partido.visitante.bandera}
-                        alt={semis && semis.data[0].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {semis && semis.data[0].partido.jugado ? (
-                      <Button
-                        onClick={() => editarSemis(0)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit3(onSubmit3)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
+                        En caso de empate si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={octavos && octavos[2].partido.local.bandera}
+                            alt={octavos && octavos[2].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {octavos && octavos[2].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local3}
+                          onChange={handleChange3}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local3"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          variant="filled"
+                          fullWidth
+                          //sx={{ width: "100px" }}
+                          {...register3("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors3.golocal}
+                          helperText={errors3.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register3("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors3.golocal}
+                          helperText={errors3.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local3}
+                          onChange={handleChange3}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local3"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {octavos && octavos[2].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={
+                              octavos && octavos[2].partido.visitante.bandera
+                            }
+                            alt={octavos && octavos[2].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {octavos && octavos[2].partido.jugado ? (
+                          <Button
+                            onClick={() => editar(2)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
                   </Grid>
-                </form>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
+                  >
+                    {octavos && octavos[3].name}
+                  </Typography>
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit4(onSubmit4)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={octavos && octavos[3].partido.local.bandera}
+                            alt={octavos && octavos[3].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {octavos && octavos[3].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local4}
+                          onChange={handleChange4}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local4"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register4("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors4.golocal}
+                          helperText={errors4.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          variant="filled"
+                          fullWidth
+                          //sx={{ width: "100px" }}
+                          {...register4("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors4.golocal}
+                          helperText={errors4.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local4}
+                          onChange={handleChange4}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local4"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {octavos && octavos[3].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={
+                              octavos && octavos[3].partido.visitante.bandera
+                            }
+                            alt={octavos && octavos[3].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {octavos && octavos[3].partido.jugado ? (
+                          <Button
+                            onClick={() => editar(3)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
+                  >
+                    {octavos && octavos[4].name}
+                  </Typography>
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit5(onSubmit5)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={octavos && octavos[4].partido.local.bandera}
+                            alt={octavos && octavos[4].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {octavos && octavos[4].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local5}
+                          onChange={handleChange5}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local5"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register5("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors5.golocal}
+                          helperText={errors5.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register5("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors5.golocal}
+                          helperText={errors5.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local5}
+                          onChange={handleChange5}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local5"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {octavos && octavos[4].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={
+                              octavos && octavos[4].partido.visitante.bandera
+                            }
+                            alt={octavos && octavos[4].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {octavos && octavos[4].partido.jugado ? (
+                          <Button
+                            onClick={() => editar(4)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
+                  >
+                    {octavos && octavos[5].name}
+                  </Typography>
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit6(onSubmit6)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={octavos && octavos[5].partido.local.bandera}
+                            alt={octavos && octavos[5].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {octavos && octavos[5].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local6}
+                          onChange={handleChange6}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local6"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          variant="filled"
+                          fullWidth
+                          //sx={{ width: "100px" }}
+                          {...register6("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors6.golocal}
+                          helperText={errors6.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register6("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors6.golocal}
+                          helperText={errors6.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local6}
+                          onChange={handleChange6}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local6"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {octavos && octavos[5].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={
+                              octavos && octavos[5].partido.visitante.bandera
+                            }
+                            alt={octavos && octavos[5].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {octavos && octavos[5].partido.jugado ? (
+                          <Button
+                            onClick={() => editar(5)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
+                  >
+                    {octavos && octavos[6].name}
+                  </Typography>
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit7(onSubmit7)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={octavos && octavos[6].partido.local.bandera}
+                            alt={octavos && octavos[6].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {octavos && octavos[6].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local7}
+                          onChange={handleChange7}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local7"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register7("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors7.golocal}
+                          helperText={errors7.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register7("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors7.golocal}
+                          helperText={errors7.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local7}
+                          onChange={handleChange7}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local7"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {octavos && octavos[6].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={
+                              octavos && octavos[6].partido.visitante.bandera
+                            }
+                            alt={octavos && octavos[6].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {octavos && octavos[6].partido.jugado ? (
+                          <Button
+                            onClick={() => editar(6)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
+                  >
+                    {octavos && octavos[7].name}
+                  </Typography>
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit8(onSubmit8)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={octavos && octavos[7].partido.local.bandera}
+                            alt={octavos && octavos[7].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {octavos && octavos[7].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local8}
+                          onChange={handleChange8}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local8"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          variant="filled"
+                          fullWidth
+                          //sx={{ width: "100px" }}
+                          {...register8("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors8.golocal}
+                          helperText={errors8.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register8("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors8.golocal}
+                          helperText={errors8.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local8}
+                          onChange={handleChange8}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local8"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {octavos && octavos[7].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={
+                              octavos && octavos[7].partido.visitante.bandera
+                            }
+                            alt={octavos && octavos[7].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {octavos && octavos[7].partido.jugado ? (
+                          <Button
+                            onClick={() => editar(7)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {semis && semis.data[1].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit14(onSubmit14)}>
+          )}
+          {cuartos && (
+            <Grid item md={3} xs={12} display="flex" alignItems="center">
+              <Grid container>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
                   <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
                   >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
+                    {cuartos && cuartos[0].name}
                   </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={semis && semis.data[1].partido.local.bandera}
-                        alt={semis && semis.data[1].nombre}
-                        width={80}
-                        height={60}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {semis && semis.data[1].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local14}
-                      onChange={handleChange14}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local14"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register14("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors14.golocal}
-                      helperText={errors14.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register14("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors14.golocal}
-                      helperText={errors14.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local14}
-                      onChange={handleChange14}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local14"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {semis && semis.data[1].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={semis && semis.data[1].partido.visitante.bandera}
-                        alt={semis && semis.data[1].nombre}
-                        width={80}
-                        height={60}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {semis && semis.data[1].partido.jugado ? (
-                      <Button
-                        onClick={() => editarSemis(1)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit9(onSubmit9)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={cuartos && cuartos[0].partido.local.bandera}
+                            alt={cuartos && cuartos[0].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {cuartos && cuartos[0].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local9}
+                          onChange={handleChange9}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local9"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register9("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors9.golocal}
+                          helperText={errors9.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register9("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors9.golocal}
+                          helperText={errors9.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local9}
+                          onChange={handleChange9}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local9"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {cuartos && cuartos[0].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={
+                              cuartos && cuartos[0].partido.visitante.bandera
+                            }
+                            alt={cuartos && cuartos[0].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {cuartos && cuartos[0].partido.jugado ? (
+                          <Button
+                            onClick={() => editarCuartos(0)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
                   </Grid>
-                </form>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
+                  >
+                    {cuartos && cuartos[1].name}
+                  </Typography>
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit10(onSubmit10)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={cuartos && cuartos[1].partido.local.bandera}
+                            alt={cuartos && cuartos[1].nombre}
+                            width={80}
+                            height={60}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {cuartos && cuartos[1].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local10}
+                          onChange={handleChange10}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local10"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register10("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors10.golocal}
+                          helperText={errors10.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register10("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors10.golocal}
+                          helperText={errors10.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local10}
+                          onChange={handleChange10}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local10"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        10
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {cuartos && cuartos[1].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={
+                              cuartos && cuartos[1].partido.visitante.bandera
+                            }
+                            alt={cuartos && cuartos[1].nombre}
+                            width={80}
+                            height={60}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {cuartos && cuartos[1].partido.jugado ? (
+                          <Button
+                            onClick={() => editarCuartos(1)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
+                  >
+                    {cuartos && cuartos[2].name}
+                  </Typography>
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit11(onSubmit11)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={cuartos && cuartos[2].partido.local.bandera}
+                            alt={cuartos && cuartos[2].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {cuartos && cuartos[2].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local11}
+                          onChange={handleChange11}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local11"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register11("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors11.golocal}
+                          helperText={errors11.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register11("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors11.golocal}
+                          helperText={errors11.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local11}
+                          onChange={handleChange11}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local11"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {cuartos && cuartos[2].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={
+                              cuartos && cuartos[2].partido.visitante.bandera
+                            }
+                            alt={cuartos && cuartos[2].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {cuartos && cuartos[2].partido.jugado ? (
+                          <Button
+                            onClick={() => editarCuartos(2)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
+                  >
+                    {cuartos && cuartos[3].name}
+                  </Typography>
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit12(onSubmit12)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={cuartos && cuartos[3].partido.local.bandera}
+                            alt={cuartos && cuartos[3].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {cuartos && cuartos[3].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local12}
+                          onChange={handleChange12}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local12"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register12("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors12.golocal}
+                          helperText={errors12.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register12("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors12.golocal}
+                          helperText={errors12.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local12}
+                          onChange={handleChange12}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local12"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {cuartos && cuartos[3].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={
+                              cuartos && cuartos[3].partido.visitante.bandera
+                            }
+                            alt={cuartos && cuartos[3].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {cuartos && cuartos[3].partido.jugado ? (
+                          <Button
+                            onClick={() => editarCuartos(3)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          )}
+
+          {semis && (
+            <Grid item md={3} xs={12} display="flex" alignItems="center">
+              <Grid container>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
+                  >
+                    {semis && semis[0].name}
+                  </Typography>
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit13(onSubmit13)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={semis && semis[0].partido.local.bandera}
+                            alt={semis && semis[0].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {semis && semis[0].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local13}
+                          onChange={handleChange13}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local13"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register13("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors13.golocal}
+                          helperText={errors13.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register13("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors13.golocal}
+                          helperText={errors13.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local13}
+                          onChange={handleChange13}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local13"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        13
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {semis && semis[0].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={semis && semis[0].partido.visitante.bandera}
+                            alt={semis && semis[0].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {semis && semis[0].partido.jugado ? (
+                          <Button
+                            onClick={() => editarSemis(0)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
+                  >
+                    {semis && semis[1].name}
+                  </Typography>
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit14(onSubmit14)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={semis && semis[1].partido.local.bandera}
+                            alt={semis && semis[1].nombre}
+                            width={80}
+                            height={60}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {semis && semis[1].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local14}
+                          onChange={handleChange14}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local14"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register14("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors14.golocal}
+                          helperText={errors14.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register14("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors14.golocal}
+                          helperText={errors14.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local14}
+                          onChange={handleChange14}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local14"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {semis && semis[1].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={semis && semis[1].partido.visitante.bandera}
+                            alt={semis && semis[1].nombre}
+                            width={80}
+                            height={60}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {semis && semis[1].partido.jugado ? (
+                          <Button
+                            onClick={() => editarSemis(1)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          )}
+          {final && (
+            <Grid item md={3} xs={12} display="flex" alignItems="center">
+              <Grid container>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
+                  >
+                    {final && final[0].name}
+                  </Typography>
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit15(onSubmit15)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={final && final[0].partido.local.bandera}
+                            alt={final && final[0].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {final && final[0].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local15}
+                          onChange={handleChange15}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local15"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register15("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors15.golocal}
+                          helperText={errors15.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register15("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors15.golocal}
+                          helperText={errors15.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local15}
+                          onChange={handleChange15}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local15"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {final && final[0].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={final && final[0].partido.visitante.bandera}
+                            alt={final && final[0].nombre}
+                            width={60}
+                            height={40}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {final && final[0].partido.jugado ? (
+                          <Button
+                            onClick={() => editarFinales(0)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    sx={{
+                      fontSize: "30px",
+                      padding: 4,
+                      fontFamily: "'Yanone Kaffeesatz', sans-serif",
+                    }}
+                  >
+                    {final && final[1].name}
+                  </Typography>
+                  <Grid
+                    container
+                    sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
+                  >
+                    <form onSubmit={handleSubmit16(onSubmit16)}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "#7e7720", fontSize: "15px" }}
+                      >
+                        En caso de empate, si cree que gana el local al final
+                        deje en verde el cuadro la lado del equipo local, si
+                        cree que gana el visitante deje vacio el mismo cuadro
+                      </Typography>
+                      <Grid item xs={12} display="flex" alignItems="center">
+                        <Box>
+                          <Image
+                            src={
+                              final &&
+                              final[1] &&
+                              final[1].partido.local.bandera
+                            }
+                            alt={final && final[1].nombre}
+                            width={80}
+                            height={60}
+                          />
+                        </Box>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginLeft: "10px" }}
+                        >
+                          {final && final[1].partido.local.name}
+                        </Typography>
+                        <Checkbox
+                          checked={local16}
+                          onChange={handleChange16}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local16"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "10px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register16("golocal", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors16.golocal}
+                          helperText={errors16.golocal?.message}
+                        />
+                        <TextField
+                          type="number"
+                          style={{
+                            height: 40,
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                            marginLeft: "5px",
+                          }}
+                          fullWidth
+                          variant="filled"
+                          //sx={{ width: "100px" }}
+                          {...register16("golvisitante", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                              value: 1,
+                              message: "Mínimo 1 numero",
+                            },
+                          })}
+                          size="small"
+                          error={!!errors16.golocal}
+                          helperText={errors16.golocal?.message}
+                        />
+                        <Checkbox
+                          sx={{ display: "none" }}
+                          checked={!local16}
+                          onChange={handleChange16}
+                          inputProps={{ "aria-label": "controlled" }}
+                          name="local16"
+                          // disabled={visitante ? true : false}
+                          size={"small"}
+                        />
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
+                        >
+                          {final && final[1].partido.visitante.name}
+                        </Typography>
+                        <Box>
+                          <Image
+                            src={final && final[1].partido.visitante.bandera}
+                            alt={final && final[1].nombre}
+                            width={80}
+                            height={60}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} textAlign="center">
+                        {final && final[1].partido.jugado ? (
+                          <Button
+                            onClick={() => editarFinales(1)}
+                            variant="contained"
+                            color="warning"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            editar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            type="submit"
+                            color="primary"
+                          >
+                            Enviar
+                          </Button>
+                        )}
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "10px" }}>
+                  <Box>Campeon: {datosf[0] && datosf[0].campeon.name}</Box>
+                  <Box>SubCampeon: {datosf[0] && datosf[0].sub.name}</Box>
+                  <Box>tercero: {datosf[0] && datosf[0].tercero.name}</Box>
+                  <Box>cuarto: {datosf[0] && datosf[0].cuarto.name}</Box>
+                </Grid>
+              </Grid>
+            </Grid>
+          )}
         </Grid>
       )}
-      {final && (
-        <Grid item md={3} xs={12} display="flex" alignItems="center">
-          <Grid container>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {final && final.data[0].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit15(onSubmit15)}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
-                  >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
-                  </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={final && final.data[0].partido.local.bandera}
-                        alt={final && final.data[0].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {final && final.data[0].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local15}
-                      onChange={handleChange15}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local15"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register15("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors15.golocal}
-                      helperText={errors15.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register15("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors15.golocal}
-                      helperText={errors15.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local15}
-                      onChange={handleChange15}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local15"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    15
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {final && final.data[0].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={final && final.data[0].partido.visitante.bandera}
-                        alt={final && final.data[0].nombre}
-                        width={60}
-                        height={40}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {final && final.data[0].partido.jugado ? (
-                      <Button
-                        onClick={() => editarFinales(0)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{
-                  fontSize: "30px",
-                  padding: 4,
-                  fontFamily: "'Yanone Kaffeesatz', sans-serif",
-                }}
-              >
-                {final && final.data[1].name}
-              </Typography>
-              <Grid
-                container
-                sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
-              >
-                <form onSubmit={handleSubmit16(onSubmit16)}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#7e7720", fontSize: "15px" }}
-                  >
-                    En caso de empate, si cree que gana el local al final deje
-                    en verde el cuadro la lado del equipo local, si cree que
-                    gana el visitante deje vacio el mismo cuadro
-                  </Typography>
-                  <Grid item xs={12} display="flex" alignItems="center">
-                    <Box>
-                      <Image
-                        src={
-                          final &&
-                          final.data[1] &&
-                          final.data[1].partido.local.bandera
-                        }
-                        alt={final && final.data[1].nombre}
-                        width={80}
-                        height={60}
-                      />
-                    </Box>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                    >
-                      {final && final.data[1].partido.local.name}
-                    </Typography>
-                    <Checkbox
-                      checked={local16}
-                      onChange={handleChange16}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local16"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register16("golocal", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors16.golocal}
-                      helperText={errors16.golocal?.message}
-                    />
-                    <TextField
-                      type="number"
-                      style={{
-                        height: 40,
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                        marginLeft: "5px",
-                      }}
-                      fullWidth
-                      variant="filled"
-                      //sx={{ width: "100px" }}
-                      {...register16("golvisitante", {
-                        required: "Este campo es requerido",
-                        minLength: {
-                          value: 1,
-                          message: "Mínimo 1 numero",
-                        },
-                      })}
-                      size="small"
-                      error={!!errors16.golocal}
-                      helperText={errors16.golocal?.message}
-                    />
-                    <Checkbox
-                      sx={{ display: "none" }}
-                      checked={!local16}
-                      onChange={handleChange16}
-                      inputProps={{ "aria-label": "controlled" }}
-                      name="local16"
-                      // disabled={visitante ? true : false}
-                      size={"small"}
-                    />
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", margin: "0 10px 0 10px" }}
-                    >
-                      {final && final.data[1].partido.visitante.name}
-                    </Typography>
-                    <Box>
-                      <Image
-                        src={final && final.data[1].partido.visitante.bandera}
-                        alt={final && final.data[1].nombre}
-                        width={80}
-                        height={60}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} textAlign="center">
-                    {final && final.data[1].partido.jugado ? (
-                      <Button
-                        onClick={() => editarFinales(1)}
-                        variant="contained"
-                        color="warning"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      >
-                        editar
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        sx={{ marginLeft: "10px", marginRight: "10px" }}
-                        type="submit"
-                        color="primary"
-                      >
-                        Enviar
-                      </Button>
-                    )}
-                  </Grid>
-                </form>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "10px" }}>
-              <Box>Campeon: {result && result.data[1].campeon.name}</Box>
-              <Box>Campeon: {result && result.data[1].sub.name}</Box>
-              <Box>tercero: {result && result.data[0].tercero.name}</Box>
-              <Box>cuarto: {result && result.data[0].cuarto.name}</Box>
-            </Grid>
-          </Grid>
-        </Grid>
-      )}
-    </Grid>
+    </>
   );
 };

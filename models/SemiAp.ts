@@ -1,22 +1,23 @@
 import mongoose, { Schema, model, Model } from "mongoose";
 import { ISemi } from "../interfaces";
 
-const semiSchema = new Schema(
+const semiapSchema = new Schema(
   {
+    user: { type: Schema.Types.ObjectId, ref: "User" },
     name: { type: String, required: true },
     ganador: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
     perdedor: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
     partido: {
       type: Schema.Types.ObjectId,
-      ref: "Partido",
+      ref: "PartidoAp",
       autopopulate: true,
     },
   },
@@ -25,6 +26,7 @@ const semiSchema = new Schema(
   }
 );
 
-const Semi: Model<ISemi> = mongoose.models.Semi || model("Semi", semiSchema);
+const SemiAp: Model<ISemi> =
+  mongoose.models.SemiAp || model("SemiAp", semiapSchema);
 
-export default Semi;
+export default SemiAp;

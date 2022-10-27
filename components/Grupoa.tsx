@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { tesloApi } from "../axios";
 import { useForm } from "react-hook-form";
-
+import { useSession, signOut, signIn, getProviders } from "next-auth/react";
 import { Loading } from "./ui";
 
 export const Grupoa = () => {
@@ -13,6 +13,7 @@ export const Grupoa = () => {
   const [grupo2, setGrupo2] = useState<any>();
   const [jugado, setJugado] = useState<any>(false);
   const [cargando, setcargando] = useState<any>(false);
+  const { data: session, status }: any = useSession();
 
   const {
     register,
@@ -71,8 +72,8 @@ export const Grupoa = () => {
   const gruposLlamada = async () => {
     const data: any = await tesloApi({
       url: `/grupos/grupoa`,
+
       method: "GET",
-      //data: form,
     });
 
     setDatos(data.data.partidos);
@@ -96,6 +97,8 @@ export const Grupoa = () => {
 
     form._id = datos && datos[0]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -123,6 +126,8 @@ export const Grupoa = () => {
 
     form._id = datos[1]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
 
     try {
@@ -150,6 +155,8 @@ export const Grupoa = () => {
 
     form._id = datos[2]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -176,6 +183,8 @@ export const Grupoa = () => {
 
     form._id = datos[3]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -202,6 +211,8 @@ export const Grupoa = () => {
 
     form._id = datos[4]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -228,6 +239,8 @@ export const Grupoa = () => {
 
     form._id = datos[5]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({

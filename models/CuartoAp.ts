@@ -1,17 +1,18 @@
 import mongoose, { Schema, model, Model } from "mongoose";
-import { IOctavo } from "../interfaces";
+import { ICuarto } from "../interfaces";
 
-const octavoSchema = new Schema(
+const cuartoapSchema = new Schema(
   {
+    user: { type: Schema.Types.ObjectId, ref: "User" },
     name: { type: String, required: true },
     ganador: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
     partido: {
       type: Schema.Types.ObjectId,
-      ref: "Partido",
+      ref: "PartidoAp",
       autopopulate: true,
     },
   },
@@ -20,7 +21,7 @@ const octavoSchema = new Schema(
   }
 );
 
-const Octavo: Model<IOctavo> =
-  mongoose.models.Octavo || model("Octavo", octavoSchema);
+const CuartoAp: Model<ICuarto> =
+  mongoose.models.CuartoAp || model("CuartoAp", cuartoapSchema);
 
-export default Octavo;
+export default CuartoAp;

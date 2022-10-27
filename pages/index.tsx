@@ -6,7 +6,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Octavos } from "../components/Octavos";
 import { Grupoa } from "../components/Grupoa";
-
+import { AuthLayout } from "../components/layouts";
+import { Grid, Button } from "@mui/material";
+import { useSession, signOut, signIn, getProviders } from "next-auth/react";
+import { tesloApi } from "../axios";
+import { Loading } from "../components/ui";
+import { useRouter } from "next/router";
 // const options = {
 //   method: "GET",
 //   url: "https://api-football-v1.p.rapidapi.com/v3/fixtures",
@@ -25,6 +30,7 @@ import { Grupoa } from "../components/Grupoa";
 
 const Home: NextPage = () => {
   const [data, setData] = useState([] as any);
+  const router = useRouter();
   // useEffect(() => {
   //   axios
   //     .request(options)
@@ -39,7 +45,37 @@ const Home: NextPage = () => {
   // }, []);
   // console.log(data);
 
-  return <>hola</>;
+  const [cargando, setCargando] = useState(false);
+  const { data: session, status }: any = useSession();
+
+  const editar = async (id: any) => {
+    setCargando(true);
+    const user: any = { _id: session && session.user._id };
+    try {
+      await tesloApi({
+        url: `/apuesta/apuesta`,
+        method: "POST",
+        data: user,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setCargando(false);
+    router.push("grupos/grupoa");
+    // setJugado(!jugado);
+  };
+
+  return (
+    <AuthLayout title="Polla tamayo">
+      {cargando ? (
+        <Loading />
+      ) : (
+        <Grid sx={{ marginTop: "100px" }}>
+          <Button onClick={editar}>Empezar</Button>
+        </Grid>
+      )}
+    </AuthLayout>
+  );
 };
 
 export default Home;

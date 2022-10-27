@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isValidObjectId } from "mongoose";
+
+import { getSession } from "next-auth/react";
 
 import { db } from "../../../database";
 
-import { Partido, Equipo, Grupo, Octavo } from "../../../models";
+import { PartidoAp, EquipoAp, GrupoAp, OctavoAp } from "../../../models";
 
 type Data = { message: string } | any | any[];
 
@@ -15,18 +16,11 @@ export default function handler(
     case "GET":
       return getGrupos(req, res);
 
-    // case "POST":
-    //   return createPartido(req, res);
-
     case "PUT":
       return updatePartido(req, res);
-    // case "DELETE":
-    //   return deleteProduct(req, res);
 
     case "PATCH":
       return editarPartido(req, res);
-    // case "DELETE":
-    //   return deleteProduct(req, res);
 
     default:
       return res.status(400).json({ message: "Bad request" });
@@ -34,14 +28,18 @@ export default function handler(
 }
 
 const getGrupos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  const session: any = await getSession({ req });
+
   await db.connect();
 
-  const grupos = await Grupo.find({ name: "B" })
-    // .sort({ titulo: "asc" })
-    .populate("equipos partidos posicion1 posicion2 posicion3 posicion4")
+  const grupos = await GrupoAp.find({
+    user: session.user._id,
+    name: "B",
+  })
+    .populate("posicion1 posicion2 posicion3 posicion4")
     .lean();
 
-  const partidos = await Partido.find({ grupo: "B" })
+  const partidos = await PartidoAp.find({ user: session.user._id, grupo: "B" })
     .populate("local visitante")
     .lean();
 
@@ -54,21 +52,23 @@ const updatePartido = async (
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) => {
-  const { _id = "", resultado } = req.body;
+  const { _id = "", resultado, grupoid } = req.body;
 
   try {
     await db.connect();
 
-    //Partido
-    const partido: any = await Partido.findById(_id);
+    //Actualiza el partido
 
-    //await partido.updateOne(req.body);
+    const partido: any = await PartidoAp.findById(_id);
+
     if (partido.ronda === "grupos") {
       await partido.updateOne(req.body);
-      const partido2: any = await Partido.findById(_id);
+      const partido2: any = await PartidoAp.findById(_id);
 
-      const equipoLocal: any = await Equipo.findById(partido.local._id);
-      const equipoVisitante: any = await Equipo.findById(partido.visitante._id);
+      const equipoLocal: any = await EquipoAp.findById(partido.local._id);
+      const equipoVisitante: any = await EquipoAp.findById(
+        partido.visitante._id
+      );
 
       if (resultado === "local") {
         equipoLocal.puntos = equipoLocal.puntos + 3;
@@ -87,9 +87,6 @@ const updatePartido = async (
         await equipoVisitante.updateOne({ puntos: equipoVisitante.puntos });
       }
       await equipoLocal.updateOne({
-        // golesfavor: equipoLocal.golesfavor + partido.golocal,
-        // golescontra: equipoLocal.golescontra + partido.golvisitante,
-        // difgoles: equipoLocal.golesfavor - equipoLocal.golescontra,
         $inc: {
           golesfavor: partido2.golocal,
           golescontra: partido2.golvisitante,
@@ -108,25 +105,25 @@ const updatePartido = async (
       await partido.updateOne(req.body);
     }
 
-    //Grupo
+    //Actualiza Grupo
 
-    const grupo: any = await Grupo.findById(
-      "634b3d06056ab725a4e93acd"
-    ).populate("equipos");
+    const grupo: any = await GrupoAp.findById(grupoid).populate("equipos");
 
-    let porPuntos = grupo.equipos.sort((a: any, b: any) => {
-      if (a.puntos === b.puntos && a.difgoles === b.difgoles) {
-        return a.golesfavor < b.golesfavor
-          ? 1
-          : a.golesfavor > b.golesfavor
-          ? -1
-          : 0;
-      } else if (a.puntos === b.puntos) {
-        return a.difgoles < b.difgoles ? 1 : a.difgoles > b.difgoles ? -1 : 0;
-      } else {
-        return a.puntos < b.puntos ? 1 : -1;
-      }
-    });
+    let porPuntos =
+      grupo &&
+      grupo.equipos.sort((a: any, b: any) => {
+        if (a.puntos === b.puntos && a.difgoles === b.difgoles) {
+          return a.golesfavor < b.golesfavor
+            ? 1
+            : a.golesfavor > b.golesfavor
+            ? -1
+            : 0;
+        } else if (a.puntos === b.puntos) {
+          return a.difgoles < b.difgoles ? 1 : a.difgoles > b.difgoles ? -1 : 0;
+        } else {
+          return a.puntos < b.puntos ? 1 : -1;
+        }
+      });
 
     await grupo.updateOne({
       $set: {
@@ -137,33 +134,41 @@ const updatePartido = async (
       },
     });
 
-    //Octavos
-    const grupo1: any = await Grupo.findById(
-      "634b3d06056ab725a4e93acc" //A
-    ).populate("posicion1 posicion2 posicion3 posicion4");
+    //Actualiza los octavos
 
-    const grupo2: any = await Grupo.findById(
-      "634b3d06056ab725a4e93acd" //B
-    ).populate("posicion1 posicion2 posicion3 posicion4");
+    const session: any = await getSession({ req });
+    //Numero de partido de octavos
+    const partidoOctavo: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "49",
+    });
 
-    const partidoOctavo: any = await Partido.findById(
-      "634b40fe851f8db62de95edf" //49
-    );
+    //grupo del local octavos
+    const grupo1: any = await GrupoAp.find({
+      user: session.user._id,
+      name: "A",
+    }).populate("posicion1 posicion2 posicion3 posicion4");
+    //grupo del visitante octavos
+    const grupo2: any = await GrupoAp.find({
+      user: session.user._id,
+      name: "B",
+    }).populate("posicion1 posicion2 posicion3 posicion4");
 
-    const partido4: any = await Partido.findById(
-      "634c0b80fa76e7502ea6de1c" //57
-    );
-    const octavo: any = await Octavo.findById(
-      "634b433d1a57fda6d09dec8b"
-    ).populate("ganador");
-
-    await partidoOctavo.updateOne({
+    //partido de cuartos al que pertenece el octavo
+    const partido4: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "57",
+    });
+    //llama el modelo octavos
+    const octavo: any = await OctavoAp.find({
+      user: session.user._id,
+      name: "Octavos 1",
+    }).populate("ganador");
+    //actualiza el local y visitante del partido de octavos 1
+    await partidoOctavo[0].updateOne({
       $set: {
-        local: grupo1.posicion1,
-        visitante: grupo2.posicion2,
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
+        local: grupo1[0].posicion1,
+        visitante: grupo2[0].posicion2,
       },
     });
 
@@ -175,91 +180,87 @@ const updatePartido = async (
     if (partido.resultado === "visitante") {
       result = grupo2.posicion2;
     }
-    await octavo.updateOne({
+    //actualiza el ganador del partido de  octavos 1
+    await octavo[0].updateOne({
       $set: {
         ganador: result,
       },
     });
-
-    const octavo2: any = await Octavo.findById(
-      "634b433d1a57fda6d09dec8b"
-    ).populate("ganador");
-
-    await partido4.updateOne({
+    //llama el ganador del partido de octavos 1
+    const octavo2: any = await OctavoAp.find({
+      user: session.user._id,
+      name: "Octavos 1",
+    }).populate("ganador");
+    //actualiza el local del partido de cuartos
+    await partido4[0].updateOne({
       $set: {
-        local: octavo2.ganador,
-
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
+        local: octavo2[0].ganador,
       },
     });
 
-    const partido2: any = await Partido.findById(
-      "634b40fe851f8db62de95edf" //49
-    );
+    //Partido Octavos 2 al que pertenece el grupo
+    const octavo3: any = await OctavoAp.find({
+      user: session.user._id,
+      name: "Octavos 3",
+    }).populate("ganador");
+    const grupo13: any = await GrupoAp.find({
+      user: session.user._id,
+      name: "A",
+    }).populate("posicion1 posicion2 posicion3 posicion4");
 
-    const partido5: any = await Partido.findById(
-      "634c0b80fa76e7502ea6de1c" //57
-    );
+    const grupo23: any = await GrupoAp.find({
+      user: session.user._id,
+      name: "B",
+    }).populate("posicion1 posicion2 posicion3 posicion4");
 
-    //octavo2
+    //Partido octavos 2 al que pertenece el grupo
+    const partido3: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "51",
+    });
 
-    const grupo13: any = await Grupo.findById(
-      "634b3d06056ab725a4e93acc" //A
-    ).populate("posicion1 posicion2 posicion3 posicion4");
-
-    const grupo23: any = await Grupo.findById(
-      "634b3d06056ab725a4e93acd" //B
-    ).populate("posicion1 posicion2 posicion3 posicion4");
-
-    const octavo3: any = await Octavo.findById("634b433d1a57fda6d09dec8d");
-
-    const partido3: any = await Partido.findById(
-      "634b40fe851f8db62de95ee1" //51
-    );
-
-    await partido3.updateOne({
+    await partido3[0].updateOne({
       $set: {
-        local: grupo23.posicion1,
-        visitante: grupo13.posicion2,
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
+        local: grupo23[0].posicion1,
+        visitante: grupo13[0].posicion2,
       },
     });
 
     let result3;
-    if (partido3.resultado === "local") {
+    if (partido3[0].resultado === "local") {
       result3 = grupo23.posicion1;
     }
 
-    if (partido3.resultado === "visitante") {
+    if (partido3[0].resultado === "visitante") {
       result3 = grupo13.posicion23;
     }
-    await octavo3.updateOne({
+    //acualiza ganador partido octavos 2
+    await octavo3[0].updateOne({
       $set: {
         ganador: result3,
       },
     });
+    //llama partido de cuartos al que pertenece el octavo 2
+    const partido43: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "59",
+    });
 
-    const partido43: any = await Partido.findById(
-      "634c0b80fa76e7502ea6de1e" //59
-    );
+    const octavo23: any = await OctavoAp.find({
+      user: session.user._id,
+      name: "Octavos 3",
+    }).populate("ganador");
 
-    const octavo23: any = await Octavo.findById(
-      "634b433d1a57fda6d09dec8d"
-    ).populate("ganador");
-
-    await partido43.updateOne({
+    await partido43[0].updateOne({
       $set: {
         local: octavo2.ganador,
       },
     });
 
-    const partido23: any = await Partido.findById(
-      "634b40fe851f8db62de95ee1" //51
-    ).populate("local visitante");
+    const partido23: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "51",
+    });
 
     await db.disconnect();
 
@@ -277,19 +278,22 @@ const editarPartido = async (
 ) => {
   const { _id = "", resultado } = req.body;
 
+  const session: any = await getSession({ req });
+
   try {
     await db.connect();
 
-    //Partido
-    const partido: any = await Partido.findById(_id);
+    const partido: any = await PartidoAp.findById(_id);
 
     if (partido.ronda === "grupos") {
       await partido.updateOne({ jugado: false });
 
-      const partido2: any = await Partido.findById(_id);
+      const partido2: any = await PartidoAp.findById(_id);
 
-      const equipoLocal: any = await Equipo.findById(partido.local._id);
-      const equipoVisitante: any = await Equipo.findById(partido.visitante._id);
+      const equipoLocal: any = await EquipoAp.findById(partido.local._id);
+      const equipoVisitante: any = await EquipoAp.findById(
+        partido.visitante._id
+      );
 
       if (partido2.resultado === "local") {
         equipoLocal.puntos = equipoLocal.puntos - 3;
@@ -308,9 +312,6 @@ const editarPartido = async (
         await equipoVisitante.updateOne({ puntos: equipoVisitante.puntos });
       }
       await equipoLocal.updateOne({
-        // golesfavor: equipoLocal.golesfavor + partido.golocal,
-        // golescontra: equipoLocal.golescontra + partido.golvisitante,
-        // difgoles: equipoLocal.golesfavor - equipoLocal.golescontra,
         $inc: {
           golesfavor: -partido2.golocal,
           golescontra: -partido2.golvisitante,
@@ -329,13 +330,12 @@ const editarPartido = async (
       await partido.updateOne({ jugado: false });
     }
 
-    //Grupo
+    const grupo: any = await GrupoAp.find({
+      user: session.user._id,
+      name: "B",
+    }).populate("equipos");
 
-    const grupo: any = await Grupo.findById(
-      "634b3d06056ab725a4e93acd"
-    ).populate("equipos");
-
-    let porPuntos = grupo.equipos.sort((a: any, b: any) => {
+    let porPuntos = grupo[0].equipos.sort((a: any, b: any) => {
       if (a.puntos === b.puntos && a.difgoles === b.difgoles) {
         return a.golesfavor < b.golesfavor
           ? 1
@@ -349,7 +349,7 @@ const editarPartido = async (
       }
     });
 
-    await grupo.updateOne({
+    await grupo[0].updateOne({
       $set: {
         posicion1: porPuntos[0],
         posicion2: porPuntos[1],
@@ -358,129 +358,136 @@ const editarPartido = async (
       },
     });
 
-    //Octavos
-    const grupo1: any = await Grupo.findById(
-      "634b3d06056ab725a4e93acc" //A
-    ).populate("posicion1 posicion2 posicion3 posicion4");
+    const grupo1: any = await GrupoAp.find({
+      user: session.user._id,
+      name: "A",
+    }).populate("posicion1 posicion2 posicion3 posicion4");
 
-    const grupo2: any = await Grupo.findById(
-      "634b3d06056ab725a4e93acd" //B
-    ).populate("posicion1 posicion2 posicion3 posicion4");
+    const grupo2: any = await GrupoAp.find({
+      user: session.user._id,
+      name: "B",
+    }).populate("posicion1 posicion2 posicion3 posicion4");
 
-    const partidoOctavo: any = await Partido.findById(
-      "634b40fe851f8db62de95edf" //49
-    );
+    const partidoOctavo: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "49",
+    }).populate("local");
 
-    const partido4: any = await Partido.findById(
-      "634c0b80fa76e7502ea6de1c" //57
-    );
-    const octavo: any = await Octavo.findById(
-      "634b433d1a57fda6d09dec8b"
-    ).populate("ganador");
+    console.log(partidoOctavo[1]);
 
-    await partidoOctavo.updateOne({
+    const partido4: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "57",
+    });
+
+    const octavo: any = await OctavoAp.find({
+      user: session.user._id,
+      name: "Octavos 1",
+    }).populate("ganador");
+
+    await partidoOctavo[0].updateOne({
       $set: {
-        local: grupo1.posicion1,
-        visitante: grupo2.posicion2,
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
+        local: grupo1[0].posicion1,
+        visitante: grupo2[0].posicion2,
       },
     });
 
     let result;
     if (partido.resultado === "local") {
-      result = grupo1.posicion1;
+      result = grupo1[0].posicion1;
     }
 
     if (partido.resultado === "visitante") {
-      result = grupo2.posicion2;
+      result = grupo2[0].posicion2;
     }
-    await octavo.updateOne({
+    await octavo[0].updateOne({
       $set: {
         ganador: result,
       },
     });
 
-    const octavo2: any = await Octavo.findById(
-      "634b433d1a57fda6d09dec8b"
-    ).populate("ganador");
+    const octavo2: any = await OctavoAp.find({
+      user: session.user._id,
+      name: "Octavos 1",
+    }).populate("ganador");
 
-    await partido4.updateOne({
+    await partido4[0].updateOne({
       $set: {
-        local: octavo2.ganador,
-
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
+        local: octavo2[0].ganador,
       },
     });
 
-    const partido2: any = await Partido.findById(
-      "634b40fe851f8db62de95edf" //49
-    );
+    const partido2: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "49",
+    });
 
-    const partido5: any = await Partido.findById(
-      "634c0b80fa76e7502ea6de1c" //57
-    );
+    const partido5: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "57",
+    });
 
-    //octavo2
+    const grupo13: any = await GrupoAp.find({
+      user: session.user._id,
+      name: "A",
+    }).populate("posicion1 posicion2 posicion3 posicion4");
 
-    const grupo13: any = await Grupo.findById(
-      "634b3d06056ab725a4e93acc" //A
-    ).populate("posicion1 posicion2 posicion3 posicion4");
+    const grupo23: any = await GrupoAp.find({
+      user: session.user._id,
+      name: "B",
+    }).populate("posicion1 posicion2 posicion3 posicion4");
 
-    const grupo23: any = await Grupo.findById(
-      "634b3d06056ab725a4e93acd" //B
-    ).populate("posicion1 posicion2 posicion3 posicion4");
+    const octavo3: any = await OctavoAp.find({
+      user: session.user._id,
+      name: "Octavos 3",
+    }).populate("ganador");
 
-    const octavo3: any = await Octavo.findById("634b433d1a57fda6d09dec8d");
+    const partido3: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "51",
+    });
 
-    const partido3: any = await Partido.findById(
-      "634b40fe851f8db62de95ee1" //51
-    );
-
-    await partido3.updateOne({
+    await partido3[0].updateOne({
       $set: {
-        local: grupo23.posicion1,
-        visitante: grupo13.posicion2,
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
+        local: grupo23[0].posicion1,
+        visitante: grupo13[0].posicion2,
       },
     });
 
     let result3;
     if (partido3.resultado === "local") {
-      result3 = grupo23.posicion1;
+      result3 = grupo23[0].posicion1;
     }
 
     if (partido3.resultado === "visitante") {
-      result3 = grupo13.posicion23;
+      result3 = grupo13[0].posicion23;
     }
-    await octavo3.updateOne({
+    await octavo3[0].updateOne({
       $set: {
         ganador: result3,
       },
     });
 
-    const partido43: any = await Partido.findById(
-      "634c0b80fa76e7502ea6de1e" //59
-    );
+    const partido43: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "59",
+    });
 
-    const octavo23: any = await Octavo.findById(
-      "634b433d1a57fda6d09dec8d"
-    ).populate("ganador");
+    const octavo23: any = await OctavoAp.find({
+      user: session.user._id,
+      name: "Octavos 3",
+    }).populate("ganador");
 
-    await partido43.updateOne({
+    await partido43[0].updateOne({
       $set: {
-        local: octavo2.ganador,
+        local: octavo2[0].ganador,
       },
     });
 
-    const partido23: any = await Partido.findById(
-      "634b40fe851f8db62de95ee1" //51
-    ).populate("local visitante");
+    const partido23: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "51",
+    });
 
     await db.disconnect();
 

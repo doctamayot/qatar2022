@@ -1,9 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isValidObjectId } from "mongoose";
+import { getSession } from "next-auth/react";
 
 import { db } from "../../../database";
 
-import { Partido, Equipo, Grupo, Octavo, Cuarto, Semi } from "../../../models";
+import {
+  PartidoAp,
+  GrupoAp,
+  OctavoAp,
+  CuartoAp,
+  SemiAp,
+  FinalAp,
+} from "../../../models";
 
 type Data = { message: string } | any | any[];
 
@@ -12,124 +19,77 @@ export default function handler(
   res: NextApiResponse<Data>
 ) {
   switch (req.method) {
-    case "GET":
-      return getSemis(req, res);
-
-    // case "POST":
-    //   return createPartido(req, res);
-
     case "PUT":
       return updateSemis(req, res);
-    // case "DELETE":
-    //   return deleteProduct(req, res);
+
+    case "PATCH":
+      return editSemis(req, res);
 
     default:
       return res.status(400).json({ message: "Bad request" });
   }
 }
 
-const getSemis = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  await db.connect();
+const updateSemis = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  const { resultado, _idoctavo } = req.body;
 
-  const semis = await Semi.find()
-    // .sort({ titulo: "asc" })
-    .populate({ path: "partido", populate: { path: "local visitante" } })
-    .lean();
+  const session: any = await getSession({ req });
+  try {
+    await db.connect();
 
-  await db.disconnect();
+    const semi: any = await SemiAp.findById(_idoctavo).populate("partido");
 
-  res.status(200).json(semis);
+    const partido = semi.partido;
+    await partido.updateOne(req.body);
+
+    //partido de cuartos al que pertenece este ganador
+    const partidoTercer: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "63",
+    });
+
+    const partidoFinal: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "64",
+    });
+
+    if (resultado === "local") {
+      await partidoTercer[0].updateOne({ visitante: partido.visitante });
+      await partidoFinal[0].updateOne({ visitante: partido.local });
+    }
+
+    if (resultado === "visitante") {
+      await partidoTercer[0].updateOne({ visitante: partido.local });
+      await partidoFinal[0].updateOne({ visitante: partido.visitante });
+    }
+
+    //console.log(req.body);
+
+    await db.disconnect();
+
+    return res.status(200).json({});
+  } catch (error) {
+    console.log(error);
+    await db.disconnect();
+    return res.status(400).json({ message: "Revisar la consola del servidor" });
+  }
 };
 
-const updateSemis = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  const { _id = "", resultado } = req.body;
-
-  // if (!isValidObjectId(_id)) {
-  //   return res.status(400).json({ message: "El id del producto no es válido" });
-  // }
-
-  // TODO: posiblemente tendremos un localhost:3000/product
+const editSemis = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  const { resultado, _id } = req.body;
 
   try {
     await db.connect();
 
-    const partido: any = await Partido.findById(
-      "634c0b80fa76e7502ea6de21" //62
-    );
-    const cuarto1: any = await Cuarto.findById(
-      "634c0cc5fa76e7502ea6de28" //cuartos 3
-    ).populate("ganador");
+    const partido: any = await PartidoAp.findById(_id);
 
-    const cuarto2: any = await Cuarto.findById(
-      "634c0cc5fa76e7502ea6de29" //cuartos4
-    ).populate("ganador");
+    await partido.updateOne({ jugado: false });
 
-    const semi: any = await Semi.findById(
-      "634c14087426434671bb46a9" //Semi1
-    ).populate("ganador");
-
-    await partido.updateOne({
-      $set: {
-        local: cuarto1.ganador,
-        visitante: cuarto2.ganador,
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
-      },
-    });
-
-    let result, perdedor1;
-
-    if (partido.resultado === "local") {
-      result = cuarto1.ganador;
-      perdedor1 = cuarto2.ganador;
-    }
-
-    if (partido.resultado === "visitante") {
-      result = cuarto2.ganador;
-      perdedor1 = cuarto1.ganador;
-    }
-    await semi.updateOne({
-      $set: {
-        ganador: result,
-        perdedor: perdedor1,
-      },
-    });
-    const semi2: any = await Semi.findById("634c14087426434671bb46a9").populate(
-      "ganador partido"
-    );
-
-    const partido4: any = await Partido.findById(
-      "634c0b80fa76e7502ea6de22" //63
-    );
-
-    await partido4.updateOne({
-      $set: {
-        visitante: semi2.perdedor,
-
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
-      },
-    });
-
-    const partido5: any = await Partido.findById(
-      "634c0b80fa76e7502ea6de23" //64
-    );
-
-    await partido5.updateOne({
-      $set: {
-        visitante: semi2.ganador,
-
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
-      },
-    });
+    //partido de cuartos al que pertenece este ganador
 
     await db.disconnect();
 
-    return res.status(200).json(semi2);
+    return res.status(200).json({});
   } catch (error) {
     console.log(error);
     await db.disconnect();

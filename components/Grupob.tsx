@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { tesloApi } from "../axios";
 import { useForm } from "react-hook-form";
-
+import { useSession, signOut, signIn, getProviders } from "next-auth/react";
 import { Loading } from "./ui";
 
 export const Grupob = () => {
@@ -13,6 +13,7 @@ export const Grupob = () => {
   const [grupo2, setGrupo2] = useState<any>();
   const [jugado, setJugado] = useState<any>(false);
   const [cargando, setcargando] = useState<any>(false);
+  const { data: session, status }: any = useSession();
 
   const {
     register,
@@ -71,15 +72,14 @@ export const Grupob = () => {
   const gruposLlamada = async () => {
     const data: any = await tesloApi({
       url: `/grupos/grupob`,
+
       method: "GET",
-      //data: form,
     });
 
     setDatos(data.data.partidos);
     setGrupo2(data.data.grupos[0]);
   };
   // console.log(datos);
-  // console.log(grupo2);
 
   useEffect(() => {
     gruposLlamada();
@@ -96,6 +96,8 @@ export const Grupob = () => {
 
     form._id = datos && datos[0]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -123,6 +125,8 @@ export const Grupob = () => {
 
     form._id = datos[1]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
 
     try {
@@ -150,6 +154,8 @@ export const Grupob = () => {
 
     form._id = datos[2]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -176,6 +182,8 @@ export const Grupob = () => {
 
     form._id = datos[3]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -202,6 +210,8 @@ export const Grupob = () => {
 
     form._id = datos[4]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -228,6 +238,8 @@ export const Grupob = () => {
 
     form._id = datos[5]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -315,8 +327,8 @@ export const Grupob = () => {
                     sx={{ display: { xs: "none", md: "flex" } }}
                   >
                     <Image
-                      src={datos && datos[0].visitante.bandera}
-                      alt={datos && datos[0].nombre}
+                      src={datos && datos[2].local.bandera}
+                      alt={datos && datos[2].nombre}
                       width={70}
                       height={40}
                     />

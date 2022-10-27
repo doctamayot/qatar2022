@@ -1,40 +1,41 @@
 import mongoose, { Schema, model, Model } from "mongoose";
 import { IGrupo } from "../interfaces";
 
-const grupoSchema = new Schema(
+const grupoApSchema = new Schema(
   {
+    user: { type: Schema.Types.ObjectId, ref: "User" },
     name: { type: String, required: true },
     posicion1: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
     posicion2: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
     posicion3: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
     posicion4: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
     partidos: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Partido",
+        ref: "PartidoAp",
         autopopulate: true,
       },
     ],
     equipos: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Equipo",
+        ref: "EquipoAp",
         autopopulate: true,
       },
     ],
@@ -44,7 +45,7 @@ const grupoSchema = new Schema(
   }
 );
 
-const Grupo: Model<IGrupo> =
-  mongoose.models.Grupo || model("Grupo", grupoSchema);
+const GrupoAp: Model<IGrupo> =
+  mongoose.models.GrupoAp || model("GrupoAp", grupoApSchema);
 
-export default Grupo;
+export default GrupoAp;

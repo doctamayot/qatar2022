@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { tesloApi } from "../axios";
 import { useForm } from "react-hook-form";
-
+import { useSession, signOut, signIn, getProviders } from "next-auth/react";
 import { Loading } from "./ui";
 
 export const Grupoc = () => {
@@ -13,6 +13,7 @@ export const Grupoc = () => {
   const [grupo2, setGrupo2] = useState<any>();
   const [jugado, setJugado] = useState<any>(false);
   const [cargando, setcargando] = useState<any>(false);
+  const { data: session, status }: any = useSession();
 
   const {
     register,
@@ -71,8 +72,8 @@ export const Grupoc = () => {
   const gruposLlamada = async () => {
     const data: any = await tesloApi({
       url: `/grupos/grupoc`,
+
       method: "GET",
-      //data: form,
     });
 
     setDatos(data.data.partidos);
@@ -96,6 +97,8 @@ export const Grupoc = () => {
 
     form._id = datos && datos[0]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -123,6 +126,8 @@ export const Grupoc = () => {
 
     form._id = datos[1]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
 
     try {
@@ -150,6 +155,8 @@ export const Grupoc = () => {
 
     form._id = datos[2]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -176,6 +183,8 @@ export const Grupoc = () => {
 
     form._id = datos[3]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -202,6 +211,8 @@ export const Grupoc = () => {
 
     form._id = datos[4]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -228,6 +239,8 @@ export const Grupoc = () => {
 
     form._id = datos[5]._id;
     form.jugado = true;
+    form.grupoid = grupo2._id;
+
     setcargando(true);
     try {
       const { data } = await tesloApi({
@@ -315,8 +328,8 @@ export const Grupoc = () => {
                     sx={{ display: { xs: "none", md: "flex" } }}
                   >
                     <Image
-                      src={datos && datos[0].visitante.bandera}
-                      alt={datos && datos[0].nombre}
+                      src={datos && datos[1].visitante.bandera}
+                      alt={datos && datos[1].nombre}
                       width={70}
                       height={40}
                     />
@@ -327,8 +340,8 @@ export const Grupoc = () => {
                     sx={{ display: { xs: "none", md: "flex" } }}
                   >
                     <Image
-                      src={datos && datos[3].local.bandera}
-                      alt={datos && datos[3].nombre}
+                      src={datos && datos[2].visitante.bandera}
+                      alt={datos && datos[2].nombre}
                       width={70}
                       height={40}
                     />

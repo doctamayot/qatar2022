@@ -1,43 +1,44 @@
 import mongoose, { Schema, model, Model } from "mongoose";
 import { IFinal } from "../interfaces";
 
-const finalSchema = new Schema(
+const finalapSchema = new Schema(
   {
+    user: { type: Schema.Types.ObjectId, ref: "User" },
     name: { type: String, required: true },
     ganador: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
     perdedor: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
     partido: {
       type: Schema.Types.ObjectId,
-      ref: "Partido",
+      ref: "PartidoAp",
       autopopulate: true,
     },
     campeon: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
     sub: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
     tercero: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
 
     cuarto: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
   },
@@ -46,7 +47,7 @@ const finalSchema = new Schema(
   }
 );
 
-const Final: Model<IFinal> =
-  mongoose.models.Final || model("Final", finalSchema);
+const FinalAp: Model<IFinal> =
+  mongoose.models.FinalAp || model("FinalAp", finalapSchema);
 
-export default Final;
+export default FinalAp;

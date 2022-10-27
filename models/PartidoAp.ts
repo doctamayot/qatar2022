@@ -5,17 +5,17 @@ const partidoapSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: "User" },
 
-    nombre: { type: String, required: true, unique: true },
+    nombre: { type: String, required: true },
     local: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
     jugado: { type: Boolean },
 
     visitante: {
       type: Schema.Types.ObjectId,
-      ref: "Equipo",
+      ref: "EquipoAp",
       autopopulate: true,
     },
 

@@ -1,9 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isValidObjectId } from "mongoose";
+import { getSession } from "next-auth/react";
 
 import { db } from "../../../database";
 
-import { Partido, Equipo, Grupo, Octavo } from "../../../models";
+import {
+  PartidoAp,
+  GrupoAp,
+  OctavoAp,
+  CuartoAp,
+  SemiAp,
+  FinalAp,
+} from "../../../models";
 
 type Data = { message: string } | any | any[];
 
@@ -15,13 +22,11 @@ export default function handler(
     case "GET":
       return getOctavos(req, res);
 
-    // case "POST":
-    //   return createPartido(req, res);
-
     case "PUT":
       return updateOctavos(req, res);
-    // case "DELETE":
-    //   return deleteProduct(req, res);
+
+    case "PATCH":
+      return editOctavos(req, res);
 
     default:
       return res.status(400).json({ message: "Bad request" });
@@ -30,104 +35,86 @@ export default function handler(
 
 const getOctavos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   await db.connect();
+  const session: any = await getSession({ req });
 
-  const octavos = await Octavo.find()
+  const octavos = await OctavoAp.find({ user: session.user._id })
+    // .sort({ titulo: "asc" })
+    .populate({ path: "partido", populate: { path: "local visitante" } })
+    .lean();
+
+  const cuartos = await CuartoAp.find({ user: session.user._id })
+    // .sort({ titulo: "asc" })
+    .populate({ path: "partido", populate: { path: "local visitante" } })
+    .lean();
+  const semis = await SemiAp.find({ user: session.user._id })
+    // .sort({ titulo: "asc" })
+    .populate({ path: "partido", populate: { path: "local visitante" } })
+    .lean();
+
+  const finales = await FinalAp.find({ user: session.user._id })
     // .sort({ titulo: "asc" })
     .populate({ path: "partido", populate: { path: "local visitante" } })
     .lean();
 
   await db.disconnect();
 
-  res.status(200).json(octavos);
+  res.status(200).json({ octavos, cuartos, semis, finales });
 };
 
 const updateOctavos = async (
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) => {
-  const { _id = "", resultado } = req.body;
+  const { resultado, _idoctavo } = req.body;
 
-  // if (!isValidObjectId(_id)) {
-  //   return res.status(400).json({ message: "El id del producto no es válido" });
-  // }
-
-  // TODO: posiblemente tendremos un localhost:3000/product
-
+  const session: any = await getSession({ req });
   try {
     await db.connect();
-    const grupo1: any = await Grupo.findById(
-      "634b3d06056ab725a4e93ad0" //e
-    ).populate("posicion1 posicion2 posicion3 posicion4");
 
-    const grupo2: any = await Grupo.findById(
-      "634b3d06056ab725a4e93ad1" //f
-    ).populate("posicion1 posicion2 posicion3 posicion4");
+    const octavo: any = await OctavoAp.findById(_idoctavo).populate("partido");
 
-    const octavo: any = await Octavo.findById(
-      "634b433d1a57fda6d09dec8f"
-    ).populate("partido");
+    const partido = octavo.partido;
+    await partido.updateOne(req.body);
 
-    const partido: any = await Partido.findById(
-      "634b40fe851f8db62de95ee3" //53
-    );
-
-    await partido.updateOne({
-      $set: {
-        local: grupo1.posicion1,
-        visitante: grupo2.posicion2,
-        // golocal: 0,
-        // golvisitante: 0,
-        // resultado: "nada",
-      },
+    //partido de cuartos al que pertenece este ganador
+    const partidoCuartos: any = await PartidoAp.find({
+      user: session.user._id,
+      nombre: "58",
     });
 
-    let result;
-    if (partido.resultado === "local") {
-      result = grupo1.posicion1;
+    if (resultado === "local") {
+      await partidoCuartos[0].updateOne({ local: partido.local });
     }
 
-    if (partido.resultado === "visitante") {
-      result = grupo2.posicion2;
+    if (resultado === "visitante") {
+      await partidoCuartos[0].updateOne({ local: partido.visitante });
     }
-    await octavo.updateOne({
-      $set: {
-        ganador: result,
-      },
-    });
-
-    const partido4: any = await Partido.findById(
-      "634c0b80fa76e7502ea6de1d" //59
-    );
-
-    const octavo2: any = await Octavo.findById(
-      "634b433d1a57fda6d09dec8f"
-    ).populate("ganador");
-
-    await partido4.updateOne({
-      $set: {
-        local: octavo2.ganador,
-      },
-    });
-
-    const partido2: any = await Partido.findById(
-      "634b40fe851f8db62de95ee3" //53
-    ).populate("local visitante");
-
-    // await grupo.updateOne({
-    //   // golesfavor: equipoLocal.golesfavor + partido.golocal,
-    //   // golescontra: equipoLocal.golescontra + partido.golvisitante,
-    //   // difgoles: equipoLocal.golesfavor - equipoLocal.golescontra,
-    //   $set: {
-    //     posicion1: porPuntos[0],
-    //     posicion2: porPuntos[1],
-    //     posicion3: porPuntos[2],
-    //     posicion4: porPuntos[3],
-    //   },
-    // });
 
     await db.disconnect();
 
-    return res.status(200).json(partido2);
+    return res.status(200).json({});
+  } catch (error) {
+    console.log(error);
+    await db.disconnect();
+    return res.status(400).json({ message: "Revisar la consola del servidor" });
+  }
+};
+
+const editOctavos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  const { resultado, _id } = req.body;
+
+  try {
+    await db.connect();
+
+    const partido: any = await PartidoAp.findById(_id);
+
+    await partido.updateOne({ jugado: false });
+
+    //partido de cuartos al que pertenece este ganador
+
+    await db.disconnect();
+
+    return res.status(200).json({});
   } catch (error) {
     console.log(error);
     await db.disconnect();

@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 import NextLink from "next/link";
 
-//import { useSession, signOut, signIn, getProviders } from "next-auth/react";
+import { useSession, signOut, signIn, getProviders } from "next-auth/react";
 
 //MUI
 import {
@@ -43,19 +43,19 @@ export const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [prov, setProv] = useState<any>({});
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const providers = await getProviders();
-  //     setProv(providers as any);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const providers = await getProviders();
+      setProv(providers as any);
+    })();
+  }, []);
 
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  // const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -273,7 +273,7 @@ export const Navbar = () => {
           </IconButton>
         )}
 
-        {/* {session ? (
+        {session ? (
           <Box
             onClick={() => signOut()}
             sx={{ display: { xs: "flex" } }}
@@ -318,7 +318,7 @@ export const Navbar = () => {
               </Typography>
             </IconButton>
           </Box>
-        )} */}
+        )}
 
         <Button
           onClick={toggleSideMenu}
