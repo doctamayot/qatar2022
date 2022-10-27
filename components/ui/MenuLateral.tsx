@@ -73,86 +73,69 @@ export const MenuLateral = () => {
     >
       <Box sx={{ width: 250, paddingTop: 5 }}>
         <List>
-          <ListItem>
-            <Input
-              type="text"
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={(e) => (e.key === "Enter" ? onSearchTerm() : null)}
-              value={searchTerm}
-              placeholder="Buscar..."
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton aria-label="toggle password visibility">
-                    <SearchOutlined />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </ListItem>
-
-          <ListItem
-            button
-            onClick={() => navigateTo("/productos/categoria/todas")}
-          >
+          <ListItem button onClick={() => navigateTo("/grupos/grupoa")}>
             <ListItemIcon>
               <AccountCircleOutlined />
             </ListItemIcon>
-            <ListItemText primary={"Todos"} />
+            <ListItemText primary={"Grupo A"} />
           </ListItem>
 
-          <ListItem
-            button
-            onClick={() => navigateTo("/productos/categoria/militares")}
-          >
+          <ListItem button onClick={() => navigateTo("/grupos/grupob")}>
             <ListItemIcon>
               <MilitaryTech />
             </ListItemIcon>
-            <ListItemText primary={"Equipo Militar o Camping"} />
+            <ListItemText primary={"Grupo B"} />
           </ListItem>
 
-          <ListItem
-            button
-            onClick={() => navigateTo("/productos/categoria/herrajes")}
-          >
+          <ListItem button onClick={() => navigateTo("/grupos/grupoc")}>
             <ListItemIcon>
               <Animation />
             </ListItemIcon>
-            <ListItemText primary={"Herrajes"} />
+            <ListItemText primary={"Grupo C"} />
           </ListItem>
 
-          <ListItem
-            button
-            onClick={() => navigateTo("/productos/categoria/inst")}
-          >
+          <ListItem button onClick={() => navigateTo("/grupos/grupod")}>
             <ListItemIcon>
               <AssuredWorkload />
             </ListItemIcon>
-            <ListItemText primary={"Institucional"} />
+            <ListItemText primary={"Grupo D"} />
           </ListItem>
 
-          <ListItem
-            button
-            onClick={() => navigateTo("/productos/categoria/servicios")}
-          >
+          <ListItem button onClick={() => navigateTo("/grupos/grupoe")}>
             <ListItemIcon>
               <PrecisionManufacturing />
             </ListItemIcon>
-            <ListItemText primary={"Servicio de Troquelado y embutido"} />
+            <ListItemText primary={"Grupo E"} />
+          </ListItem>
+
+          <ListItem button onClick={() => navigateTo("/grupos/grupof")}>
+            <ListItemIcon>
+              <PrecisionManufacturing />
+            </ListItemIcon>
+            <ListItemText primary={"Grupo F"} />
+          </ListItem>
+
+          <ListItem button onClick={() => navigateTo("/grupos/grupog")}>
+            <ListItemIcon>
+              <PrecisionManufacturing />
+            </ListItemIcon>
+            <ListItemText primary={"Grupo G"} />
+          </ListItem>
+          <ListItem button onClick={() => navigateTo("/grupos/grupoh")}>
+            <ListItemIcon>
+              <PrecisionManufacturing />
+            </ListItemIcon>
+            <ListItemText primary={"Grupo H"} />
+          </ListItem>
+
+          <ListItem button onClick={() => navigateTo("/grupos/octavos")}>
+            <ListItemIcon>
+              <PrecisionManufacturing />
+            </ListItemIcon>
+            <ListItemText primary={"Finales"} />
           </ListItem>
 
           <Divider />
-          <ListItem button onClick={() => navigateTo("/#historia")}>
-            <ListItemIcon>
-              <ManageHistory />
-            </ListItemIcon>
-            <ListItemText primary={"Historia"} />
-          </ListItem>
-          <ListItem button onClick={() => navigateTo("/blog")}>
-            <ListItemIcon>
-              <AssuredWorkload />
-            </ListItemIcon>
-            <ListItemText primary={"Blog"} />
-          </ListItem>
 
           {/* {session ? (
             <ListItem button onClick={() => signOut()}>
