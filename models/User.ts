@@ -6,6 +6,7 @@ const userSchema = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     activo: { type: Boolean, required: true },
+    empezado: { type: Boolean, required: true },
     formulario: { type: Boolean, required: true },
     role: { type: String, required: true },
     posicion: { type: Number },

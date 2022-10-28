@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 //Next
 import { useRouter } from "next/router";
-//import { useSession, signOut, getProviders, signIn } from "next-auth/react";
+import { useSession, signOut, getProviders, signIn } from "next-auth/react";
 //MUI
 import {
   Box,
@@ -42,16 +42,16 @@ export const MenuLateral = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  //const { data: session, status }: any = useSession();
+  const { data: session, status }: any = useSession();
 
   const [prov, setProv] = useState<any>({});
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const providers = await getProviders();
-  //     setProv(providers as any);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const providers = await getProviders();
+      setProv(providers as any);
+    })();
+  }, []);
 
   // console.log(status);
 
@@ -73,77 +73,85 @@ export const MenuLateral = () => {
     >
       <Box sx={{ width: 250, paddingTop: 5 }}>
         <List>
-          <ListItem button onClick={() => navigateTo("/grupos/grupoa")}>
-            <ListItemIcon>
-              <AccountCircleOutlined />
-            </ListItemIcon>
-            <ListItemText primary={"Grupo A"} />
-          </ListItem>
-
-          <ListItem button onClick={() => navigateTo("/grupos/grupob")}>
-            <ListItemIcon>
-              <MilitaryTech />
-            </ListItemIcon>
-            <ListItemText primary={"Grupo B"} />
-          </ListItem>
-
-          <ListItem button onClick={() => navigateTo("/grupos/grupoc")}>
-            <ListItemIcon>
-              <Animation />
-            </ListItemIcon>
-            <ListItemText primary={"Grupo C"} />
-          </ListItem>
-
-          <ListItem button onClick={() => navigateTo("/grupos/grupod")}>
-            <ListItemIcon>
-              <AssuredWorkload />
-            </ListItemIcon>
-            <ListItemText primary={"Grupo D"} />
-          </ListItem>
-
-          <ListItem button onClick={() => navigateTo("/grupos/grupoe")}>
-            <ListItemIcon>
-              <PrecisionManufacturing />
-            </ListItemIcon>
-            <ListItemText primary={"Grupo E"} />
-          </ListItem>
-
-          <ListItem button onClick={() => navigateTo("/grupos/grupof")}>
-            <ListItemIcon>
-              <PrecisionManufacturing />
-            </ListItemIcon>
-            <ListItemText primary={"Grupo F"} />
-          </ListItem>
-
-          <ListItem button onClick={() => navigateTo("/grupos/grupog")}>
-            <ListItemIcon>
-              <PrecisionManufacturing />
-            </ListItemIcon>
-            <ListItemText primary={"Grupo G"} />
-          </ListItem>
-          <ListItem button onClick={() => navigateTo("/grupos/grupoh")}>
-            <ListItemIcon>
-              <PrecisionManufacturing />
-            </ListItemIcon>
-            <ListItemText primary={"Grupo H"} />
-          </ListItem>
-
-          <ListItem button onClick={() => navigateTo("/grupos/octavos")}>
-            <ListItemIcon>
-              <PrecisionManufacturing />
-            </ListItemIcon>
-            <ListItemText primary={"Finales"} />
-          </ListItem>
-
           <Divider />
 
-          {/* {session ? (
-            <ListItem button onClick={() => signOut()}>
-              <ListItemIcon>
-                <LoginOutlined />
-              </ListItemIcon>
-              <ListItemText primary={"Salir"} />
-            </ListItem>
+          {session ? (
+            <>
+              <ListItem button onClick={() => navigateTo("/grupos/grupoa")}>
+                <ListItemIcon>
+                  <MilitaryTech />
+                </ListItemIcon>
+                <ListItemText primary={"Grupo A"} />
+              </ListItem>
+
+              <ListItem button onClick={() => navigateTo("/grupos/grupob")}>
+                <ListItemIcon>
+                  <MilitaryTech />
+                </ListItemIcon>
+                <ListItemText primary={"Grupo B"} />
+              </ListItem>
+
+              <ListItem button onClick={() => navigateTo("/grupos/grupoc")}>
+                <ListItemIcon>
+                  <MilitaryTech />
+                </ListItemIcon>
+                <ListItemText primary={"Grupo C"} />
+              </ListItem>
+
+              <ListItem button onClick={() => navigateTo("/grupos/grupod")}>
+                <ListItemIcon>
+                  <MilitaryTech />
+                </ListItemIcon>
+                <ListItemText primary={"Grupo D"} />
+              </ListItem>
+
+              <ListItem button onClick={() => navigateTo("/grupos/grupoe")}>
+                <ListItemIcon>
+                  <MilitaryTech />
+                </ListItemIcon>
+                <ListItemText primary={"Grupo E"} />
+              </ListItem>
+
+              <ListItem button onClick={() => navigateTo("/grupos/grupof")}>
+                <ListItemIcon>
+                  <MilitaryTech />
+                </ListItemIcon>
+                <ListItemText primary={"Grupo F"} />
+              </ListItem>
+
+              <ListItem button onClick={() => navigateTo("/grupos/grupog")}>
+                <ListItemIcon>
+                  <MilitaryTech />
+                </ListItemIcon>
+                <ListItemText primary={"Grupo G"} />
+              </ListItem>
+              <ListItem button onClick={() => navigateTo("/grupos/grupoh")}>
+                <ListItemIcon>
+                  <MilitaryTech />
+                </ListItemIcon>
+                <ListItemText primary={"Grupo H"} />
+              </ListItem>
+
+              <ListItem button onClick={() => navigateTo("/grupos/octavos")}>
+                <ListItemIcon>
+                  <MilitaryTech />
+                </ListItemIcon>
+                <ListItemText primary={"Finales"} />
+              </ListItem>
+
+              <ListItem button onClick={() => navigateTo("/grupos/extras")}>
+                <ListItemIcon>
+                  <MilitaryTech />
+                </ListItemIcon>
+                <ListItemText primary={"Extras"} />
+              </ListItem>
+              <ListItem button onClick={() => signOut()}>
+                <ListItemIcon>
+                  <LoginOutlined />
+                </ListItemIcon>
+                <ListItemText primary={"Salir"} />
+              </ListItem>
+            </>
           ) : (
             <ListItem
               button
@@ -154,7 +162,7 @@ export const MenuLateral = () => {
               </ListItemIcon>
               <ListItemText primary={"Ingresar"} />
             </ListItem>
-          )} */}
+          )}
 
           {/* Admin */}
           {/* {session && session.user && session.user.role === "Admin" ? (
@@ -162,7 +170,8 @@ export const MenuLateral = () => {
               <Divider />
               <ListSubheader>Admin Panel</ListSubheader>
 
-              <ListItem button onClick={() => navigateTo("/admin/products")}>ya
+              <ListItem button onClick={() => navigateTo("/admin/products")}>
+                
                 <ListItemIcon>
                   <CategoryOutlined />
                 </ListItemIcon>

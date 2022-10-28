@@ -12,7 +12,7 @@ import { useSession, signOut, signIn, getProviders } from "next-auth/react";
 
 import { tesloApi } from "../axios";
 import { useForm } from "react-hook-form";
-import { Loading } from "./ui";
+import { LoadingPartido } from "./ui";
 
 export const Octavos = () => {
   const [octavos, setOctavos] = useState<any>();
@@ -300,7 +300,7 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local === true) {
+      if (local2 === true) {
         form.resultado = "local";
       } else {
         form.resultado = "visitante";
@@ -988,7 +988,7 @@ export const Octavos = () => {
   return (
     <>
       {cargando ? (
-        <Loading />
+        <LoadingPartido />
       ) : (
         <Grid container sx={{ padding: "5px", marginTop: "100px" }}>
           <Box
@@ -1044,6 +1044,9 @@ export const Octavos = () => {
                               height={40}
                             />
                           )}
+                          <Typography variant="subtitle1">
+                            {octavos[0].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -1052,6 +1055,7 @@ export const Octavos = () => {
                         >
                           {octavos && octavos[0].partido.local.name}
                         </Typography>
+
                         <Checkbox
                           checked={local}
                           onChange={handleChange}
@@ -1133,6 +1137,9 @@ export const Octavos = () => {
                               height={40}
                             />
                           )}
+                          <Typography variant="subtitle1">
+                            {octavos[0].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -1186,12 +1193,17 @@ export const Octavos = () => {
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
                         <Box>
-                          <Image
-                            src={octavos && octavos[1].partido.local.bandera}
-                            alt={octavos && octavos[1].nombre}
-                            width={60}
-                            height={40}
-                          />
+                          {octavos && (
+                            <Image
+                              src={octavos && octavos[1].partido.local.bandera}
+                              alt={octavos && octavos[1].nombre}
+                              width={60}
+                              height={40}
+                            />
+                          )}
+                          <Typography variant="subtitle1">
+                            {octavos[1].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -1200,6 +1212,7 @@ export const Octavos = () => {
                         >
                           {octavos && octavos[1].partido.local.name}
                         </Typography>
+
                         <Checkbox
                           checked={local2}
                           onChange={handleChange2}
@@ -1249,11 +1262,11 @@ export const Octavos = () => {
                             },
                           })}
                           size="small"
-                          error={!!errors.golvisitante}
-                          helperText={errors.golvisitante?.message}
+                          error={!!errors2.golvisitante}
+                          helperText={errors2.golvisitante?.message}
                         />
                         <Checkbox
-                          // sx={{ display: "none" }}
+                          sx={{ display: "none" }}
                           checked={!local2}
                           onChange={handleChange2}
                           inputProps={{ "aria-label": "controlled" }}
@@ -1261,6 +1274,7 @@ export const Octavos = () => {
                           // disabled={visitante ? true : false}
                           size={"small"}
                         />
+
                         <Typography
                           component="span"
                           variant="subtitle1"
@@ -1270,14 +1284,19 @@ export const Octavos = () => {
                         </Typography>
 
                         <Box>
-                          <Image
-                            src={
-                              octavos && octavos[1].partido.visitante.bandera
-                            }
-                            alt={octavos && octavos[1].nombre}
-                            width={60}
-                            height={40}
-                          />
+                          {octavos && (
+                            <Image
+                              src={
+                                octavos && octavos[1].partido.visitante.bandera
+                              }
+                              alt={octavos && octavos[1].nombre}
+                              width={60}
+                              height={40}
+                            />
+                          )}
+                          <Typography variant="subtitle1">
+                            {octavos[1].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -1337,6 +1356,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {octavos[2].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -1422,6 +1444,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {octavos[2].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -1481,6 +1506,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {octavos[3].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -1566,6 +1594,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {octavos[3].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -1625,7 +1656,11 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {octavos[4].partido.golocal}
+                          </Typography>
                         </Box>
+
                         <Typography
                           component="span"
                           variant="subtitle1"
@@ -1710,6 +1745,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {octavos[4].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -1769,6 +1807,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {octavos[5].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -1854,6 +1895,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {octavos[5].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -1913,6 +1957,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {octavos[6].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -1999,6 +2046,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {octavos[6].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -2058,6 +2108,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {octavos[7].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -2143,6 +2196,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {octavos[7].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -2208,6 +2264,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {cuartos[0].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -2293,6 +2352,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {cuartos[0].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -2352,6 +2414,9 @@ export const Octavos = () => {
                             width={80}
                             height={60}
                           />
+                          <Typography variant="subtitle1">
+                            {cuartos[1].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -2421,7 +2486,7 @@ export const Octavos = () => {
                           // disabled={visitante ? true : false}
                           size={"small"}
                         />
-                        10
+
                         <Typography
                           component="span"
                           variant="subtitle1"
@@ -2438,6 +2503,9 @@ export const Octavos = () => {
                             width={80}
                             height={60}
                           />
+                          <Typography variant="subtitle1">
+                            {cuartos[1].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -2497,6 +2565,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {cuartos[2].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -2582,6 +2653,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {cuartos[2].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -2641,6 +2715,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {cuartos[3].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -2726,6 +2803,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {cuartos[3].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -2792,6 +2872,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {semis[0].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -2861,7 +2944,7 @@ export const Octavos = () => {
                           // disabled={visitante ? true : false}
                           size={"small"}
                         />
-                        13
+
                         <Typography
                           component="span"
                           variant="subtitle1"
@@ -2876,6 +2959,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {semis[0].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -2935,6 +3021,9 @@ export const Octavos = () => {
                             width={80}
                             height={60}
                           />
+                          <Typography variant="subtitle1">
+                            {semis[1].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -3018,6 +3107,9 @@ export const Octavos = () => {
                             width={80}
                             height={60}
                           />
+                          <Typography variant="subtitle1">
+                            {semis[1].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -3083,6 +3175,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {final[0].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -3167,6 +3262,9 @@ export const Octavos = () => {
                             width={60}
                             height={40}
                           />
+                          <Typography variant="subtitle1">
+                            {final[0].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -3230,6 +3328,9 @@ export const Octavos = () => {
                             width={80}
                             height={60}
                           />
+                          <Typography variant="subtitle1">
+                            {final[1].partido.golocal}
+                          </Typography>
                         </Box>
                         <Typography
                           component="span"
@@ -3313,6 +3414,9 @@ export const Octavos = () => {
                             width={80}
                             height={60}
                           />
+                          <Typography variant="subtitle1">
+                            {final[1].partido.golvisitante}
+                          </Typography>
                         </Box>
                       </Grid>
                       <Grid item xs={12} textAlign="center">

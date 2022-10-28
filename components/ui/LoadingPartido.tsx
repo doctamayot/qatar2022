@@ -4,7 +4,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 //APP
 //import { PrincipalLayout } from "../layouts/PrincipalLayout";
 
-export const Loading = () => {
+export const LoadingPartido = () => {
   return (
     <Box
       display="flex"
@@ -22,7 +22,7 @@ export const Loading = () => {
         fontSize={30}
         fontWeight="200"
       >
-        Creando todos los formularios
+        Procesando Marcador.......
       </Typography>
       <CircularProgress
         sx={{ marginTop: "30px", color: "#000" }}

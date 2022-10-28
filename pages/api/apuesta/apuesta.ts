@@ -3,6 +3,7 @@ import { isValidObjectId } from "mongoose";
 
 import { db } from "../../../database";
 import { IEquipo } from "../../../interfaces";
+import { getSession } from "next-auth/react";
 import {
   User,
   EquipoAp,
@@ -27,6 +28,9 @@ export default function handler(
 
     case "POST":
       return createForm(req, res);
+
+    case "PATCH":
+      return getUserById(req, res);
     // case "DELETE":
     //   return deleteProduct(req, res);
 
@@ -34,6 +38,18 @@ export default function handler(
       return res.status(400).json({ message: "Bad request" });
   }
 }
+
+const getUserById = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  await db.connect();
+  const session: any = await getSession({ req });
+
+  if (session) {
+    const user = await User.find({ user: session.user._id });
+    res.status(200).json(user);
+  }
+
+  await db.disconnect();
+};
 
 const getUsers = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   await db.connect();
@@ -51,7 +67,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const { _id = "" } = req.body;
 
   const user = await User.findByIdAndUpdate(_id, {
-    formulario: true,
+    empezado: true,
   });
 
   //console.log(req.body);

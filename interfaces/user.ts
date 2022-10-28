@@ -4,6 +4,7 @@ export interface IUser {
   email: string;
   role: string;
   activo: boolean;
+  empezado: boolean;
   createdAt?: string;
   updatedAt?: string;
   partidos: string[];

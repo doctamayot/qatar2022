@@ -7,11 +7,22 @@ import { useEffect, useState } from "react";
 import { Octavos } from "../components/Octavos";
 import { Grupoa } from "../components/Grupoa";
 import { AuthLayout } from "../components/layouts";
-import { Grid, Button } from "@mui/material";
+import {
+  Grid,
+  Button,
+  Box,
+  Typography,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import { useSession, signOut, signIn, getProviders } from "next-auth/react";
 import { tesloApi } from "../axios";
 import { Loading } from "../components/ui";
 import { useRouter } from "next/router";
+import { Google } from "@mui/icons-material";
+
 // const options = {
 //   method: "GET",
 //   url: "https://api-football-v1.p.rapidapi.com/v3/fixtures",
@@ -30,7 +41,30 @@ import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const [data, setData] = useState([] as any);
+  const [prov, setProv] = useState([] as any);
+  const [user, setUser] = useState([] as any);
   const router = useRouter();
+  const { data: session, status }: any = useSession();
+
+  useEffect(() => {
+    (async () => {
+      const providers = await getProviders();
+      setProv(providers as any);
+    })();
+  }, []);
+
+  const users = async () => {
+    const { data } = await tesloApi({
+      url: `/apuesta/apuesta`,
+      method: "PATCH",
+    });
+    setUser(data);
+  };
+
+  useEffect(() => {
+    users();
+  }, []);
+
   // useEffect(() => {
   //   axios
   //     .request(options)
@@ -46,7 +80,6 @@ const Home: NextPage = () => {
   // console.log(data);
 
   const [cargando, setCargando] = useState(false);
-  const { data: session, status }: any = useSession();
 
   const editar = async (id: any) => {
     setCargando(true);
@@ -70,8 +103,263 @@ const Home: NextPage = () => {
       {cargando ? (
         <Loading />
       ) : (
-        <Grid sx={{ marginTop: "100px" }}>
-          <Button onClick={editar}>Empezar</Button>
+        <Grid sx={{ marginTop: "100px" }} container>
+          {user[0] && user[0].empezado === false ? (
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent="center"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <Button
+                onClick={editar}
+                sx={{
+                  margin: "40px 0px 30px 0px",
+                  width: { md: "40%", xs: "100%" },
+                }}
+              >
+                Crear Formularios
+              </Button>
+            </Grid>
+          ) : null}
+          <Grid item xs={12}>
+            <Box
+              display="flex"
+              justifyContent="center"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <Typography variant="subtitle2" sx={{ fontSize: "50px" }}>
+                Bienvenidos de nuevo a la Polla Tamayo Qatar 2022
+              </Typography>
+              <Typography variant="subtitle2" sx={{ fontSize: "40px" }}>
+                Reglamento
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Box
+              display="flex"
+              justifyContent="left"
+              alignItems="left"
+              flexDirection="column"
+              sx={{ width: "50%", margin: "0 auto" }}
+            >
+              <Typography variant="subtitle1" sx={{ fontSize: "20px" }}>
+                Condiciones para jugar
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                El valor de la apuesta es de $125.000 de los cuales $25.000
+                seran destinados para mantenimiento y producción de la
+                aplicación
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                El valor debe ser consignado en el daviplata o nequi No
+                3144261190, para que el usuario sea activado
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Para registrarse debes tener un correo asociado a gmail.
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Deben llenar el formulario con los resultados de los partidos
+                antes del 20 de noviembre de 2022
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="left"
+              alignItems="left"
+              flexDirection="column"
+              sx={{ width: "50%", margin: "0 auto" }}
+            >
+              <Typography variant="subtitle1" sx={{ fontSize: "20px" }}>
+                Premios
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                El primer lugar ganara el 75% del pot acumulado dependiendo del
+                numero de jugador
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                El segundo lugar ganara el 20% del pot acumulado dependiendo del
+                numero de jugadores
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                El tercer lugar ganara el 5% del pot acumulado dependiendo del
+                numero de jugadores
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="left"
+              alignItems="left"
+              flexDirection="column"
+              sx={{ width: "50%", margin: "0 auto" }}
+            >
+              <Typography variant="subtitle1" sx={{ fontSize: "20px" }}>
+                Puntos
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Resultado exacto 6 Puntos
+              </Typography>
+              <Typography variant="subtitle1" sx={{ fontSize: "17px" }}>
+                Si no coge el resultado exacto:
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Ganador o empate 2 Puntos
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Numero de goles de algun equipo 1 Punto
+              </Typography>
+              <Divider />
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Posiciones exactas del grupo 7 Puntos
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Equipo puesto en octavos de final 3 Puntos
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Equipo puesto en cuartos de final 4 Puntos
+              </Typography>
+
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Equipo puesto en Semifinal 5 Puntos
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Equipo puesto en el partido de tercer puesto 6 Puntos
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Equipo puesto en la final 7 Puntos
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Campeón 10 Puntos
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                SubCampeón 7 Puntos
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Tercer Puesto 5 Puntos
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Cuarto Puesto 3 Puntos
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              >
+                Pronosticos Extra 5 puntos cada uno
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: "15px", marginTop: "5px", marginLeft: "15px" }}
+              ></Typography>
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="center"
+              flexDirection="column"
+              alignItems="center"
+            >
+              {!session ? (
+                <>
+                  <Typography variant="subtitle2" sx={{ fontSize: "50px" }}>
+                    Para comenzar a llenar el formulario debes Loguearte
+                  </Typography>
+                  <Button
+                    sx={{ marginBottom: "50px" }}
+                    onClick={() =>
+                      signIn(prov.google.id, {
+                        callbackUrl: "/",
+                      })
+                    }
+                  >
+                    <Google sx={{ fontSize: "50px" }} />
+                  </Button>
+                </>
+              ) : null}
+            </Box>
+          </Grid>
+          {user[0] && user[0].empezado === false ? (
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent="center"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <Button
+                onClick={editar}
+                sx={{
+                  margin: "40px 0px 30px 0px",
+                  width: { md: "40%", xs: "100%" },
+                }}
+              >
+                Crear Formularios
+              </Button>
+            </Grid>
+          ) : null}
         </Grid>
       )}
     </AuthLayout>

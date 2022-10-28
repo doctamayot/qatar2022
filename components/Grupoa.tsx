@@ -5,7 +5,7 @@ import Image from "next/image";
 import { tesloApi } from "../axios";
 import { useForm } from "react-hook-form";
 import { useSession, signOut, signIn, getProviders } from "next-auth/react";
-import { Loading } from "./ui";
+import { LoadingPartido } from "./ui";
 
 export const Grupoa = () => {
   const [datos, setDatos] = useState<any>();
@@ -280,7 +280,7 @@ export const Grupoa = () => {
           justifyContent="center"
         >
           {cargando === true ? (
-            <Loading />
+            <LoadingPartido />
           ) : (
             <>
               <Grid
@@ -394,6 +394,11 @@ export const Grupoa = () => {
                             height={60}
                           />
                         ) : null}
+                        {datos ? (
+                          <Typography variant="subtitle1">
+                            {datos[0].golocal}
+                          </Typography>
+                        ) : null}
                       </Grid>
                       <Grid item xs={5} md={2} textAlign="center">
                         <TextField
@@ -449,6 +454,11 @@ export const Grupoa = () => {
                             width={80}
                             height={60}
                           />
+                        ) : null}
+                        {datos ? (
+                          <Typography variant="subtitle1">
+                            {datos[0].golvisitante}
+                          </Typography>
                         ) : null}
                       </Grid>
                       <Grid item xs={3} md={2} textAlign="center">
@@ -517,7 +527,13 @@ export const Grupoa = () => {
                             height={60}
                           />
                         ) : null}
+                        {datos ? (
+                          <Typography variant="subtitle1">
+                            {datos[1].golocal}
+                          </Typography>
+                        ) : null}
                       </Grid>
+
                       <Grid item xs={5} md={2} textAlign="center">
                         <TextField
                           type="number"
@@ -573,7 +589,13 @@ export const Grupoa = () => {
                             height={60}
                           />
                         ) : null}
+                        {datos ? (
+                          <Typography variant="subtitle1">
+                            {datos[1].golvisitante}
+                          </Typography>
+                        ) : null}
                       </Grid>
+
                       <Grid item xs={3} md={2} textAlign="center">
                         <Typography
                           component="span"
@@ -640,7 +662,13 @@ export const Grupoa = () => {
                             height={60}
                           />
                         ) : null}
+                        {datos ? (
+                          <Typography variant="subtitle1">
+                            {datos[2].golocal}
+                          </Typography>
+                        ) : null}
                       </Grid>
+
                       <Grid item xs={5} md={2} textAlign="center">
                         <TextField
                           type="number"
@@ -696,7 +724,13 @@ export const Grupoa = () => {
                             height={60}
                           />
                         ) : null}
+                        {datos ? (
+                          <Typography variant="subtitle1">
+                            {datos[2].golvisitante}
+                          </Typography>
+                        ) : null}
                       </Grid>
+
                       <Grid item xs={3} md={2} textAlign="center">
                         <Typography
                           component="span"
@@ -762,7 +796,13 @@ export const Grupoa = () => {
                             height={60}
                           />
                         ) : null}
+                        {datos ? (
+                          <Typography variant="subtitle1">
+                            {datos[3].golocal}
+                          </Typography>
+                        ) : null}
                       </Grid>
+
                       <Grid item xs={5} md={2} textAlign="center">
                         <TextField
                           type="number"
@@ -818,7 +858,13 @@ export const Grupoa = () => {
                             height={60}
                           />
                         ) : null}
+                        {datos ? (
+                          <Typography variant="subtitle1">
+                            {datos[3].golvisitante}
+                          </Typography>
+                        ) : null}
                       </Grid>
+
                       <Grid item xs={3} md={2} textAlign="center">
                         <Typography
                           component="span"
@@ -884,7 +930,13 @@ export const Grupoa = () => {
                             height={60}
                           />
                         ) : null}
+                        {datos ? (
+                          <Typography variant="subtitle1">
+                            {datos[4].golocal}
+                          </Typography>
+                        ) : null}
                       </Grid>
+
                       <Grid item xs={5} md={2} textAlign="center">
                         <TextField
                           type="number"
@@ -940,7 +992,13 @@ export const Grupoa = () => {
                             height={60}
                           />
                         ) : null}
+                        {datos ? (
+                          <Typography variant="subtitle1">
+                            {datos[4].golvisitante}
+                          </Typography>
+                        ) : null}
                       </Grid>
+
                       <Grid item xs={3} md={2} textAlign="center">
                         <Typography
                           component="span"
@@ -1006,7 +1064,13 @@ export const Grupoa = () => {
                             height={60}
                           />
                         ) : null}
+                        {datos ? (
+                          <Typography variant="subtitle1">
+                            {datos[5].golocal}
+                          </Typography>
+                        ) : null}
                       </Grid>
+
                       <Grid item xs={5} md={2} textAlign="center">
                         <TextField
                           type="number"
@@ -1062,7 +1126,13 @@ export const Grupoa = () => {
                             height={60}
                           />
                         ) : null}
+                        {datos ? (
+                          <Typography variant="subtitle1">
+                            {datos[5].golvisitante}
+                          </Typography>
+                        ) : null}
                       </Grid>
+
                       <Grid item xs={3} md={2} textAlign="center">
                         <Typography
                           component="span"

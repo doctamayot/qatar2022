@@ -31,6 +31,14 @@ export default NextAuth({
         user.role = "Cliente";
       }
 
+      if (!user?.activo) {
+        user.activo = false;
+      }
+
+      if (!user?.empezadp) {
+        user.empezado = false;
+      }
+
       // if (!user?.activo) {
       //   user.activo = "false";
       // }
