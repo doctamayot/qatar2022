@@ -47,6 +47,8 @@ const getUserById = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     const user = await User.findById(session.user._id);
 
     res.status(200).json(user);
+  } else {
+    res.status(200).json({});
   }
 
   await db.disconnect();
