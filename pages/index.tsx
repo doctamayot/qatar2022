@@ -105,7 +105,7 @@ const Home: NextPage = () => {
       {cargando ? (
         <Loading />
       ) : (
-        <Grid sx={{ marginTop: "100px" }} container>
+        <Grid sx={{ marginTop: "100px", padding: "30px" }} container>
           {userin && userin.empezado === false ? (
             <Grid
               item
@@ -133,7 +133,10 @@ const Home: NextPage = () => {
               flexDirection="column"
               alignItems="center"
             >
-              <Typography variant="subtitle2" sx={{ fontSize: "50px" }}>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: { lg: "50px", xs: "40px" } }}
+              >
                 Bienvenidos de nuevo a la Polla Tamayo Qatar 2022
               </Typography>
               <Typography variant="subtitle2" sx={{ fontSize: "40px" }}>
@@ -147,7 +150,7 @@ const Home: NextPage = () => {
               justifyContent="left"
               alignItems="left"
               flexDirection="column"
-              sx={{ width: "50%", margin: "0 auto" }}
+              sx={{ width: { lg: "50%" }, margin: "0 auto" }}
             >
               <Typography variant="subtitle1" sx={{ fontSize: "20px" }}>
                 Condiciones para jugar
@@ -186,7 +189,7 @@ const Home: NextPage = () => {
               justifyContent="left"
               alignItems="left"
               flexDirection="column"
-              sx={{ width: "50%", margin: "0 auto" }}
+              sx={{ width: { lg: "50%" }, margin: "0 auto" }}
             >
               <Typography variant="subtitle1" sx={{ fontSize: "20px" }}>
                 Premios
@@ -218,7 +221,7 @@ const Home: NextPage = () => {
               justifyContent="left"
               alignItems="left"
               flexDirection="column"
-              sx={{ width: "50%", margin: "0 auto" }}
+              sx={{ width: { lg: "50%" }, margin: "0 auto" }}
             >
               <Typography variant="subtitle1" sx={{ fontSize: "20px" }}>
                 Puntos
