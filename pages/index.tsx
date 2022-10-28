@@ -42,7 +42,7 @@ import { Google } from "@mui/icons-material";
 const Home: NextPage = () => {
   const [data, setData] = useState([] as any);
   const [prov, setProv] = useState([] as any);
-  const [user, setUser] = useState([] as any);
+  const [userin, setUserin] = useState([] as any);
   const router = useRouter();
   const { data: session, status }: any = useSession();
 
@@ -56,9 +56,10 @@ const Home: NextPage = () => {
   const users = async () => {
     const { data } = await tesloApi({
       url: `/apuesta/apuesta`,
-      method: "PATCH",
+      method: "GET",
     });
-    setUser(data);
+
+    setUserin(data);
   };
 
   useEffect(() => {
@@ -97,6 +98,7 @@ const Home: NextPage = () => {
     router.push("grupos/grupoa");
     // setJugado(!jugado);
   };
+  //console.log(user);
 
   return (
     <AuthLayout title="Polla tamayo">
@@ -104,7 +106,7 @@ const Home: NextPage = () => {
         <Loading />
       ) : (
         <Grid sx={{ marginTop: "100px" }} container>
-          {user[0] && user[0].empezado === false ? (
+          {userin && userin.empezado === false ? (
             <Grid
               item
               xs={12}
@@ -340,15 +342,16 @@ const Home: NextPage = () => {
               ) : null}
             </Box>
           </Grid>
-          {user[0] && user[0].empezado === false ? (
-            <Grid
-              item
-              xs={12}
-              display="flex"
-              justifyContent="center"
-              flexDirection="column"
-              alignItems="center"
-            >
+
+          <Grid
+            item
+            xs={12}
+            display="flex"
+            justifyContent="center"
+            flexDirection="column"
+            alignItems="center"
+          >
+            {userin && userin.empezado === false ? (
               <Button
                 onClick={editar}
                 sx={{
@@ -358,8 +361,8 @@ const Home: NextPage = () => {
               >
                 Crear Formularios
               </Button>
-            </Grid>
-          ) : null}
+            ) : null}
+          </Grid>
         </Grid>
       )}
     </AuthLayout>

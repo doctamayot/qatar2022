@@ -24,13 +24,13 @@ export default function handler(
 ) {
   switch (req.method) {
     case "GET":
-      return getUsers(req, res);
+      return getUserById(req, res);
 
     case "POST":
       return createForm(req, res);
 
-    case "PATCH":
-      return getUserById(req, res);
+    // case "PATCH":
+    //   return getUsers(req, res);
     // case "DELETE":
     //   return deleteProduct(req, res);
 
@@ -40,26 +40,27 @@ export default function handler(
 }
 
 const getUserById = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  await db.connect();
   const session: any = await getSession({ req });
+  await db.connect();
 
   if (session) {
-    const user = await User.find({ user: session.user._id });
+    const user = await User.findById(session.user._id);
+
     res.status(200).json(user);
   }
 
   await db.disconnect();
 };
 
-const getUsers = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  await db.connect();
+// const getUsers = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+//   await db.connect();
 
-  const users = await User.find().sort({ createdAt: "asc" });
+//   const users = await User.find().sort({ createdAt: "asc" });
 
-  await db.disconnect();
+//   await db.disconnect();
 
-  res.status(200).json(users);
-};
+//   res.status(200).json(users);
+// };
 
 const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   await db.connect();
