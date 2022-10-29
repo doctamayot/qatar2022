@@ -101,7 +101,7 @@ const Home: NextPage = () => {
   //console.log(user);
 
   return (
-    <AuthLayout title="Polla tamayo">
+    <AuthLayout title="Polla tamayo" aviso="false">
       {cargando ? (
         <Loading />
       ) : (

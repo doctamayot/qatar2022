@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 
 const Grupob1: NextPage = () => {
   return (
-    <AuthLayout title="Grupo B">
+    <AuthLayout title="Grupo B" aviso="true">
       <Grupob />
     </AuthLayout>
   );

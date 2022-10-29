@@ -6,7 +6,7 @@ import { Extras } from "../../components/Extras";
 
 const Extras1: NextPage = () => {
   return (
-    <AuthLayout title="Extras">
+    <AuthLayout title="Extras" aviso="true">
       <Extras />
     </AuthLayout>
   );
