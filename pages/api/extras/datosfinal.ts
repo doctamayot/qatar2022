@@ -4,7 +4,7 @@ import { getSession } from "next-auth/react";
 
 import { db } from "../../../database";
 
-import { DatosFinal } from "../../../models";
+import { DatosFinal, EquipoAp } from "../../../models";
 
 type Data = { message: string } | any | any[];
 
@@ -38,9 +38,11 @@ const getGrupos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     .populate("campeon sub tercero cuarto")
     .lean();
 
+  const equipos = await EquipoAp.find({ user: session.user._id }).lean();
+
   await db.disconnect();
 
-  res.status(200).json(datos);
+  res.status(200).json({ datos, equipos });
 };
 
 const updatePartido = async (
