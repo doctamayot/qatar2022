@@ -165,34 +165,19 @@ export const MenuLateral = () => {
           )}
 
           {/* Admin */}
-          {/* {session && session.user && session.user.role === "Admin" ? (
+          {session && session.user && session.user.role === "Admin" ? (
             <>
               <Divider />
               <ListSubheader>Admin Panel</ListSubheader>
 
-              <ListItem button onClick={() => navigateTo("/admin/products")}>
-                
+              <ListItem button onClick={() => navigateTo("/admin/jugadores")}>
                 <ListItemIcon>
                   <CategoryOutlined />
                 </ListItemIcon>
-                <ListItemText primary={"Productos"} />
-              </ListItem>
-
-              <ListItem button onClick={() => navigateTo("/admin/invproducts")}>
-                <ListItemIcon>
-                  <AdminPanelSettings />
-                </ListItemIcon>
-                <ListItemText primary={"Inventario"} />
-              </ListItem>
-
-              <ListItem button onClick={() => navigateTo("/admin/blog")}>
-                <ListItemIcon>
-                  <LibraryBooks />
-                </ListItemIcon>
-                <ListItemText primary={"Blog"} />
+                <ListItemText primary={"Usuarios"} />
               </ListItem>
             </>
-          ) : null} */}
+          ) : null}
         </List>
       </Box>
     </Drawer>

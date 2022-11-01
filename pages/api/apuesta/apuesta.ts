@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isValidObjectId } from "mongoose";
 
 import { db } from "../../../database";
-import { IEquipo } from "../../../interfaces";
+
 import { getSession } from "next-auth/react";
 import {
   User,
@@ -29,11 +28,6 @@ export default function handler(
     case "POST":
       return createForm(req, res);
 
-    // case "PATCH":
-    //   return getUsers(req, res);
-    // case "DELETE":
-    //   return deleteProduct(req, res);
-
     default:
       return res.status(400).json({ message: "Bad request" });
   }
@@ -45,10 +39,12 @@ const getUserById = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   if (session) {
     const user = await User.findById(session.user._id);
+    const users = await User.find({ activo: true });
 
-    res.status(200).json(user);
+    res.status(200).json({ user, users });
   } else {
-    res.status(200).json({});
+    const users = await User.find().lean();
+    res.status(200).json(users);
   }
 
   await db.disconnect();
@@ -600,6 +596,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Ecuador, //ecuador
       grupo: "A",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -609,6 +606,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Iran, //iran
       grupo: "B",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -618,6 +616,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: PaisesBajos, //paises
       grupo: "A",
       ronda: "grupos",
+      puntos: 0,
     },
 
     {
@@ -628,6 +627,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Arabia, //arabia
       grupo: "C",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -637,6 +637,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Tunez, //tunez
       grupo: "D",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -646,6 +647,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Polonia, //polonia
       grupo: "C",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -655,6 +657,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Croacia, //cro
       grupo: "F",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -664,6 +667,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Japon, //jap
       grupo: "E",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -673,6 +677,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Canada, //can
       grupo: "F",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -682,6 +687,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Camerun, //cam
       grupo: "G",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -691,6 +697,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Corea, //cor
       grupo: "H",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -700,6 +707,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Ghana, //gha
       grupo: "H",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -709,6 +717,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Serbia, //ser
       grupo: "G",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -718,6 +727,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Senegal, //sen
       grupo: "A",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -727,6 +737,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Ecuador, //ecu
       grupo: "A",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -736,6 +747,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: USA, //usa
       grupo: "B",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -745,6 +757,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Arabia, //ara
       grupo: "C",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -754,6 +767,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Dinamarca, //din
       grupo: "D",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -763,6 +777,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Mexico, //mex
       grupo: "C",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -772,6 +787,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Marruecos, //mar
       grupo: "F",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -781,6 +797,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Canada, //can
       grupo: "F",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -790,6 +807,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Alemania, //ale
       grupo: "E",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -799,6 +817,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Serbia, //serb
       grupo: "G",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -808,6 +827,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Ghana, //gha
       grupo: "H",
       ronda: "grupos",
+      puntos: 0,
     },
 
     {
@@ -818,6 +838,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Suiza, //sui
       grupo: "G",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -827,6 +848,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Uruguay, //uru
       grupo: "H",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -836,6 +858,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Qatar, //qat
       grupo: "A",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -845,6 +868,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Senegal, //sen
       grupo: "A",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -854,6 +878,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: USA, //usa
       grupo: "B",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -863,6 +888,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Francia, //fra
       grupo: "D",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -872,6 +898,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Argentina, //arg
       grupo: "C",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -881,6 +908,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Mexico, //mex
       grupo: "C",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -890,6 +918,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Belgica, //bel
       grupo: "F",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -899,6 +928,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Marruecos, //mar
       grupo: "F",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -908,6 +938,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: España, //esp
       grupo: "E",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -917,6 +948,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Portugal, //por
       grupo: "H",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -926,6 +958,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Uruguay, //uru
       grupo: "H",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -935,6 +968,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Brasil, //bra
       grupo: "G",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -944,6 +978,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Suiza, //sui
       grupo: "G",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -953,6 +988,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Wales, //wal
       grupo: "B",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -962,6 +998,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Iran, //ira
       grupo: "B",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -971,6 +1008,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Inglaterra, //ing
       grupo: "B",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -980,6 +1018,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Australia, //aus
       grupo: "D",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -989,6 +1028,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: CostaRica, //cos
       grupo: "E",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -998,6 +1038,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Australia, //aus
       grupo: "D",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1007,6 +1048,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: CostaRica, //cos
       grupo: "E",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1016,6 +1058,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Dinamarca, //din
       grupo: "D",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1025,6 +1068,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       visitante: Alemania, //ale
       grupo: "E",
       ronda: "grupos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1033,6 +1077,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: Qatar, //cos
       visitante: Senegal, //ale
       ronda: "octavos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1041,6 +1086,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "octavos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1049,6 +1095,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "octavos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1057,6 +1104,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "octavos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1065,6 +1113,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "octavos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1073,6 +1122,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "octavos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1081,6 +1131,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "octavos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1089,6 +1140,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "octavos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1097,6 +1149,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "cuartos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1105,6 +1158,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "cuartos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1113,6 +1167,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "cuartos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1121,6 +1176,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "cuartos",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1129,6 +1185,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "semis",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1137,6 +1194,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "semis",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1145,6 +1203,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Alemania, //ale
       ronda: "final",
+      puntos: 0,
     },
     {
       user: _id,
@@ -1153,6 +1212,7 @@ const createForm = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       local: CostaRica, //cos
       visitante: Qatar, //ale
       ronda: "final",
+      puntos: 0,
     },
   ];
 

@@ -1,27 +1,14 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import axios from "axios";
+
 import { useEffect, useState } from "react";
-import { Octavos } from "../components/Octavos";
-import { Grupoa } from "../components/Grupoa";
+
 import { AuthLayout } from "../components/layouts";
-import {
-  Grid,
-  Button,
-  Box,
-  Typography,
-  Divider,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-import { useSession, signOut, signIn, getProviders } from "next-auth/react";
+import { Grid, Button, Box, Typography, Divider } from "@mui/material";
+import { useSession, signIn, getProviders } from "next-auth/react";
 import { tesloApi } from "../axios";
 import { Loading } from "../components/ui";
 import { useRouter } from "next/router";
-import { Google } from "@mui/icons-material";
+import { EmojiEventsOutlined, Google } from "@mui/icons-material";
 
 // const options = {
 //   method: "GET",
@@ -40,7 +27,7 @@ import { Google } from "@mui/icons-material";
 // };
 
 const Home: NextPage = () => {
-  const [data, setData] = useState([] as any);
+  const [usuarios, setUsuarios] = useState([] as any);
   const [prov, setProv] = useState([] as any);
   const [userin, setUserin] = useState([] as any);
   const router = useRouter();
@@ -59,26 +46,23 @@ const Home: NextPage = () => {
       method: "GET",
     });
 
-    setUserin(data);
+    setUserin(data.user);
+    setUsuarios(data.users);
   };
+
+  if (usuarios) {
+    let pot1 = usuarios.length * 100000 * 0.75;
+    let pot2 = usuarios.length * 100000 * 0.2;
+    let pot3 = usuarios.length * 100000 * 0.05;
+
+    console.log(pot1);
+    console.log(pot2);
+    console.log(pot3);
+  }
 
   useEffect(() => {
     users();
   }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .request(options)
-  //     .then(function (response) {
-  //       //console.log(response.data);
-
-  //       setData(response.data.response);
-  //     })
-  //     .catch(function (error) {
-  //       console.error(error);
-  //     });
-  // }, []);
-  // console.log(data);
 
   const [cargando, setCargando] = useState(false);
 
@@ -133,9 +117,52 @@ const Home: NextPage = () => {
               flexDirection="column"
               alignItems="center"
             >
+              <Box sx={{ textAlign: "center" }}>
+                <Typography variant="subtitle1" sx={{ fontSize: "50px" }}>
+                  POT
+                </Typography>
+                <Box display="flex" alignItems="center" justifyContent="center">
+                  <EmojiEventsOutlined
+                    color="success"
+                    sx={{ fontSize: "80px" }}
+                  />
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ marginLeft: "20px", fontSize: "40px" }}
+                  >
+                    $ 370.000
+                  </Typography>
+                </Box>
+                <Box display="flex" alignItems="center">
+                  <EmojiEventsOutlined
+                    color="action"
+                    sx={{ fontSize: "80px" }}
+                  />
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ marginLeft: "20px", fontSize: "40px" }}
+                  >
+                    $ 100.000
+                  </Typography>
+                </Box>
+                <Box display="flex" alignItems="center">
+                  <EmojiEventsOutlined
+                    color="warning"
+                    sx={{ fontSize: "80px" }}
+                  />
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ marginLeft: "20px", fontSize: "40px" }}
+                  >
+                    $ 30.000
+                  </Typography>
+                </Box>
+              </Box>
               <Typography
                 variant="subtitle2"
-                sx={{ fontSize: { lg: "50px", xs: "40px" } }}
+                sx={{
+                  fontSize: { lg: "50px", xs: "40px", marginTop: "100px" },
+                }}
               >
                 Bienvenidos de nuevo a la Polla Tamayo Qatar 2022
               </Typography>
