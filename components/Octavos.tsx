@@ -990,12 +990,12 @@ export const Octavos = () => {
       {cargando ? (
         <LoadingPartido />
       ) : (
-        <Grid container sx={{ padding: "5px", marginTop: "100px" }}>
+        <Grid container sx={{ padding: "5px", marginTop: "40px" }}>
           <Box
             sx={{
               position: "absolute",
-              top: "140px",
-              right: "180px",
+              top: "280px",
+              right: "280px",
               display: { xs: "none", md: "flex" },
             }}
           >

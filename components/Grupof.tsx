@@ -275,7 +275,7 @@ export const Grupof = () => {
       {datos && grupo2 && (
         <Grid
           container
-          sx={{ padding: "10px", marginTop: "100px" }}
+          sx={{ padding: "10px", marginTop: "30px" }}
           display="flex"
           justifyContent="center"
         >

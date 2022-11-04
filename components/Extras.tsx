@@ -88,7 +88,7 @@ export const Extras = () => {
       {cargando === true ? (
         <LoadingPartido />
       ) : (
-        <Grid container sx={{ marginTop: "100px" }} display="flex">
+        <Grid container sx={{ marginTop: "30px" }} display="flex">
           <Typography
             variant="subtitle2"
             sx={{

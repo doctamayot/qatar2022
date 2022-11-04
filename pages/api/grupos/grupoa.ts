@@ -22,6 +22,9 @@ export default function handler(
     case "PATCH":
       return editarPartido(req, res);
 
+    case "POST":
+      return ResultPartido(req, res);
+
     default:
       return res.status(400).json({ message: "Bad request" });
   }
@@ -497,4 +500,67 @@ const editarPartido = async (
     await db.disconnect();
     return res.status(400).json({ message: "Revisar la consola del servidor" });
   }
+};
+
+const ResultPartido = async (
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) => {
+  const session: any = await getSession({ req });
+
+  await db.connect();
+
+  const grupos = await GrupoAp.find({
+    user: "635b78c1266ea8891e6efb23",
+    name: "A",
+  })
+    // .populate("posicion1 posicion2 posicion3 posicion4")
+    .lean();
+
+  const partidosAdmin: any = await PartidoAp.find({
+    user: "635b78c1266ea8891e6efb23",
+    grupo: "A",
+    nombre: "1",
+  })
+    // .populate("local visitante")
+    .lean();
+
+  const partidosTodos: any = await PartidoAp.find({
+    grupo: "A",
+    nombre: "1",
+  })
+    // .populate("local visitante")
+    .lean();
+
+  //console.log(partidosAdmin);
+
+  partidosTodos.forEach(async function (partido: any) {
+    // console.log("usuario", partido.golocal);
+    // console.log("admin", partidosAdmin[0].golocal);
+    if (
+      partido.golocal === partidosAdmin[0].golocal &&
+      partido.golvisitante === partidosAdmin[0].golvisitante
+    ) {
+      await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 6 });
+    } else if (
+      partido.resultado === partidosAdmin[0].resultado &&
+      (partido.golocal === partidosAdmin[0].golocal ||
+        partido.golvisitante === partidosAdmin[0].golvisitante)
+    ) {
+      await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 3 });
+    } else if (partido.resultado === partidosAdmin[0].resultado) {
+      await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 2 });
+    } else if (
+      partido.golocal === partidosAdmin[0].golocal ||
+      partido.golvisitante === partidosAdmin[0].golvisitante
+    ) {
+      await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 1 });
+    } else {
+      await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+    }
+  });
+
+  await db.disconnect();
+
+  res.status(200).json({ grupos, partidosAdmin });
 };

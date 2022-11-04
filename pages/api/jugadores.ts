@@ -29,7 +29,6 @@ const getUsers = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const switchUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const { _id, isActive } = req.body;
-  console.log(req.body);
 
   try {
     await db.connect();

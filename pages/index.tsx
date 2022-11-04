@@ -9,6 +9,7 @@ import { tesloApi } from "../axios";
 import { Loading } from "../components/ui";
 import { useRouter } from "next/router";
 import { EmojiEventsOutlined, Google } from "@mui/icons-material";
+import { Resultados } from "../components/resultados/resultados";
 
 // const options = {
 //   method: "GET",
@@ -50,15 +51,15 @@ const Home: NextPage = () => {
     setUsuarios(data.users);
   };
 
-  if (usuarios) {
-    let pot1 = usuarios.length * 100000 * 0.75;
-    let pot2 = usuarios.length * 100000 * 0.2;
-    let pot3 = usuarios.length * 100000 * 0.05;
+  // if (usuarios) {
+  //   let pot1 = usuarios.length * 100000 * 0.75;
+  //   let pot2 = usuarios.length * 100000 * 0.2;
+  //   let pot3 = usuarios.length * 100000 * 0.05;
 
-    console.log(pot1);
-    console.log(pot2);
-    console.log(pot3);
-  }
+  //   console.log(pot1);
+  //   console.log(pot2);
+  //   console.log(pot3);
+  // }
 
   useEffect(() => {
     users();
@@ -89,7 +90,15 @@ const Home: NextPage = () => {
       {cargando ? (
         <Loading />
       ) : (
-        <Grid sx={{ marginTop: "100px", padding: "30px" }} container>
+        <Grid
+          sx={{
+            marginTop:
+              session && session.user.activo === true ? "30px" : "-30px",
+            padding: "30px",
+          }}
+          container
+        >
+          {/* <Resultados /> */}
           {userin && userin.empezado === false ? (
             <Grid
               item
@@ -117,7 +126,7 @@ const Home: NextPage = () => {
               flexDirection="column"
               alignItems="center"
             >
-              <Box sx={{ textAlign: "center" }}>
+              <Box sx={{ textAlign: "center", marginTop: "10px" }}>
                 <Typography variant="subtitle1" sx={{ fontSize: "50px" }}>
                   POT
                 </Typography>

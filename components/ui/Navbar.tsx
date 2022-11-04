@@ -83,167 +83,211 @@ export const Navbar = () => {
         <Box flex={1} />
 
         {session ? (
-          <Box
-            sx={{
-              display: { xs: "none", lg: "block" },
-              marginLeft: "20px",
-            }}
-            className="fadeIn"
-          >
-            <NextLink href="/grupos/grupoa" passHref>
-              <Link>
-                <Button
-                  variant="text"
-                  sx={{
-                    fontFamily: "Roboto Condensed, sans-serif",
-                    fontWeight: "700",
-                    fontSize: "20.2px",
-                    color: "#fff",
-                  }}
-                >
-                  <Typography variant="subtitle2">Grupo A</Typography>
-                </Button>
-              </Link>
-            </NextLink>
+          <>
+            <Box
+              sx={{
+                display: { xs: "none", lg: "block" },
+                marginLeft: "20px",
+              }}
+              className="fadeIn"
+            >
+              <NextLink href="/grupos/grupoa" passHref>
+                <Link>
+                  <Button
+                    variant="text"
+                    sx={{
+                      fontFamily: "Roboto Condensed, sans-serif",
+                      fontWeight: "700",
+                      fontSize: "20.2px",
+                      color: "#fff",
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ fontSize: "17px" }}>
+                      Grupo A
+                    </Typography>
+                  </Button>
+                </Link>
+              </NextLink>
 
-            <NextLink href="/grupos/grupob" passHref>
-              <Link>
-                <Button
-                  variant="text"
-                  sx={{
-                    fontFamily: "Roboto Condensed, sans-serif",
-                    fontWeight: "700",
-                    fontSize: "20.2px",
-                    color: "#fff",
-                  }}
-                >
-                  <Typography variant="subtitle2">Grupo B</Typography>
-                </Button>
-              </Link>
-            </NextLink>
+              <NextLink href="/grupos/grupob" passHref>
+                <Link>
+                  <Button
+                    variant="text"
+                    sx={{
+                      fontFamily: "Roboto Condensed, sans-serif",
+                      fontWeight: "700",
+                      fontSize: "20.2px",
+                      color: "#fff",
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ fontSize: "17px" }}>
+                      Grupo B
+                    </Typography>
+                  </Button>
+                </Link>
+              </NextLink>
 
-            <NextLink href="/grupos/grupoc" passHref>
-              <Link>
-                <Button
-                  variant="text"
-                  sx={{
-                    fontFamily: "Roboto Condensed, sans-serif",
-                    fontWeight: "700",
-                    fontSize: "20.2px",
-                    color: "#fff",
-                  }}
-                >
-                  <Typography variant="subtitle2">Grupo C</Typography>
-                </Button>
-              </Link>
-            </NextLink>
-            <NextLink href="/grupos/grupod" passHref>
-              <Link>
-                <Button
-                  variant="text"
-                  sx={{
-                    fontFamily: "Roboto Condensed, sans-serif",
-                    fontWeight: "700",
-                    fontSize: "20.2px",
-                    color: "#fff",
-                  }}
-                >
-                  <Typography variant="subtitle2">Grupo D</Typography>
-                </Button>
-              </Link>
-            </NextLink>
-            <NextLink href="/grupos/grupoe" passHref>
-              <Link>
-                <Button
-                  variant="text"
-                  sx={{
-                    fontFamily: "Roboto Condensed, sans-serif",
-                    fontWeight: "700",
-                    fontSize: "20.2px",
-                    color: "#fff",
-                  }}
-                >
-                  <Typography variant="subtitle2">Grupo E</Typography>
-                </Button>
-              </Link>
-            </NextLink>
-            <NextLink href="/grupos/grupof" passHref>
-              <Link>
-                <Button
-                  variant="text"
-                  sx={{
-                    fontFamily: "Roboto Condensed, sans-serif",
-                    fontWeight: "700",
-                    fontSize: "20.2px",
-                    color: "#fff",
-                  }}
-                >
-                  <Typography variant="subtitle2">Grupo F</Typography>
-                </Button>
-              </Link>
-            </NextLink>
-            <NextLink href="/grupos/grupog" passHref>
-              <Link>
-                <Button
-                  variant="text"
-                  sx={{
-                    fontFamily: "Roboto Condensed, sans-serif",
-                    fontWeight: "700",
-                    fontSize: "20.2px",
-                    color: "#fff",
-                  }}
-                >
-                  <Typography variant="subtitle2">Grupo G</Typography>
-                </Button>
-              </Link>
-            </NextLink>
-            <NextLink href="/grupos/grupoh" passHref>
-              <Link>
-                <Button
-                  variant="text"
-                  sx={{
-                    fontFamily: "Roboto Condensed, sans-serif",
-                    fontWeight: "700",
-                    fontSize: "20.2px",
-                    color: "#fff",
-                  }}
-                >
-                  <Typography variant="subtitle2">Grupo H</Typography>
-                </Button>
-              </Link>
-            </NextLink>
+              <NextLink href="/grupos/grupoc" passHref>
+                <Link>
+                  <Button
+                    variant="text"
+                    sx={{
+                      fontFamily: "Roboto Condensed, sans-serif",
+                      fontWeight: "700",
+                      fontSize: "20.2px",
+                      color: "#fff",
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ fontSize: "17px" }}>
+                      Grupo C
+                    </Typography>
+                  </Button>
+                </Link>
+              </NextLink>
+              <NextLink href="/grupos/grupod" passHref>
+                <Link>
+                  <Button
+                    variant="text"
+                    sx={{
+                      fontFamily: "Roboto Condensed, sans-serif",
+                      fontWeight: "700",
+                      fontSize: "20.2px",
+                      color: "#fff",
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ fontSize: "17px" }}>
+                      Grupo D
+                    </Typography>
+                  </Button>
+                </Link>
+              </NextLink>
+              <NextLink href="/grupos/grupoe" passHref>
+                <Link>
+                  <Button
+                    variant="text"
+                    sx={{
+                      fontFamily: "Roboto Condensed, sans-serif",
+                      fontWeight: "700",
+                      fontSize: "20.2px",
+                      color: "#fff",
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ fontSize: "17px" }}>
+                      Grupo E
+                    </Typography>
+                  </Button>
+                </Link>
+              </NextLink>
+              <NextLink href="/grupos/grupof" passHref>
+                <Link>
+                  <Button
+                    variant="text"
+                    sx={{
+                      fontFamily: "Roboto Condensed, sans-serif",
+                      fontWeight: "700",
+                      fontSize: "20.2px",
+                      color: "#fff",
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ fontSize: "17px" }}>
+                      Grupo F
+                    </Typography>
+                  </Button>
+                </Link>
+              </NextLink>
+              <NextLink href="/grupos/grupog" passHref>
+                <Link>
+                  <Button
+                    variant="text"
+                    sx={{
+                      fontFamily: "Roboto Condensed, sans-serif",
+                      fontWeight: "700",
+                      fontSize: "20.2px",
+                      color: "#fff",
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ fontSize: "17px" }}>
+                      Grupo G
+                    </Typography>
+                  </Button>
+                </Link>
+              </NextLink>
+              <NextLink href="/grupos/grupoh" passHref>
+                <Link>
+                  <Button
+                    variant="text"
+                    sx={{
+                      fontFamily: "Roboto Condensed, sans-serif",
+                      fontWeight: "700",
+                      fontSize: "20.2px",
+                      color: "#fff",
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ fontSize: "17px" }}>
+                      Grupo H
+                    </Typography>
+                  </Button>
+                </Link>
+              </NextLink>
 
-            <NextLink href="/grupos/octavos" passHref>
+              <NextLink href="/grupos/octavos" passHref>
+                <Link>
+                  <Button
+                    variant="text"
+                    sx={{
+                      fontFamily: "Roboto Condensed, sans-serif",
+                      fontWeight: "700",
+                      fontSize: "20.2px",
+                      color: "#fff",
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ fontSize: "17px" }}>
+                      Finales
+                    </Typography>
+                  </Button>
+                </Link>
+              </NextLink>
+              <NextLink href="/grupos/extras" passHref>
+                <Link>
+                  <Button
+                    variant="text"
+                    sx={{
+                      fontFamily: "Roboto Condensed, sans-serif",
+                      fontWeight: "700",
+                      fontSize: "0.2px",
+                      color: "#fff",
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ fontSize: "17px" }}>
+                      Extras
+                    </Typography>
+                  </Button>
+                </Link>
+              </NextLink>
+            </Box>
+            {/* <NextLink href="/grilla" passHref>
               <Link>
                 <Button
                   variant="text"
                   sx={{
                     fontFamily: "Roboto Condensed, sans-serif",
                     fontWeight: "700",
-                    fontSize: "20.2px",
-                    color: "#fff",
+
+                    color: "#ffffff",
+                    backgroundColor: "#1e411b",
+                    padding: "10px",
                   }}
                 >
-                  <Typography variant="subtitle2">Finales</Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ fontSize: { md: "17.2px", xs: "14px" } }}
+                  >
+                    Grilla y Posiciones
+                  </Typography>
                 </Button>
               </Link>
-            </NextLink>
-            <NextLink href="/grupos/extras" passHref>
-              <Link>
-                <Button
-                  variant="text"
-                  sx={{
-                    fontFamily: "Roboto Condensed, sans-serif",
-                    fontWeight: "700",
-                    fontSize: "20.2px",
-                    color: "#fff",
-                  }}
-                >
-                  <Typography variant="subtitle2">Extras</Typography>
-                </Button>
-              </Link>
-            </NextLink>
-          </Box>
+            </NextLink> */}
+          </>
         ) : null}
 
         <Box flex={1} />
@@ -265,14 +309,17 @@ export const Navbar = () => {
             >
               Hola, {session.user.name}
             </Typography>
-            <IconButton sx={{ display: { xs: "flex" }, color: "#fff" }}>
+            <IconButton
+              sx={{ display: { xs: "none", sm: "flex" }, color: "#fff" }}
+            >
               <ExitToApp sx={{ marginRight: "10px" }} />
               <Typography
                 sx={{
                   marginRight: "20px",
-                  fontSize: "0.8em",
+                  fontSize: { md: "17.2px", xs: "10px" },
                   color: "#fff",
                   fontFamily: "Roboto Condensed, sans-serif",
+                  display: { xs: "none", sm: "flex" },
                 }}
               >
                 Logout

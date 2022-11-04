@@ -275,7 +275,7 @@ export const Grupoh = () => {
       {datos && grupo2 && (
         <Grid
           container
-          sx={{ padding: "10px", marginTop: "100px" }}
+          sx={{ padding: "10px", marginTop: "30px" }}
           display="flex"
           justifyContent="center"
         >
@@ -328,7 +328,7 @@ export const Grupoh = () => {
                     sx={{ display: { xs: "none", md: "flex" } }}
                   >
                     <Image
-                      src={datos && datos[1].local.bandera}
+                      src={datos && datos[1].visitante.bandera}
                       alt={datos && datos[1].nombre}
                       width={70}
                       height={40}
