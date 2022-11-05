@@ -209,7 +209,7 @@ export const Resultados = () => {
                     fontSize: { xs: "12px", md: "20px" },
                   }}
                 >
-                  {cambioNombre(p.user.name)}
+                  {p.user && cambioNombre(p.user.name)}
                 </Typography>
                 <Divider />
               </Box>
