@@ -49,35 +49,41 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
         justifyContent="center"
         sx={{ marginTop: "100px" }}
       >
-        {/* <NextLink href="/grilla" passHref>
-          <Link>
-            <Button
-              variant="text"
-              sx={{
-                fontFamily: "Roboto Condensed, sans-serif",
-                fontWeight: "700",
+        {session && session.user.role === "Admin" ? (
+          <NextLink href="/grilla" passHref>
+            <Link>
+              <Button
+                variant="text"
+                sx={{
+                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontWeight: "700",
 
-                color: "#ffffff",
-                backgroundColor:
-                  session && session.user.activo === true ? "#1e411b" : "#fff",
-                padding: "10px",
-                visibility:
-                  session && session.user.activo === true
-                    ? "visible"
-                    : "hidden",
-                cursor:
-                  session && session.user.activo === true ? "pointer" : "help",
-              }}
-            >
-              <Typography
-                variant="subtitle2"
-                sx={{ fontSize: { md: "17.2px", xs: "14px" } }}
+                  color: "#ffffff",
+                  backgroundColor:
+                    session && session.user.activo === true
+                      ? "#1e411b"
+                      : "#fff",
+                  padding: "10px",
+                  visibility:
+                    session && session.user.activo === true
+                      ? "visible"
+                      : "hidden",
+                  cursor:
+                    session && session.user.activo === true
+                      ? "pointer"
+                      : "help",
+                }}
               >
-                Grilla y Posiciones
-              </Typography>
-            </Button>
-          </Link>
-        </NextLink> */}
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontSize: { md: "17.2px", xs: "14px" } }}
+                >
+                  Grilla y Posiciones
+                </Typography>
+              </Button>
+            </Link>
+          </NextLink>
+        ) : null}
       </Grid>
 
       <MenuLateral />
