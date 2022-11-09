@@ -23,7 +23,7 @@ export default NextAuth({
   session: {
     maxAge: 3600, /// 30d
     strategy: "jwt",
-    updateAge: 86400, // cada día
+    updateAge: 216400, // cada día
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }: any) {
