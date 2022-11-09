@@ -49,7 +49,7 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
         justifyContent="center"
         sx={{ marginTop: "100px" }}
       >
-        <NextLink href="/grilla" passHref>
+        {/* <NextLink href="/grilla" passHref>
           <Link>
             <Button
               variant="text"
@@ -69,15 +69,15 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
                   session && session.user.activo === true ? "pointer" : "help",
               }}
             >
-              {/* <Typography
+              <Typography
                 variant="subtitle2"
                 sx={{ fontSize: { md: "17.2px", xs: "14px" } }}
               >
                 Grilla y Posiciones
-              </Typography> */}
+              </Typography>
             </Button>
           </Link>
-        </NextLink>
+        </NextLink> */}
       </Grid>
 
       <MenuLateral />
