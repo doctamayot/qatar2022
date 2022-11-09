@@ -316,7 +316,7 @@ export const Grupoh = () => {
                     sx={{ display: { xs: "none", md: "flex" } }}
                   >
                     <Image
-                      src={datos && datos[0].local.bandera}
+                      src={datos && datos[0].visitante.bandera}
                       alt={datos && datos[0].nombre}
                       width={70}
                       height={40}
