@@ -74,20 +74,32 @@ const updatePartido = async (
       );
 
       if (resultado === "local") {
-        equipoLocal.puntos = equipoLocal.puntos + 3;
-        await equipoLocal.updateOne({ puntos: equipoLocal.puntos });
+        await equipoLocal.updateOne({
+          $inc: {
+            puntos: 3,
+          },
+        });
       }
 
       if (resultado === "visitante") {
-        equipoVisitante.puntos = equipoVisitante.puntos + 3;
-        await equipoVisitante.updateOne({ puntos: equipoVisitante.puntos });
+        await equipoVisitante.updateOne({
+          $inc: {
+            puntos: 3,
+          },
+        });
       }
 
       if (resultado === "empate") {
-        equipoVisitante.puntos = equipoVisitante.puntos + 1;
-        equipoLocal.puntos = equipoLocal.puntos + 1;
-        await equipoLocal.updateOne({ puntos: equipoLocal.puntos });
-        await equipoVisitante.updateOne({ puntos: equipoVisitante.puntos });
+        await equipoLocal.updateOne({
+          $inc: {
+            puntos: 1,
+          },
+        });
+        await equipoVisitante.updateOne({
+          $inc: {
+            puntos: 1,
+          },
+        });
       }
       await equipoLocal.updateOne({
         $inc: {
