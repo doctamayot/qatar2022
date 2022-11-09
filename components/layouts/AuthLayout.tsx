@@ -49,7 +49,7 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
         justifyContent="center"
         sx={{ marginTop: "100px" }}
       >
-        <NextLink href="/grilla" passHref>
+        {/* <NextLink href="/grilla" passHref>
           <Link>
             <Button
               variant="text"
@@ -77,7 +77,7 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
               </Typography>
             </Button>
           </Link>
-        </NextLink>
+        </NextLink> */}
       </Grid>
 
       <MenuLateral />
