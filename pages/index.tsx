@@ -260,7 +260,8 @@ const Home: NextPage = () => {
               sx={{ width: { lg: "50%" }, margin: "0 auto" }}
             >
               <Typography variant="subtitle1" sx={{ fontSize: "20px" }}>
-                Puntos
+                Puntos(Lo puntos de resultado se juegan hasta los 90 primeros
+                minutos mas adición)
               </Typography>
               <Typography
                 variant="subtitle2"
