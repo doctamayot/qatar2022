@@ -292,8 +292,6 @@ const editarPartido = async (
 
   const session: any = await getSession({ req });
 
-  console.log(req.body);
-
   try {
     await db.connect();
 

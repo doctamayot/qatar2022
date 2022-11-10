@@ -70,14 +70,18 @@ export const Grupof = () => {
   }) as any;
 
   const gruposLlamada = async () => {
-    const data: any = await tesloApi({
-      url: `/grupos/grupof`,
+    setcargando(true);
+    try {
+      const data: any = await tesloApi({
+        url: `/grupos/grupof`,
 
-      method: "GET",
-    });
+        method: "GET",
+      });
 
-    setDatos(data.data.partidos);
-    setGrupo2(data.data.grupos[0]);
+      setDatos(data.data.partidos);
+      setGrupo2(data.data.grupos[0]);
+    } catch (error) {}
+    setcargando(false);
   };
   // console.log(datos);
   // console.log(grupo2);
@@ -87,6 +91,7 @@ export const Grupof = () => {
   }, [jugado]);
 
   const onSubmit1 = async (form: any) => {
+    setcargando(true);
     if (parseInt(getValues("golocal")) > parseInt(getValues("golvisitante"))) {
       form.resultado = "local";
     } else if (
@@ -99,7 +104,6 @@ export const Grupof = () => {
     form.jugado = true;
     form.grupoid = grupo2._id;
 
-    setcargando(true);
     try {
       const { data } = await tesloApi({
         url: `/grupos/grupof`,
@@ -109,11 +113,13 @@ export const Grupof = () => {
     } catch (error) {
       console.log(error);
     }
-    setcargando(false);
+
     setJugado(!jugado);
+    setcargando(false);
   };
 
   const onSubmit2 = async (form: any) => {
+    setcargando(true);
     if (
       parseInt(getValues2("golocal")) > parseInt(getValues2("golvisitante"))
     ) {
@@ -128,8 +134,6 @@ export const Grupof = () => {
     form.jugado = true;
     form.grupoid = grupo2._id;
 
-    setcargando(true);
-
     try {
       const { data } = await tesloApi({
         url: `/grupos/grupof`,
@@ -139,10 +143,11 @@ export const Grupof = () => {
     } catch (error) {
       console.log(error);
     }
-    setcargando(false);
     setJugado(!jugado);
+    setcargando(false);
   };
   const onSubmit3 = async (form: any) => {
+    setcargando(true);
     if (
       parseInt(getValues3("golocal")) > parseInt(getValues3("golvisitante"))
     ) {
@@ -157,7 +162,6 @@ export const Grupof = () => {
     form.jugado = true;
     form.grupoid = grupo2._id;
 
-    setcargando(true);
     try {
       const { data } = await tesloApi({
         url: `/grupos/grupof`,
@@ -167,10 +171,11 @@ export const Grupof = () => {
     } catch (error) {
       console.log(error);
     }
-    setcargando(false);
     setJugado(!jugado);
+    setcargando(false);
   };
   const onSubmit4 = async (form: any) => {
+    setcargando(true);
     if (
       parseInt(getValues4("golocal")) > parseInt(getValues4("golvisitante"))
     ) {
@@ -185,7 +190,6 @@ export const Grupof = () => {
     form.jugado = true;
     form.grupoid = grupo2._id;
 
-    setcargando(true);
     try {
       const { data } = await tesloApi({
         url: `/grupos/grupof`,
@@ -195,10 +199,11 @@ export const Grupof = () => {
     } catch (error) {
       console.log(error);
     }
-    setcargando(false);
     setJugado(!jugado);
+    setcargando(false);
   };
   const onSubmit5 = async (form: any) => {
+    setcargando(true);
     if (
       parseInt(getValues5("golocal")) > parseInt(getValues5("golvisitante"))
     ) {
@@ -213,7 +218,6 @@ export const Grupof = () => {
     form.jugado = true;
     form.grupoid = grupo2._id;
 
-    setcargando(true);
     try {
       const { data } = await tesloApi({
         url: `/grupos/grupof`,
@@ -223,10 +227,11 @@ export const Grupof = () => {
     } catch (error) {
       console.log(error);
     }
-    setcargando(false);
     setJugado(!jugado);
+    setcargando(false);
   };
   const onSubmit6 = async (form: any) => {
+    setcargando(true);
     if (
       parseInt(getValues6("golocal")) > parseInt(getValues6("golvisitante"))
     ) {
@@ -241,7 +246,6 @@ export const Grupof = () => {
     form.jugado = true;
     form.grupoid = grupo2._id;
 
-    setcargando(true);
     try {
       const { data } = await tesloApi({
         url: `/grupos/grupof`,
@@ -251,8 +255,8 @@ export const Grupof = () => {
     } catch (error) {
       console.log(error);
     }
-    setcargando(false);
     setJugado(!jugado);
+    setcargando(false);
   };
 
   const editar = async (id: any) => {
@@ -266,8 +270,8 @@ export const Grupof = () => {
     } catch (error) {
       console.log(error);
     }
-    setcargando(false);
     setJugado(!jugado);
+    setcargando(false);
   };
 
   return (

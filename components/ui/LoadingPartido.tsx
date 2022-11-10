@@ -22,7 +22,7 @@ export const LoadingPartido = () => {
         fontSize={30}
         fontWeight="200"
       >
-        Procesando Marcador.......
+        Procesando Resultados.......
       </Typography>
       <CircularProgress
         sx={{ marginTop: "30px", color: "#000" }}

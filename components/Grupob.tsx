@@ -70,14 +70,18 @@ export const Grupob = () => {
   }) as any;
 
   const gruposLlamada = async () => {
-    const data: any = await tesloApi({
-      url: `/grupos/grupob`,
+    setcargando(true);
+    try {
+      const data: any = await tesloApi({
+        url: `/grupos/grupob`,
 
-      method: "GET",
-    });
+        method: "GET",
+      });
 
-    setDatos(data.data.partidos);
-    setGrupo2(data.data.grupos[0]);
+      setDatos(data.data.partidos);
+      setGrupo2(data.data.grupos[0]);
+    } catch (error) {}
+    setcargando(false);
   };
   // console.log(datos);
 
