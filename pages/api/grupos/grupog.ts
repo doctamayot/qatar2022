@@ -292,6 +292,8 @@ const editarPartido = async (
 
   const session: any = await getSession({ req });
 
+  console.log(req.body);
+
   try {
     await db.connect();
 
@@ -335,6 +337,14 @@ const editarPartido = async (
           },
         });
       }
+
+      await equipoLocal.updateOne({
+        $inc: {
+          golesfavor: -partido2.golocal,
+          golescontra: -partido2.golvisitante,
+          difgoles: -partido2.golocal + partido2.golvisitante,
+        },
+      });
 
       await equipoVisitante.updateOne({
         $inc: {
