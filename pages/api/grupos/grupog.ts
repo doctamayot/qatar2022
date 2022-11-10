@@ -307,29 +307,34 @@ const editarPartido = async (
         partido.visitante._id
       );
 
-      if (partido2.resultado === "local") {
-        equipoLocal.puntos = equipoLocal.puntos - 3;
-        await equipoLocal.updateOne({ puntos: equipoLocal.puntos });
+      if (resultado === "local") {
+        await equipoLocal.updateOne({
+          $inc: {
+            puntos: -3,
+          },
+        });
       }
 
-      if (partido2.resultado === "visitante") {
-        equipoVisitante.puntos = equipoVisitante.puntos - 3;
-        await equipoVisitante.updateOne({ puntos: equipoVisitante.puntos });
+      if (resultado === "visitante") {
+        await equipoVisitante.updateOne({
+          $inc: {
+            puntos: -3,
+          },
+        });
       }
 
-      if (partido2.resultado === "empate") {
-        equipoVisitante.puntos = equipoVisitante.puntos - 1;
-        equipoLocal.puntos = equipoLocal.puntos - 1;
-        await equipoLocal.updateOne({ puntos: equipoLocal.puntos });
-        await equipoVisitante.updateOne({ puntos: equipoVisitante.puntos });
+      if (resultado === "empate") {
+        await equipoLocal.updateOne({
+          $inc: {
+            puntos: -1,
+          },
+        });
+        await equipoVisitante.updateOne({
+          $inc: {
+            puntos: -1,
+          },
+        });
       }
-      await equipoLocal.updateOne({
-        $inc: {
-          golesfavor: -partido2.golocal,
-          golescontra: -partido2.golvisitante,
-          difgoles: -partido2.golocal + partido2.golvisitante,
-        },
-      });
 
       await equipoVisitante.updateOne({
         $inc: {
