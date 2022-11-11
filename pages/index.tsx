@@ -130,7 +130,7 @@ const Home: NextPage = () => {
                 <Typography variant="subtitle1" sx={{ fontSize: "50px" }}>
                   POT( POTENCIAL)
                 </Typography>
-                <Box display="flex" alignItems="center" justifyContent="center">
+                <Box display="flex" alignItems="center">
                   <EmojiEventsOutlined
                     color="success"
                     sx={{ fontSize: "80px" }}
@@ -139,7 +139,7 @@ const Home: NextPage = () => {
                     variant="subtitle2"
                     sx={{ marginLeft: "20px", fontSize: "40px" }}
                   >
-                    $ 1.200.000
+                    $ {17 * 100000 * 0.75}
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center">
@@ -151,7 +151,7 @@ const Home: NextPage = () => {
                     variant="subtitle2"
                     sx={{ marginLeft: "20px", fontSize: "40px" }}
                   >
-                    $ 320.000
+                    $ {17 * 100000 * 0.2}
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center">
@@ -163,7 +163,7 @@ const Home: NextPage = () => {
                     variant="subtitle2"
                     sx={{ marginLeft: "20px", fontSize: "40px" }}
                   >
-                    $ 80.000
+                    $ {17 * 100000 * 0.05}
                   </Typography>
                 </Box>
               </Box>
