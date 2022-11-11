@@ -139,7 +139,7 @@ const Home: NextPage = () => {
                     variant="subtitle2"
                     sx={{ marginLeft: "20px", fontSize: "40px" }}
                   >
-                    $ 750.000
+                    $ 1.200.000
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center">
@@ -151,7 +151,7 @@ const Home: NextPage = () => {
                     variant="subtitle2"
                     sx={{ marginLeft: "20px", fontSize: "40px" }}
                   >
-                    $ 200.000
+                    $ 320.000
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center">
@@ -163,7 +163,7 @@ const Home: NextPage = () => {
                     variant="subtitle2"
                     sx={{ marginLeft: "20px", fontSize: "40px" }}
                   >
-                    $ 50.000
+                    $ 80.000
                   </Typography>
                 </Box>
               </Box>
