@@ -139,7 +139,7 @@ const Home: NextPage = () => {
                     variant="subtitle2"
                     sx={{ marginLeft: "20px", fontSize: "40px" }}
                   >
-                    $ {17 * 100000 * 0.75}
+                    $ {19 * 100000 * 0.75}
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center">
@@ -151,7 +151,7 @@ const Home: NextPage = () => {
                     variant="subtitle2"
                     sx={{ marginLeft: "20px", fontSize: "40px" }}
                   >
-                    $ {17 * 100000 * 0.2}
+                    $ {19 * 100000 * 0.2}
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center">
@@ -163,7 +163,7 @@ const Home: NextPage = () => {
                     variant="subtitle2"
                     sx={{ marginLeft: "20px", fontSize: "40px" }}
                   >
-                    $ {17 * 100000 * 0.05}
+                    $ {19 * 100000 * 0.05}
                   </Typography>
                 </Box>
               </Box>
@@ -260,7 +260,7 @@ const Home: NextPage = () => {
               sx={{ width: { lg: "50%" }, margin: "0 auto" }}
             >
               <Typography variant="subtitle1" sx={{ fontSize: "20px" }}>
-                Puntos(Lo puntos de resultado se juegan hasta los 90 primeros
+                Puntos(Los puntos de resultado se juegan hasta los 90 primeros
                 minutos mas adición)
               </Typography>
               <Typography
