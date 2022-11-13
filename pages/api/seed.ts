@@ -23,15 +23,15 @@ export default async function handler(
   }
 
   await db.connect();
-  const usuario = "6361a76561185f0f078fd7a5";
-  await PartidoAp.deleteMany({ user: usuario });
-  await SemiAp.deleteMany({ user: usuario });
-  await OctavoAp.deleteMany({ user: usuario });
-  await CuartoAp.deleteMany({ user: usuario });
-  await EquipoAp.deleteMany({ user: usuario });
-  await DatosFinal.deleteMany({ user: usuario });
-  await GrupoAp.deleteMany({ user: usuario });
-  await FinalAp.deleteMany({ user: usuario });
+  //const usuario = "6361a76561185f0f078fd7a5";
+  await PartidoAp.deleteMany({ user: null });
+  await SemiAp.deleteMany({ user: null });
+  await OctavoAp.deleteMany({ user: null });
+  await CuartoAp.deleteMany({ user: null });
+  await EquipoAp.deleteMany({ user: null });
+  await DatosFinal.deleteMany({ user: null });
+  await GrupoAp.deleteMany({ user: null });
+  await FinalAp.deleteMany({ user: null });
 
   // await User.insertMany(seedDatabase.initialData.users);
 
@@ -47,7 +47,6 @@ export default async function handler(
 
   //await Partido.updateMany({ _v: 0 }, { $set: { jugado: false } });
 
-  // await Resultado.deleteMany();
   // await Resultado.insertMany(seedDatabase.initialData.resultados);
 
   //await GrupoAp.deleteMany({user:});
