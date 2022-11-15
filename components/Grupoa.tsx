@@ -13,6 +13,7 @@ export const Grupoa = () => {
   const [grupo2, setGrupo2] = useState<any>();
   const [jugado, setJugado] = useState<any>(false);
   const [cargando, setcargando] = useState<any>(false);
+
   const { data: session, status }: any = useSession();
 
   const {
@@ -83,7 +84,7 @@ export const Grupoa = () => {
     } catch (error) {}
     setcargando(false);
   };
-  // console.log(datos);
+  //console.log(datos);
   // console.log(grupo2);
 
   useEffect(() => {
@@ -102,6 +103,7 @@ export const Grupoa = () => {
     form._id = datos && datos[0]._id;
     form.jugado = true;
     form.grupoid = grupo2._id;
+    form.nombre = datos[0].nombre;
 
     setcargando(true);
     try {
@@ -131,6 +133,7 @@ export const Grupoa = () => {
     form._id = datos[1]._id;
     form.jugado = true;
     form.grupoid = grupo2._id;
+    form.nombre = datos[1].nombre;
 
     setcargando(true);
 
@@ -160,6 +163,7 @@ export const Grupoa = () => {
     form._id = datos[2]._id;
     form.jugado = true;
     form.grupoid = grupo2._id;
+    form.nombre = datos[2].nombre;
 
     setcargando(true);
     try {
@@ -188,6 +192,7 @@ export const Grupoa = () => {
     form._id = datos[3]._id;
     form.jugado = true;
     form.grupoid = grupo2._id;
+    form.nombre = datos[3].nombre;
 
     setcargando(true);
     try {
@@ -216,6 +221,7 @@ export const Grupoa = () => {
     form._id = datos[4]._id;
     form.jugado = true;
     form.grupoid = grupo2._id;
+    form.nombre = datos[4].nombre;
 
     setcargando(true);
     try {
@@ -244,6 +250,7 @@ export const Grupoa = () => {
     form._id = datos[5]._id;
     form.jugado = true;
     form.grupoid = grupo2._id;
+    form.nombre = datos[5].nombre;
 
     setcargando(true);
     try {
@@ -265,6 +272,21 @@ export const Grupoa = () => {
       await tesloApi({
         url: `/grupos/grupoa`,
         method: "PATCH",
+        data: datos && datos[id],
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+    setJugado(!jugado);
+  };
+
+  const puntos1 = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/grupos/grupoa`,
+        method: "POST",
         data: datos && datos[id],
       });
     } catch (error) {
@@ -482,6 +504,7 @@ export const Grupoa = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={cargando}
                           >
                             editar
                           </Button>
@@ -491,6 +514,7 @@ export const Grupoa = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={cargando}
                           >
                             Enviar
                           </Button>
@@ -498,6 +522,18 @@ export const Grupoa = () => {
                       </Grid>
                     </Grid>
                   </form>
+                  {session && session.user.role === "Admin" ? (
+                    <Button
+                      variant="contained"
+                      sx={{ marginLeft: "10px", marginRight: "10px" }}
+                      type="submit"
+                      color="primary"
+                      disabled={cargando}
+                      onClick={() => puntos1(0)}
+                    >
+                      puntos
+                    </Button>
+                  ) : null}
                 </Grid>
 
                 <Grid
@@ -617,6 +653,7 @@ export const Grupoa = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={cargando}
                           >
                             editar
                           </Button>
@@ -626,6 +663,7 @@ export const Grupoa = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={cargando}
                           >
                             Enviar
                           </Button>
@@ -752,6 +790,7 @@ export const Grupoa = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={cargando}
                           >
                             editar
                           </Button>
@@ -761,6 +800,7 @@ export const Grupoa = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={cargando}
                           >
                             Enviar
                           </Button>
@@ -886,6 +926,7 @@ export const Grupoa = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={cargando}
                           >
                             editar
                           </Button>
@@ -895,6 +936,7 @@ export const Grupoa = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={cargando}
                           >
                             Enviar
                           </Button>
@@ -1020,6 +1062,7 @@ export const Grupoa = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={cargando}
                           >
                             editar
                           </Button>
@@ -1029,6 +1072,7 @@ export const Grupoa = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={cargando}
                           >
                             Enviar
                           </Button>
@@ -1154,6 +1198,7 @@ export const Grupoa = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={cargando}
                           >
                             editar
                           </Button>
@@ -1163,6 +1208,7 @@ export const Grupoa = () => {
                             variant="contained"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
+                            disabled={cargando}
                           >
                             Enviar
                           </Button>

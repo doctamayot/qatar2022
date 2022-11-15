@@ -102,6 +102,7 @@ export const Grupoh = () => {
     form._id = datos && datos[0]._id;
     form.jugado = true;
     form.grupoid = grupo2._id;
+    form.nombre = datos[0].nombre;
 
     setcargando(true);
     try {
@@ -131,6 +132,7 @@ export const Grupoh = () => {
     form._id = datos[1]._id;
     form.jugado = true;
     form.grupoid = grupo2._id;
+    form.nombre = datos[1].nombre;
 
     setcargando(true);
 
@@ -160,6 +162,7 @@ export const Grupoh = () => {
     form._id = datos[2]._id;
     form.jugado = true;
     form.grupoid = grupo2._id;
+    form.nombre = datos[2].nombre;
 
     setcargando(true);
     try {
@@ -188,6 +191,7 @@ export const Grupoh = () => {
     form._id = datos[3]._id;
     form.jugado = true;
     form.grupoid = grupo2._id;
+    form.nombre = datos[3].nombre;
 
     setcargando(true);
     try {
@@ -216,6 +220,7 @@ export const Grupoh = () => {
     form._id = datos[4]._id;
     form.jugado = true;
     form.grupoid = grupo2._id;
+    form.nombre = datos[4].nombre;
 
     setcargando(true);
     try {
@@ -244,6 +249,7 @@ export const Grupoh = () => {
     form._id = datos[5]._id;
     form.jugado = true;
     form.grupoid = grupo2._id;
+    form.nombre = datos[5].nombre;
 
     setcargando(true);
     try {

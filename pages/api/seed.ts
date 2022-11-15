@@ -10,6 +10,7 @@ import {
   DatosFinal,
   GrupoAp,
   FinalAp,
+  User,
 } from "../../models";
 
 type Data = { message: string };
@@ -24,26 +25,35 @@ export default async function handler(
 
   await db.connect();
   //const usuario = "6361a76561185f0f078fd7a5";
-  await PartidoAp.deleteMany({ user: null });
-  await SemiAp.deleteMany({ user: null });
-  await OctavoAp.deleteMany({ user: null });
-  await CuartoAp.deleteMany({ user: null });
-  await EquipoAp.deleteMany({ user: null });
-  await DatosFinal.deleteMany({ user: null });
-  await GrupoAp.deleteMany({ user: null });
-  await FinalAp.deleteMany({ user: null });
+  // await PartidoAp.deleteMany({ user: null });
+  // await SemiAp.deleteMany({ user: null });
+  // await OctavoAp.deleteMany({ user: null });
+  // await CuartoAp.deleteMany({ user: null });
+  // await EquipoAp.deleteMany({ user: null });
+  // await DatosFinal.deleteMany({ user: null });
+  // await GrupoAp.deleteMany({ user: null });
+  // await FinalAp.deleteMany({ user: null });
 
   // await User.insertMany(seedDatabase.initialData.users);
 
   // await Equipo.deleteMany();
-  // await PartidoAp.updateMany(
-  //   { _v: 0 },
-  //   {
-  //     $set: {
-  //       puntos: 0,
-  //     },
-  //   }
-  // );
+  await PartidoAp.updateMany(
+    { _v: 0 },
+    {
+      $set: {
+        puntos: 0,
+      },
+    }
+  );
+
+  await User.updateMany(
+    { role: "Cliente" },
+    {
+      $set: {
+        puntos: 0,
+      },
+    }
+  );
 
   //await Partido.updateMany({ _v: 0 }, { $set: { jugado: false } });
 

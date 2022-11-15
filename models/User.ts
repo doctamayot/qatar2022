@@ -9,7 +9,7 @@ const userSchema = new Schema(
     empezado: { type: Boolean, required: true },
     formulario: { type: Boolean, required: true },
     role: { type: String, required: true },
-    posicion: { type: Number },
+    puntos: { type: Number },
 
     partido: [
       {
