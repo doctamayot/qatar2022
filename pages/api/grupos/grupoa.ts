@@ -680,7 +680,9 @@ const ResultPartido = async (
         partido.golvisitante === partidosAdmin[0].golvisitante
       ) {
         case true:
-          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 6 });
+          await PartidoAp.findByIdAndUpdate(partido._id, {
+            $set: { puntos: 6 },
+          });
       }
 
       // if (
