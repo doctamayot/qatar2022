@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { db } from "../../database";
 
-import { PartidoAp } from "../../models";
+import { PartidoAp, User } from "../../models";
 
 type Data = { message: string } | any | any[];
 
@@ -35,7 +35,9 @@ const getPartidos = async (req: NextApiRequest, res: NextApiResponse) => {
     .sort({ puntos: -1, user: 1 })
     .lean();
 
-  res.status(200).json({ partidos, users });
+  const jugadores = await User.find().sort({ puntos: -1 }).lean();
+
+  res.status(200).json({ partidos, users, jugadores });
   await db.disconnect();
 };
 

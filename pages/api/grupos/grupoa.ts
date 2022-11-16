@@ -279,59 +279,56 @@ const updatePartido = async (
 
     //Puntuacion //////////////////////////////////////////////////////////////////
 
-    // try {
-    //   if (session.user._id === "635b78c1266ea8891e6efb23") {
-    //     const partidosAdmin: any = await PartidoAp.find({
-    //       user: "635b78c1266ea8891e6efb23",
-    //       //grupo: "A",
-    //       nombre: nombre,
-    //     })
-    //       // .populate("local visitante")
-    //       .lean();
+    if (session.user._id === "635b78c1266ea8891e6efb23") {
+      const partidosAdmin: any = await PartidoAp.find({
+        user: "635b78c1266ea8891e6efb23",
+        //grupo: "A",
+        nombre: nombre,
+      })
+        // .populate("local visitante")
+        .lean();
 
-    //     const partidosTodos: any = await PartidoAp.find({
-    //       // grupo: "A",
-    //       nombre: nombre,
-    //     })
-    //       .populate("user")
-    //       // .populate("local visitante")
-    //       .lean();
+      const partidosTodos: any = await PartidoAp.find({
+        // grupo: "A",
+        nombre: nombre,
+      })
+        .populate("user")
+        // .populate("local visitante")
+        .lean();
 
-    //     //console.log(partidosAdmin);
+      //console.log(partidosAdmin);
 
-    //     await partidosTodos.forEach(async function (partido: any) {
-    //       // console.log("usuario", partido.golocal);
-    //       // console.log("admin", partidosAdmin[0].golocal);
+      for (const partido of partidosTodos) {
+        if (
+          partido.golocal === partidosAdmin[0].golocal &&
+          partido.golvisitante === partidosAdmin[0].golvisitante
+        ) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 6 });
 
-    //       if (
-    //         partido.golocal === partidosAdmin[0].golocal &&
-    //         partido.golvisitante === partidosAdmin[0].golvisitante
-    //       ) {
-    //         await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 6 });
+          await PartidoAp.updateOne({ _id: partido._id }, { puntos: 6 });
 
-    //         await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 6 } });
-    //       } else if (
-    //         partido.resultado === partidosAdmin[0].resultado &&
-    //         (partido.golocal === partidosAdmin[0].golocal ||
-    //           partido.golvisitante === partidosAdmin[0].golvisitante)
-    //       ) {
-    //         await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 3 });
-    //         await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 3 } });
-    //       } else if (partido.resultado === partidosAdmin[0].resultado) {
-    //         await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 2 });
-    //         await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 2 } });
-    //       } else if (
-    //         partido.golocal === partidosAdmin[0].golocal ||
-    //         partido.golvisitante === partidosAdmin[0].golvisitante
-    //       ) {
-    //         await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 1 });
-    //         await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 1 } });
-    //       } else {
-    //         await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
-    //       }
-    //     });
-    //   }
-    // } catch (error) {}
+          await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 6 } });
+        } else if (
+          partido.resultado === partidosAdmin[0].resultado &&
+          (partido.golocal === partidosAdmin[0].golocal ||
+            partido.golvisitante === partidosAdmin[0].golvisitante)
+        ) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 3 });
+          await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 3 } });
+        } else if (partido.resultado === partidosAdmin[0].resultado) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 2 });
+          await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 2 } });
+        } else if (
+          partido.golocal === partidosAdmin[0].golocal ||
+          partido.golvisitante === partidosAdmin[0].golvisitante
+        ) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 1 });
+          await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 1 } });
+        } else {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+        }
+      }
+    }
 
     await db.disconnect();
 
@@ -575,63 +572,62 @@ const editarPartido = async (
     });
 
     //Puntuacion //////////////////////////////////////////////////////////////////
-    try {
-      if (session.user._id === "635b78c1266ea8891e6efb23") {
-        const partidosAdmin: any = await PartidoAp.find({
-          user: "635b78c1266ea8891e6efb23",
-          //grupo: "A",
-          nombre: nombre,
-        })
-          // .populate("local visitante")
-          .lean();
 
-        const partidosTodos: any = await PartidoAp.find({
-          //grupo: "A",
-          nombre: nombre,
-        })
-          .populate("user")
-          // .populate("local visitante")
-          .lean();
+    if (session.user._id === "635b78c1266ea8891e6efb23") {
+      const partidosAdmin: any = await PartidoAp.find({
+        user: "635b78c1266ea8891e6efb23",
+        //grupo: "A",
+        nombre: nombre,
+      })
+        // .populate("local visitante")
+        .lean();
 
-        await partidosTodos.map(async function (partido: any) {
-          // console.log("usuario", partido.golocal);
-          // console.log("admin", partidosAdmin[0].golocal);
-          if (
-            partido.golocal === partidosAdmin[0].golocal &&
-            partido.golvisitante === partidosAdmin[0].golvisitante
-          ) {
-            await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
-            await User.findByIdAndUpdate(partido.user, {
-              $inc: { puntos: -6 },
-            });
-          } else if (
-            partido.resultado === partidosAdmin[0].resultado &&
-            (partido.golocal === partidosAdmin[0].golocal ||
-              partido.golvisitante === partidosAdmin[0].golvisitante)
-          ) {
-            await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
-            await User.findByIdAndUpdate(partido.user, {
-              $inc: { puntos: -3 },
-            });
-          } else if (partido.resultado === partidosAdmin[0].resultado) {
-            await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
-            await User.findByIdAndUpdate(partido.user, {
-              $inc: { puntos: -2 },
-            });
-          } else if (
-            partido.golocal === partidosAdmin[0].golocal ||
-            partido.golvisitante === partidosAdmin[0].golvisitante
-          ) {
-            await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
-            await User.findByIdAndUpdate(partido.user, {
-              $inc: { puntos: -1 },
-            });
-          } else {
-            await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
-          }
-        });
+      const partidosTodos: any = await PartidoAp.find({
+        //grupo: "A",
+        nombre: nombre,
+      })
+        .populate("user")
+        // .populate("local visitante")
+        .lean();
+
+      for (const partido of partidosTodos) {
+        // console.log("usuario", partido.golocal);
+        // console.log("admin", partidosAdmin[0].golocal);
+        if (
+          partido.golocal === partidosAdmin[0].golocal &&
+          partido.golvisitante === partidosAdmin[0].golvisitante
+        ) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+          await User.findByIdAndUpdate(partido.user, {
+            $inc: { puntos: -6 },
+          });
+        } else if (
+          partido.resultado === partidosAdmin[0].resultado &&
+          (partido.golocal === partidosAdmin[0].golocal ||
+            partido.golvisitante === partidosAdmin[0].golvisitante)
+        ) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+          await User.findByIdAndUpdate(partido.user, {
+            $inc: { puntos: -3 },
+          });
+        } else if (partido.resultado === partidosAdmin[0].resultado) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+          await User.findByIdAndUpdate(partido.user, {
+            $inc: { puntos: -2 },
+          });
+        } else if (
+          partido.golocal === partidosAdmin[0].golocal ||
+          partido.golvisitante === partidosAdmin[0].golvisitante
+        ) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+          await User.findByIdAndUpdate(partido.user, {
+            $inc: { puntos: -1 },
+          });
+        } else {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+        }
       }
-    } catch (error) {}
+    }
 
     await db.disconnect();
 
@@ -671,50 +667,39 @@ const ResultPartido = async (
 
     //console.log(partidosAdmin);
 
-    await partidosTodos.forEach(async function (partido: any) {
-      // console.log("usuario", partido.golocal);
-      // console.log("admin", partidosAdmin[0].golocal);
-
-      switch (
+    //partidosTodos.forEach(async (partido: any) => {
+    // console.log("usuario", partido.golocal);
+    // console.log("admin", partidosAdmin[0].golocal);
+    for (const partido of partidosTodos) {
+      if (
         partido.golocal === partidosAdmin[0].golocal &&
         partido.golvisitante === partidosAdmin[0].golvisitante
       ) {
-        case true:
-          await PartidoAp.findByIdAndUpdate(partido._id, {
-            $set: { puntos: 6 },
-          });
+        await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 6 });
+
+        await PartidoAp.updateOne({ _id: partido._id }, { puntos: 6 });
+
+        await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 6 } });
+      } else if (
+        partido.resultado === partidosAdmin[0].resultado &&
+        (partido.golocal === partidosAdmin[0].golocal ||
+          partido.golvisitante === partidosAdmin[0].golvisitante)
+      ) {
+        await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 3 });
+        await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 3 } });
+      } else if (partido.resultado === partidosAdmin[0].resultado) {
+        await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 2 });
+        await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 2 } });
+      } else if (
+        partido.golocal === partidosAdmin[0].golocal ||
+        partido.golvisitante === partidosAdmin[0].golvisitante
+      ) {
+        await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 1 });
+        await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 1 } });
+      } else {
+        await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
       }
-
-      // if (
-      //   partido.golocal === partidosAdmin[0].golocal &&
-      //   partido.golvisitante === partidosAdmin[0].golvisitante
-      // ) {
-      //await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 6 });
-      // console.log(partido.user.name);
-      // await PartidoAp.updateOne({ _id: partido._id }, { puntos: 6 });
-
-      //await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 6 } });
-      //}
-      // } else if (
-      //   partido.resultado === partidosAdmin[0].resultado &&
-      //   (partido.golocal === partidosAdmin[0].golocal ||
-      //     partido.golvisitante === partidosAdmin[0].golvisitante)
-      // ) {
-      //   await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 3 });
-      //   await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 3 } });
-      // } else if (partido.resultado === partidosAdmin[0].resultado) {
-      //   await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 2 });
-      //   await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 2 } });
-      // } else if (
-      //   partido.golocal === partidosAdmin[0].golocal ||
-      //   partido.golvisitante === partidosAdmin[0].golvisitante
-      // ) {
-      //   await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 1 });
-      //   await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 1 } });
-      // } else {
-      //   await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
-      // }
-    });
+    }
   }
 
   await db.disconnect();

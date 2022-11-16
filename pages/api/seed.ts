@@ -55,6 +55,16 @@ export default async function handler(
     }
   );
 
+  await PartidoAp.updateMany(
+    { user: "635b78c1266ea8891e6efb23" },
+    {
+      $unset: {
+        golocal: "",
+        golvisitante: "",
+      },
+    }
+  );
+
   //await Partido.updateMany({ _v: 0 }, { $set: { jugado: false } });
 
   // await Resultado.insertMany(seedDatabase.initialData.resultados);

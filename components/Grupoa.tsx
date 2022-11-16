@@ -522,18 +522,6 @@ export const Grupoa = () => {
                       </Grid>
                     </Grid>
                   </form>
-                  {session && session.user.role === "Admin" ? (
-                    <Button
-                      variant="contained"
-                      sx={{ marginLeft: "10px", marginRight: "10px" }}
-                      type="submit"
-                      color="primary"
-                      disabled={cargando}
-                      onClick={() => puntos1(0)}
-                    >
-                      puntos
-                    </Button>
-                  ) : null}
                 </Grid>
 
                 <Grid
