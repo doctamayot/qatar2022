@@ -111,8 +111,8 @@ export const Resultados = () => {
             {datos && (
               <Box
                 display="flex"
-                // justifyContent="center"
-                alignItems="center"
+                justifyContent="center"
+                //alignItems="center"
                 key={datos[0] && datos[0]?._id}
                 sx={{ marginTop: "20px", textAlign: "center" }}
               >
@@ -161,7 +161,10 @@ export const Resultados = () => {
                   // justifyContent="center"
                   alignItems="center"
                   key={p._id}
-                  sx={{ marginTop: "20px", textAlign: "center" }}
+                  sx={{
+                    marginTop: "20px",
+                    marginLeft: { md: "100px", xs: "35px" },
+                  }}
                 >
                   <Image
                     src={p.local.bandera}
@@ -217,7 +220,12 @@ export const Resultados = () => {
                 </Box>
               ))}
           </Grid>
-          <Grid item xs={12} md={5} sx={{ textAlign: "center" }}>
+          <Grid
+            item
+            xs={12}
+            md={5}
+            sx={{ textAlign: "center", marginTop: { xs: "40px", md: "0px" } }}
+          >
             <Box>
               <Typography variant="subtitle1" sx={{ fontSize: "25px" }}>
                 Tabla De Posiciones
@@ -251,7 +259,7 @@ export const Resultados = () => {
                   <Box
                     display="flex"
                     sx={{
-                      fontSize: "25px",
+                      fontSize: "20px",
                       backgroundColor:
                         jug == jugadores[1] ||
                         jug.puntos === jugadores[1].puntos
@@ -278,6 +286,7 @@ export const Resultados = () => {
                         border: "1px solid #000",
                         width: "100%",
                         padding: "5px",
+                        fontSize: { xs: "15px", md: "20px" },
                       }}
                     >
                       {jug.name}

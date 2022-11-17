@@ -2,7 +2,14 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { db } from "../../database";
 
-import { PartidoAp, User, GrupoAp, DatosFinal } from "../../models";
+import {
+  PartidoAp,
+  User,
+  GrupoAp,
+  DatosFinal,
+  SemiAp,
+  FinalAp,
+} from "../../models";
 
 type Data = { message: string } | any | any[];
 
@@ -126,6 +133,21 @@ const postPollas = async (req: NextApiRequest, res: NextApiResponse) => {
     .limit(48)
     .sort({ _id: 1 })
     .lean();
+
+  const semis = await PartidoAp.find({ user: nomb, ronda: "semis" })
+    .populate("local visitante user")
+    .limit(48)
+    .sort({ _id: 1 })
+    .lean();
+
+  const finales = await PartidoAp.find({ user: nomb, ronda: "final" })
+    .populate("local visitante user")
+    .limit(48)
+    .sort({ _id: 1 })
+    .lean();
+  const datosfinales = await DatosFinal.find({ user: nomb })
+    .populate("campeon sub tercero cuarto")
+    .lean();
   res.status(200).json({
     grupoa,
     grupob,
@@ -145,6 +167,9 @@ const postPollas = async (req: NextApiRequest, res: NextApiResponse) => {
     posgrupoh,
     octavos,
     cuartos,
+    semis,
+    finales,
+    datosfinales,
   });
   await db.disconnect();
 };

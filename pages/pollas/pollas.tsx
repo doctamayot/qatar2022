@@ -34,8 +34,11 @@ const Pollas: NextPage = () => {
   const [posGrupog, setPosGrupog] = useState<any>([]);
   const [posGrupoh, setPosGrupoh] = useState<any>([]);
   const [octavos, setOctavos] = useState<any>([]);
+  const [semis, setSemis] = useState<any>([]);
   const [cuartos, setCuartos] = useState<any>([]);
+  const [finales, setFinales] = useState<any>([]);
   const [partidosGrupos, setPartidosGrupos] = useState<any>([]);
+  const [datosfinales, setDatosFinales] = useState<any>([]);
   const [users, setUsers] = useState<any>([]);
 
   const partidosLlamada = async () => {
@@ -80,6 +83,9 @@ const Pollas: NextPage = () => {
     setPosGrupoh(data.posgrupoh);
     setOctavos(data.octavos);
     setCuartos(data.cuartos);
+    setSemis(data.semis);
+    setFinales(data.finales);
+    setDatosFinales(data.datosfinales);
   };
 
   return (
@@ -139,6 +145,12 @@ const Pollas: NextPage = () => {
                     key={p._id}
                     sx={{ marginTop: "20px", textAlign: "center" }}
                   >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ margin: "5px 10px", fontSize: "10px" }}
+                    >
+                      Partido No {p.nombre}
+                    </Typography>
                     <Image
                       src={p.local.bandera}
                       alt={p.nombre}
@@ -208,6 +220,12 @@ const Pollas: NextPage = () => {
                     key={p._id}
                     sx={{ marginTop: "20px", textAlign: "center" }}
                   >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ margin: "5px 10px", fontSize: "10px" }}
+                    >
+                      Partido No {p.nombre}
+                    </Typography>
                     <Image
                       src={p.local.bandera}
                       alt={p.nombre}
@@ -277,6 +295,12 @@ const Pollas: NextPage = () => {
                     key={p._id}
                     sx={{ marginTop: "20px", textAlign: "center" }}
                   >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ margin: "5px 10px", fontSize: "10px" }}
+                    >
+                      Partido No {p.nombre}
+                    </Typography>
                     <Image
                       src={p.local.bandera}
                       alt={p.nombre}
@@ -346,6 +370,12 @@ const Pollas: NextPage = () => {
                     key={p._id}
                     sx={{ marginTop: "20px", textAlign: "center" }}
                   >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ margin: "5px 10px", fontSize: "10px" }}
+                    >
+                      Partido No {p.nombre}
+                    </Typography>
                     <Image
                       src={p.local.bandera}
                       alt={p.nombre}
@@ -415,6 +445,12 @@ const Pollas: NextPage = () => {
                     key={p._id}
                     sx={{ marginTop: "20px", textAlign: "center" }}
                   >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ margin: "5px 10px", fontSize: "10px" }}
+                    >
+                      Partido No {p.nombre}
+                    </Typography>
                     <Image
                       src={p.local.bandera}
                       alt={p.nombre}
@@ -484,6 +520,12 @@ const Pollas: NextPage = () => {
                     key={p._id}
                     sx={{ marginTop: "20px", textAlign: "center" }}
                   >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ margin: "5px 10px", fontSize: "10px" }}
+                    >
+                      Partido No {p.nombre}
+                    </Typography>
                     <Image
                       src={p.local.bandera}
                       alt={p.nombre}
@@ -553,6 +595,12 @@ const Pollas: NextPage = () => {
                     key={p._id}
                     sx={{ marginTop: "20px", textAlign: "center" }}
                   >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ margin: "5px 10px", fontSize: "10px" }}
+                    >
+                      Partido No {p.nombre}
+                    </Typography>
                     <Image
                       src={p.local.bandera}
                       alt={p.nombre}
@@ -622,6 +670,12 @@ const Pollas: NextPage = () => {
                     key={p._id}
                     sx={{ marginTop: "20px", textAlign: "center" }}
                   >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ margin: "5px 10px", fontSize: "10px" }}
+                    >
+                      Partido No {p.nombre}
+                    </Typography>
                     <Image
                       src={p.local.bandera}
                       alt={p.nombre}
@@ -1419,6 +1473,12 @@ const Pollas: NextPage = () => {
                     key={p._id}
                     sx={{ marginTop: "20px", textAlign: "center" }}
                   >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ margin: "5px 10px", fontSize: "10px" }}
+                    >
+                      Partido No {p.nombre}
+                    </Typography>
                     <Image
                       src={p.local.bandera}
                       alt={p.nombre}
@@ -1488,6 +1548,12 @@ const Pollas: NextPage = () => {
                     key={p._id}
                     sx={{ marginTop: "20px", textAlign: "center" }}
                   >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ margin: "5px 10px", fontSize: "10px" }}
+                    >
+                      Partido No {p.nombre}
+                    </Typography>
                     <Image
                       src={p.local.bandera}
                       alt={p.nombre}
@@ -1509,6 +1575,250 @@ const Pollas: NextPage = () => {
                       height={30}
                       layout="fixed"
                     />
+
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        margin: "5px 10px",
+                        fontSize: { xs: "10px", md: "20px" },
+                        color:
+                          p.puntos === 6
+                            ? "#439638"
+                            : p.puntos === 3
+                            ? "#133e9b"
+                            : p.puntos === 2
+                            ? "#dbc816"
+                            : p.puntos === 1
+                            ? "#db541e"
+                            : "#000000",
+                      }}
+                    >
+                      puntos: {p.puntos}
+                    </Typography>
+
+                    <Divider />
+                  </Box>
+                ))}
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={3}
+              sx={{
+                justifyContent: "center",
+                border: "1px solid",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                margin: "5px",
+              }}
+            >
+              <Typography variant="subtitle2">Semis</Typography>
+              {semis &&
+                semis.map((p: any) => (
+                  <Box
+                    display="flex"
+                    // justifyContent="center"
+                    alignItems="center"
+                    key={p._id}
+                    sx={{ marginTop: "20px", textAlign: "center" }}
+                  >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ margin: "5px 10px", fontSize: "10px" }}
+                    >
+                      Partido No {p.nombre}
+                    </Typography>
+                    <Image
+                      src={p.local.bandera}
+                      alt={p.nombre}
+                      width={60}
+                      height={30}
+                      layout="fixed"
+                    />
+                    <Typography variant="subtitle1" sx={{ margin: "5px 10px" }}>
+                      {p.golocal}
+                    </Typography>
+                    <Divider orientation="vertical" flexItem />
+                    <Typography variant="subtitle1" sx={{ margin: "5px 10px" }}>
+                      {p.golvisitante}
+                    </Typography>
+                    <Image
+                      src={p.visitante.bandera}
+                      alt={p.nombre}
+                      width={60}
+                      height={30}
+                      layout="fixed"
+                    />
+
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        margin: "5px 10px",
+                        fontSize: { xs: "10px", md: "20px" },
+                        color:
+                          p.puntos === 6
+                            ? "#439638"
+                            : p.puntos === 3
+                            ? "#133e9b"
+                            : p.puntos === 2
+                            ? "#dbc816"
+                            : p.puntos === 1
+                            ? "#db541e"
+                            : "#000000",
+                      }}
+                    >
+                      puntos: {p.puntos}
+                    </Typography>
+
+                    <Divider />
+                  </Box>
+                ))}
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={3}
+              sx={{
+                justifyContent: "center",
+                border: "1px solid",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                margin: "5px",
+              }}
+            >
+              <Typography variant="subtitle2">Finales</Typography>
+              {finales &&
+                finales.map((p: any) => (
+                  <Box
+                    display="flex"
+                    // justifyContent="center"
+                    alignItems="center"
+                    key={p._id}
+                    sx={{ marginTop: "20px", textAlign: "center" }}
+                  >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ margin: "5px 10px", fontSize: "10px" }}
+                    >
+                      Partido No {p.nombre}
+                    </Typography>
+                    <Image
+                      src={p.local.bandera}
+                      alt={p.nombre}
+                      width={60}
+                      height={30}
+                      layout="fixed"
+                    />
+                    <Typography variant="subtitle1" sx={{ margin: "5px 10px" }}>
+                      {p.golocal}
+                    </Typography>
+                    <Divider orientation="vertical" flexItem />
+                    <Typography variant="subtitle1" sx={{ margin: "5px 10px" }}>
+                      {p.golvisitante}
+                    </Typography>
+                    <Image
+                      src={p.visitante.bandera}
+                      alt={p.nombre}
+                      width={60}
+                      height={30}
+                      layout="fixed"
+                    />
+
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        margin: "5px 10px",
+                        fontSize: { xs: "10px", md: "20px" },
+                        color:
+                          p.puntos === 6
+                            ? "#439638"
+                            : p.puntos === 3
+                            ? "#133e9b"
+                            : p.puntos === 2
+                            ? "#dbc816"
+                            : p.puntos === 1
+                            ? "#db541e"
+                            : "#000000",
+                      }}
+                    >
+                      puntos: {p.puntos}
+                    </Typography>
+
+                    <Divider />
+                  </Box>
+                ))}
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={12}
+              sx={{
+                justifyContent: "center",
+
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                margin: "5px",
+              }}
+            >
+              <Typography variant="subtitle1" sx={{ textAlign: "center" }}>
+                Posiciones finales y extras
+              </Typography>
+              {datosfinales &&
+                datosfinales.map((p: any) => (
+                  <Box
+                    display="flex"
+                    // justifyContent="center"
+                    alignItems="center"
+                    key={p._id}
+                    sx={{ marginTop: "0px", textAlign: "center" }}
+                    flexDirection="column"
+                  >
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      Campeon: {p.campeon.name}
+                    </Typography>
+
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      SubCampeón: {p.sub.name}
+                    </Typography>
+
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      Tercero: {p.tercero.name}
+                    </Typography>
+
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      Cuarto: {p.cuarto.name}
+                    </Typography>
+
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      Goleador: {p.goleador}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      Más Amarillas: {p.amarillas}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      Más Rojas: {p.rojas}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      Grupo con más goles: {p.grupomasgoles}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      Grupo con menos goles: {p.grupomenosgoles}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      Equipo más Goleador: {p.masgoles}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      Equipo menos Goleador: {p.menosgoles}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      Valla más vencida: {p.masvencida}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ margin: "5px 10px" }}>
+                      Valla menos vencida: {p.menosvencida}
+                    </Typography>
 
                     <Typography
                       variant="subtitle1"
