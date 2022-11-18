@@ -32,6 +32,7 @@ export const Resultados = () => {
   }, []);
 
   const partidosLlamada = async () => {
+    setIsLoading(true);
     const { data }: any = await tesloApi({
       url: `/partidos`,
       method: "GET",
@@ -94,20 +95,21 @@ export const Resultados = () => {
                   allPartidos.map((p: any) => (
                     <MenuItem value={p.nombre} key={p._id}>
                       {p.ronda === "grupos"
-                        ? `Grupos ${p.local.name} vs ${p.visitante.name}`
+                        ? `Grupos partido No ${p.nombre} ${p.local.name} vs ${p.visitante.name}`
                         : p.ronda === "octavos"
-                        ? `Octavos ${p.nombre}`
+                        ? `Octavos partido No ${p.nombre}`
                         : p.ronda === "cuartos"
-                        ? `Cuartos  ${p.nombre}`
+                        ? `Cuartos partido No ${p.nombre} `
                         : p.ronda === "semis"
-                        ? `Semis  ${p.nombre}`
+                        ? `Semis partido No ${p.nombre} `
                         : p.ronda === "final"
-                        ? `Finales  ${p.nombre}`
+                        ? `Finales partido No ${p.nombre} `
                         : null}
                     </MenuItem>
                   ))}
               </Select>
             </FormControl>
+
             {datos && (
               <Box
                 display="flex"

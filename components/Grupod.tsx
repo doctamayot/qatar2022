@@ -14,6 +14,7 @@ export const Grupod = () => {
   const [jugado, setJugado] = useState<any>(false);
   const [cargando, setcargando] = useState<any>(false);
   const { data: session, status }: any = useSession();
+  const [botonenv, setbotonenv] = useState<any>(false);
 
   const {
     register,
@@ -488,6 +489,7 @@ export const Grupod = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -495,6 +497,7 @@ export const Grupod = () => {
                           <Button
                             variant="contained"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                             type="submit"
                             color="primary"
                           >
@@ -623,6 +626,7 @@ export const Grupod = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -632,6 +636,7 @@ export const Grupod = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -758,6 +763,7 @@ export const Grupod = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -767,6 +773,7 @@ export const Grupod = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -892,6 +899,7 @@ export const Grupod = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -901,6 +909,7 @@ export const Grupod = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -1026,6 +1035,7 @@ export const Grupod = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -1035,6 +1045,7 @@ export const Grupod = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -1160,6 +1171,7 @@ export const Grupod = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -1169,6 +1181,7 @@ export const Grupod = () => {
                             variant="contained"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>

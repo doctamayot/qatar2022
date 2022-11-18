@@ -24,7 +24,7 @@ export const Extras = () => {
   const [equipos, setEquipos] = useState<any>();
   const [age, setAge] = React.useState("");
   const [age2, setAge2] = React.useState("");
-
+  const [botonenv, setbotonenv] = useState<any>(false);
   const {
     register,
     handleSubmit,
@@ -797,6 +797,7 @@ export const Extras = () => {
                       marginBottom: "200px",
                     }}
                     type="submit"
+                    disabled={botonenv}
                   >
                     editar
                   </Button>
@@ -809,6 +810,7 @@ export const Extras = () => {
                     }}
                     type="submit"
                     color="primary"
+                    disabled={botonenv}
                   >
                     Enviar
                   </Button>

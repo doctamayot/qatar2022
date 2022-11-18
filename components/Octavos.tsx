@@ -24,6 +24,7 @@ export const Octavos = () => {
   const [jugado, setJugado] = useState<any>();
   const [datosf, setDatosf] = useState<any>();
   const [cargando, setCargando] = useState<any>(false);
+  const [botonenv, setbotonenv] = useState<any>(false);
 
   // const [checked, setChecked] = useState(true);
   const { data: session, status }: any = useSession();
@@ -1031,7 +1032,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -1149,6 +1150,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -1158,6 +1160,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -1188,7 +1191,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -1306,6 +1309,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -1315,6 +1319,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -1345,7 +1350,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -1456,6 +1461,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -1465,6 +1471,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -1495,7 +1502,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -1606,6 +1613,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -1615,6 +1623,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -1645,7 +1654,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -1757,6 +1766,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -1766,6 +1776,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -1796,7 +1807,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -1907,6 +1918,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -1916,6 +1928,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -1946,7 +1959,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -2058,6 +2071,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -2067,6 +2081,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -2097,7 +2112,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -2208,6 +2223,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -2215,6 +2231,7 @@ export const Octavos = () => {
                           <Button
                             variant="contained"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                             type="submit"
                             color="primary"
                           >
@@ -2253,7 +2270,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -2364,6 +2381,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -2373,6 +2391,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -2403,7 +2422,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -2515,6 +2534,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -2524,6 +2544,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -2554,7 +2575,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -2665,6 +2686,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -2674,6 +2696,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -2704,7 +2727,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -2815,6 +2838,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -2824,6 +2848,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -2861,7 +2886,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -2971,6 +2996,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -2980,6 +3006,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -3010,7 +3037,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -3119,6 +3146,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -3128,6 +3156,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -3164,7 +3193,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -3274,6 +3303,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -3283,6 +3313,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -3313,7 +3344,7 @@ export const Octavos = () => {
                         sx={{ color: "#7e7720", fontSize: "15px" }}
                       >
                         En caso de empate, si cree que gana el local al final
-                        deje en verde el cuadro la lado del equipo local, si
+                        deje en verde el cuadro al lado del equipo local, si
                         cree que gana el visitante deje vacio el mismo cuadro
                       </Typography>
                       <Grid item xs={12} display="flex" alignItems="center">
@@ -3426,6 +3457,7 @@ export const Octavos = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -3435,6 +3467,7 @@ export const Octavos = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>

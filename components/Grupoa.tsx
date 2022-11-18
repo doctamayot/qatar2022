@@ -13,6 +13,7 @@ export const Grupoa = () => {
   const [grupo2, setGrupo2] = useState<any>();
   const [jugado, setJugado] = useState<any>(false);
   const [cargando, setcargando] = useState<any>(false);
+  const [botonenv, setbotonenv] = useState<any>(false);
 
   const { data: session, status }: any = useSession();
 
@@ -504,7 +505,7 @@ export const Grupoa = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
-                            disabled={cargando}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -514,7 +515,7 @@ export const Grupoa = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
-                            disabled={cargando}
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -641,7 +642,7 @@ export const Grupoa = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
-                            disabled={cargando}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -651,7 +652,7 @@ export const Grupoa = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
-                            disabled={cargando}
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -778,7 +779,7 @@ export const Grupoa = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
-                            disabled={cargando}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -788,7 +789,7 @@ export const Grupoa = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
-                            disabled={cargando}
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -914,7 +915,7 @@ export const Grupoa = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
-                            disabled={cargando}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -924,7 +925,7 @@ export const Grupoa = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
-                            disabled={cargando}
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -1050,7 +1051,7 @@ export const Grupoa = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
-                            disabled={cargando}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -1060,7 +1061,7 @@ export const Grupoa = () => {
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
                             color="primary"
-                            disabled={cargando}
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>
@@ -1186,7 +1187,7 @@ export const Grupoa = () => {
                             variant="contained"
                             color="warning"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
-                            disabled={cargando}
+                            disabled={botonenv}
                           >
                             editar
                           </Button>
@@ -1196,7 +1197,7 @@ export const Grupoa = () => {
                             variant="contained"
                             sx={{ marginLeft: "10px", marginRight: "10px" }}
                             type="submit"
-                            disabled={cargando}
+                            disabled={botonenv}
                           >
                             Enviar
                           </Button>

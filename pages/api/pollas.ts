@@ -29,7 +29,7 @@ export default function handler(
 const getPollas = async (req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
 
-  const polleros = await User.find();
+  const polleros = await User.find().sort({ puntos: -1 });
 
   res.status(200).json({
     polleros,

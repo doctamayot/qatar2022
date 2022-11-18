@@ -37,23 +37,36 @@ export default async function handler(
   // await User.insertMany(seedDatabase.initialData.users);
 
   // await Equipo.deleteMany();
-  await PartidoAp.updateMany(
-    { _v: 0 },
-    {
-      $set: {
-        puntos: 0,
-      },
-    }
-  );
+  // await PartidoAp.updateMany(
+  //   { user: "635b78c1266ea8891e6efb23" },
+  //   {
+  //     $set: {
+  //       puntos: 0,
+  //       jugado: false,
+  //     },
+  //   }
+  // );
 
-  await User.updateMany(
-    { role: "Cliente" },
-    {
-      $set: {
-        puntos: 0,
-      },
-    }
-  );
+  // await EquipoAp.updateMany(
+  //   { user: "635b78c1266ea8891e6efb23" },
+  //   {
+  //     $set: {
+  //       puntos: 0,
+  //       golesfavor: 0,
+  //       golescontra: 0,
+  //       difgoles: 0,
+  //     },
+  //   }
+  // );
+
+  // await User.updateMany(
+  //   {},
+  //   {
+  //     $set: {
+  //       puntos: 0,
+  //     },
+  //   }
+  // );
 
   await PartidoAp.updateMany(
     { user: "635b78c1266ea8891e6efb23" },

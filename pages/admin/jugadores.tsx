@@ -59,7 +59,7 @@ const Jugadores: NextPage = () => {
             variant="subtitle1"
             sx={{ fontSize: "30px", textAlign: "center" }}
           >
-            Usuarios
+            Usuarios {usuarios && usuarios.length - 1}
           </Typography>
           <Grid item xs={12}>
             <FormControl component="fieldset" variant="standard">

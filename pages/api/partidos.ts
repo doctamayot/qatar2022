@@ -19,8 +19,29 @@ export default function handler(
 
     case "PUT":
       return switchUser(req, res);
+    case "PATCH":
+      return nombrepartido(req, res);
   }
 }
+
+const nombrepartido = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { nomb } = req.body;
+  //console.log(nomb);
+  await db.connect();
+  const users = await PartidoAp.find({ nombre: nomb }).lean();
+
+  const numero = parseInt(nomb);
+  const partidos = await PartidoAp.updateMany(
+    { nombre: nomb },
+    { $set: { partido: numero } }
+  );
+  //   .select("nombre ronda")
+  //   .populate("local visitante user")
+  //   .lean();
+
+  res.status(200).json(partidos);
+  await db.disconnect();
+};
 
 const getPartidos = async (req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
@@ -28,6 +49,7 @@ const getPartidos = async (req: NextApiRequest, res: NextApiResponse) => {
   const partidos = await PartidoAp.find({ user: "635b78c1266ea8891e6efb23" })
     .select("nombre ronda")
     .populate("local visitante user")
+    .sort({ partido: 1 })
     .lean();
 
   const users = await PartidoAp.find({ nombre: "1" })
