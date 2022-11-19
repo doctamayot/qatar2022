@@ -139,7 +139,7 @@ const Home: NextPage = () => {
                     variant="subtitle2"
                     sx={{ marginLeft: "20px", fontSize: "40px" }}
                   >
-                    $ {35 * 100000 * 0.75}
+                    $ {40 * 100000 * 0.75}
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center">
@@ -151,7 +151,7 @@ const Home: NextPage = () => {
                     variant="subtitle2"
                     sx={{ marginLeft: "20px", fontSize: "40px" }}
                   >
-                    $ {35 * 100000 * 0.2}
+                    $ {40 * 100000 * 0.2}
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center">
@@ -163,7 +163,7 @@ const Home: NextPage = () => {
                     variant="subtitle2"
                     sx={{ marginLeft: "20px", fontSize: "40px" }}
                   >
-                    $ {35 * 100000 * 0.05}
+                    $ {40 * 100000 * 0.05}
                   </Typography>
                 </Box>
               </Box>

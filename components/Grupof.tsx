@@ -92,6 +92,9 @@ export const Grupof = () => {
   }, [jugado]);
 
   const onSubmit1 = async (form: any) => {
+    if (cargando) {
+      return;
+    }
     setcargando(true);
     if (parseInt(getValues("golocal")) > parseInt(getValues("golvisitante"))) {
       form.resultado = "local";
@@ -121,6 +124,9 @@ export const Grupof = () => {
   };
 
   const onSubmit2 = async (form: any) => {
+    if (cargando) {
+      return;
+    }
     setcargando(true);
     if (
       parseInt(getValues2("golocal")) > parseInt(getValues2("golvisitante"))
@@ -150,6 +156,9 @@ export const Grupof = () => {
     setcargando(false);
   };
   const onSubmit3 = async (form: any) => {
+    if (cargando) {
+      return;
+    }
     setcargando(true);
     if (
       parseInt(getValues3("golocal")) > parseInt(getValues3("golvisitante"))
@@ -179,6 +188,9 @@ export const Grupof = () => {
     setcargando(false);
   };
   const onSubmit4 = async (form: any) => {
+    if (cargando) {
+      return;
+    }
     setcargando(true);
     if (
       parseInt(getValues4("golocal")) > parseInt(getValues4("golvisitante"))
@@ -208,6 +220,9 @@ export const Grupof = () => {
     setcargando(false);
   };
   const onSubmit5 = async (form: any) => {
+    if (cargando) {
+      return;
+    }
     setcargando(true);
     if (
       parseInt(getValues5("golocal")) > parseInt(getValues5("golvisitante"))
@@ -237,6 +252,9 @@ export const Grupof = () => {
     setcargando(false);
   };
   const onSubmit6 = async (form: any) => {
+    if (cargando) {
+      return;
+    }
     setcargando(true);
     if (
       parseInt(getValues6("golocal")) > parseInt(getValues6("golvisitante"))
@@ -267,6 +285,9 @@ export const Grupof = () => {
   };
 
   const editar = async (id: any) => {
+    if (cargando) {
+      return;
+    }
     setcargando(true);
     try {
       await tesloApi({
