@@ -99,7 +99,7 @@ const Home: NextPage = () => {
           container
         >
           {/* <Resultados /> */}
-          {userin && userin.empezado === false ? (
+          {/* {userin && userin.empezado === false ? (
             <Grid
               item
               xs={12}
@@ -118,7 +118,7 @@ const Home: NextPage = () => {
                 Crear Formularios
               </Button>
             </Grid>
-          ) : null}
+          ) : null} */}
           <Grid item xs={12}>
             <Box
               display="flex"

@@ -105,7 +105,7 @@ const Pollas: NextPage = () => {
           </Typography>
           <Grid item xs={12}>
             <FormControl sx={{ width: "90%", marginLeft: "20px" }}>
-              <InputLabel>Polleros</InputLabel>
+              <InputLabel>Escoje un Pollero</InputLabel>
               <Select
                 defaultValue=""
                 label="polleros"

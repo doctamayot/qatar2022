@@ -91,6 +91,14 @@ export const Grupoe = () => {
     gruposLlamada();
   }, [jugado]);
 
+  useEffect(() => {
+    if (session && session.user.role === "Admin") {
+      setbotonenv(false);
+    } else {
+      setbotonenv(true);
+    }
+  }, []);
+
   const onSubmit1 = async (form: any) => {
     if (cargando) {
       return;

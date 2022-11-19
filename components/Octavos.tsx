@@ -258,6 +258,14 @@ export const Octavos = () => {
     fetchData();
   }, [jugado, formu]);
 
+  useEffect(() => {
+    if (session && session.user.role === "Admin") {
+      setbotonenv(false);
+    } else {
+      setbotonenv(true);
+    }
+  }, []);
+
   const onSubmit1 = async (form: any) => {
     if (parseInt(getValues("golocal")) > parseInt(getValues("golvisitante"))) {
       form.resultado = "local";

@@ -16,6 +16,7 @@ import Image from "next/image";
 import { tesloApi } from "../axios";
 import { useForm } from "react-hook-form";
 import { SelectChangeEvent } from "@mui/material/Select";
+import { useSession, signOut, signIn, getProviders } from "next-auth/react";
 
 export const Extras = () => {
   const [cargando, setcargando] = useState<any>(false);
@@ -25,6 +26,7 @@ export const Extras = () => {
   const [age, setAge] = React.useState("");
   const [age2, setAge2] = React.useState("");
   const [botonenv, setbotonenv] = useState<any>(false);
+  const { data: session, status }: any = useSession();
   const {
     register,
     handleSubmit,
@@ -50,6 +52,14 @@ export const Extras = () => {
   useEffect(() => {
     gruposLlamada();
   }, [jugado]);
+
+  useEffect(() => {
+    if (session && session.user.role === "Admin") {
+      setbotonenv(false);
+    } else {
+      setbotonenv(true);
+    }
+  }, []);
 
   const onSubmit1 = async (form: any) => {
     form.jugado = true;
