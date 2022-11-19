@@ -232,7 +232,10 @@ export const Resultados = () => {
               <Typography variant="subtitle1" sx={{ fontSize: "25px" }}>
                 Tabla De Posiciones
               </Typography>
-              <Box display="flex" sx={{ width: "70%", margin: "0 auto" }}>
+              <Box
+                display="flex"
+                sx={{ width: { xs: "95%", md: "70%" }, margin: "0 auto" }}
+              >
                 <Typography
                   variant="subtitle2"
                   sx={{
@@ -274,7 +277,10 @@ export const Resultados = () => {
             </Box>
             {jugadores &&
               jugadores.slice(1).map((jug: any, index: any) => (
-                <Box key={jug._id} sx={{ width: "70%", margin: "0 auto" }}>
+                <Box
+                  key={jug._id}
+                  sx={{ width: { xs: "95%", md: "70%" }, margin: "0 auto" }}
+                >
                   <Box
                     display="flex"
                     sx={{
