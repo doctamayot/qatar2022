@@ -236,7 +236,21 @@ export const Resultados = () => {
                 <Typography
                   variant="subtitle2"
                   sx={{
-                    border: "1px solid #000",
+                    borderLeft: "1px solid #000",
+                    borderRight: "1px solid #000",
+                    borderBottom: "1px solid #000",
+                    borderTop: "1px solid #000",
+                    width: "100%",
+                    padding: "5px",
+                  }}
+                >
+                  Rank
+                </Typography>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    borderBottom: "1px solid #000",
+                    borderTop: "1px solid #000",
                     width: "100%",
                     padding: "5px",
                   }}
@@ -246,7 +260,10 @@ export const Resultados = () => {
                 <Typography
                   variant="subtitle2"
                   sx={{
-                    border: "1px solid #000",
+                    borderLeft: "1px solid #000",
+                    borderRight: "1px solid #000",
+                    borderBottom: "1px solid #000",
+                    borderTop: "1px solid #000",
                     width: "100%",
                     padding: "5px",
                   }}
@@ -256,7 +273,7 @@ export const Resultados = () => {
               </Box>
             </Box>
             {jugadores &&
-              jugadores.slice(1).map((jug: any) => (
+              jugadores.slice(1).map((jug: any, index: any) => (
                 <Box key={jug._id} sx={{ width: "70%", margin: "0 auto" }}>
                   <Box
                     display="flex"
@@ -286,11 +303,26 @@ export const Resultados = () => {
                       variant="subtitle2"
                       sx={{
                         borderBottom: "0.5px solid #000000",
-                        borderRight: "0.5px solid #000000",
+
                         borderLeft: "0.5px solid #000000",
                         width: "100%",
                         padding: "5px",
                         fontSize: { xs: "15px", md: "20px" },
+                      }}
+                    >
+                      {jug == jugadores[1] || jug.puntos === jugadores[1].puntos
+                        ? 1
+                        : index + 1}
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        borderBottom: "0.5px solid #000000",
+                        borderRight: "0.5px solid #000000",
+                        borderLeft: "0.5px solid #000000",
+                        width: "100%",
+                        padding: "5px",
+                        fontSize: { xs: "15px", md: "15px" },
                       }}
                     >
                       {jug.name}
