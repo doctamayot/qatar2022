@@ -287,6 +287,7 @@ export const Resultados = () => {
                       sx={{
                         borderBottom: "0.5px solid #000000",
                         borderRight: "0.5px solid #000000",
+                        borderLeft: "0.5px solid #000000",
                         width: "100%",
                         padding: "5px",
                         fontSize: { xs: "15px", md: "20px" },
@@ -298,6 +299,7 @@ export const Resultados = () => {
                       variant="subtitle2"
                       sx={{
                         borderBottom: "1px solid #000",
+                        borderRight: "0.5px solid #000000",
                         width: "100%",
                         padding: "5px",
                       }}
