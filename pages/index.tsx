@@ -383,7 +383,7 @@ const Home: NextPage = () => {
             </Box>
           </Grid>
 
-          <Grid
+          {/* <Grid
             item
             xs={12}
             display="flex"
@@ -402,7 +402,7 @@ const Home: NextPage = () => {
                 Crear Formularios
               </Button>
             ) : null}
-          </Grid>
+          </Grid> */}
         </Grid>
       )}
     </AuthLayout>
