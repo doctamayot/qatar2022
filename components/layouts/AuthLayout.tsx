@@ -23,7 +23,7 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
 
       <nav>
         <Navbar />
-        {session && session.user.activo === false && aviso === "true" ? (
+        {/* {session && session.user.activo === false && aviso === "true" ? (
           <Box
             display="flex"
             justifyContent="center"
@@ -40,7 +40,7 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
               activarte!!!
             </Typography>
           </Box>
-        ) : null}
+        ) : null} */}
       </nav>
 
       <Grid
@@ -49,78 +49,60 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
         justifyContent="center"
         sx={{ marginTop: "100px" }}
       >
-        {session ? (
-          <Box display="flex">
-            <NextLink href="/grilla" passHref>
-              <Link>
-                <Button
-                  variant="text"
-                  sx={{
-                    fontFamily: "Roboto Condensed, sans-serif",
-                    fontWeight: "700",
+        <Box display="flex">
+          <NextLink href="/grilla" passHref>
+            <Link>
+              <Button
+                variant="text"
+                sx={{
+                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontWeight: "700",
 
-                    color: "#ffffff",
-                    backgroundColor:
-                      session && session.user.activo === true
-                        ? "#1e411b"
-                        : "#fff",
-                    padding: "10px",
-                    visibility:
-                      session && session.user.activo === true
-                        ? "visible"
-                        : "hidden",
-                    cursor:
-                      session && session.user.activo === true
-                        ? "pointer"
-                        : "help",
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ fontSize: { md: "17.2px", xs: "14px" } }}
-                  >
-                    Grilla y Posiciones
-                  </Typography>
-                </Button>
-              </Link>
-            </NextLink>
-            <NextLink href="/pollas/pollas" passHref>
-              <Link>
-                <Button
-                  variant="text"
-                  sx={{
-                    fontFamily: "Roboto Condensed, sans-serif",
-                    fontWeight: "700",
-                    marginLeft: "10px",
-                    width: "100%",
+                  color: "#ffffff",
+                  backgroundColor: "#1e411b",
 
-                    color: "#ffffff",
-                    backgroundColor:
-                      session && session.user.activo === true
-                        ? "#a01e1e"
-                        : "#fff",
-                    padding: "10px",
-                    visibility:
-                      session && session.user.activo === true
-                        ? "visible"
-                        : "hidden",
-                    cursor:
-                      session && session.user.activo === true
-                        ? "pointer"
-                        : "help",
-                  }}
+                  padding: "10px",
+
+                  cursor: "pointer",
+                }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontSize: { md: "17.2px", xs: "14px" } }}
                 >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ fontSize: { md: "17.2px", xs: "14px" } }}
-                  >
-                    Pollas
-                  </Typography>
-                </Button>
-              </Link>
-            </NextLink>
-          </Box>
-        ) : null}
+                  Grilla y Posiciones
+                </Typography>
+              </Button>
+            </Link>
+          </NextLink>
+          <NextLink href="/pollas/pollas" passHref>
+            <Link>
+              <Button
+                variant="text"
+                sx={{
+                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontWeight: "700",
+                  marginLeft: "10px",
+                  width: "100%",
+
+                  color: "#ffffff",
+                  backgroundColor: "#a01e1e",
+
+                  padding: "10px",
+
+                  cursor: "pointer",
+                }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontSize: { md: "17.2px", xs: "14px" } }}
+                >
+                  Pollas
+                </Typography>
+              </Button>
+            </Link>
+          </NextLink>
+        </Box>
       </Grid>
 
       <MenuLateral />
