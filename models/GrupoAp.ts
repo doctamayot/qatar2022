@@ -5,6 +5,7 @@ const grupoApSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: "User" },
     name: { type: String, required: true },
+    puntos: { type: Number },
     posicion1: {
       type: Schema.Types.ObjectId,
       ref: "EquipoAp",

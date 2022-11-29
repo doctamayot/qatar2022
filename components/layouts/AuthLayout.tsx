@@ -75,6 +75,31 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
               </Button>
             </Link>
           </NextLink>
+          <NextLink href="/posiciones" passHref>
+            <Link>
+              <Button
+                variant="text"
+                sx={{
+                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontWeight: "700",
+                  marginLeft: "10px",
+                  color: "#ffffff",
+                  backgroundColor: "#202894",
+
+                  padding: "10px",
+
+                  cursor: "pointer",
+                }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontSize: { md: "17.2px", xs: "14px" } }}
+                >
+                  Posiciones Grupos
+                </Typography>
+              </Button>
+            </Link>
+          </NextLink>
           <NextLink href="/pollas/pollas" passHref>
             <Link>
               <Button
