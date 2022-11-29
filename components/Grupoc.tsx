@@ -98,6 +98,34 @@ export const Grupoc = () => {
     }
   }, []);
 
+  const puntoOctavos = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/posiciones`,
+        method: "PUT",
+        data: { grupo: "C" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+  };
+
+  const editarPuntoOctavos = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/posiciones`,
+        method: "PATCH",
+        data: { grupo: "C" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+  };
+
   const onSubmit1 = async (form: any) => {
     if (cargando) {
       return;
@@ -1231,6 +1259,26 @@ export const Grupoc = () => {
                   border: "1px solid",
                 }}
               >
+                <Button
+                  variant="contained"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  type="submit"
+                  color="primary"
+                  disabled={botonenv}
+                  onClick={puntoOctavos}
+                >
+                  puntos octavos
+                </Button>
+
+                <Button
+                  onClick={editarPuntoOctavos}
+                  variant="contained"
+                  color="warning"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  disabled={botonenv}
+                >
+                  editar puntos octavos
+                </Button>
                 <Grid container>
                   <Grid
                     item

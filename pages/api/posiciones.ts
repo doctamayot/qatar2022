@@ -53,7 +53,7 @@ const editPosicion = async (req: NextApiRequest, res: NextApiResponse) => {
       name: grupo,
     }).populate("posicion1 posicion2 posicion3 posicion4");
 
-    const posicionesTodos: any = await GrupoAp.find({ name: "A" }).populate(
+    const posicionesTodos: any = await GrupoAp.find({ name: grupo }).populate(
       "posicion1 posicion2 posicion3 posicion4 user"
     );
 
@@ -138,7 +138,7 @@ const putPosicion = async (req: NextApiRequest, res: NextApiResponse) => {
       name: grupo,
     }).populate("posicion1 posicion2 posicion3 posicion4");
 
-    const posicionesTodos: any = await GrupoAp.find({ name: "A" }).populate(
+    const posicionesTodos: any = await GrupoAp.find({ name: grupo }).populate(
       "posicion1 posicion2 posicion3 posicion4 user"
     );
 

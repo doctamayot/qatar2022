@@ -43,7 +43,7 @@ export const PosicionesC = () => {
     setJugadores(data.jugadores);
     setIsLoading(false);
   };
-  console.log(datos);
+
   const handleChange = async (
     event: SelectChangeEvent<string>,
     child: React.ReactNode
