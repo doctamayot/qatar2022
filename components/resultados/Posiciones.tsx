@@ -218,11 +218,11 @@ export const PosicionesC = () => {
                       margin: "5px 10px",
                       fontSize: { xs: "10px", md: "20px" },
                       color:
-                        p.puntos === 6
+                        p.puntos === 13
                           ? "#439638"
-                          : p.puntos === 3
+                          : p.puntos === 6
                           ? "#133e9b"
-                          : p.puntos === 2
+                          : p.puntos === 3
                           ? "#dbc816"
                           : p.puntos === 1
                           ? "#db541e"

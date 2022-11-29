@@ -316,30 +316,30 @@ export const Grupoa = () => {
     setcargando(true);
     try {
       await tesloApi({
-        url: `/grupos/grupoa`,
-        method: "POST",
-        data: datos && datos[id],
+        url: `/posiciones`,
+        method: "PUT",
+        data: { grupo: "A" },
       });
     } catch (error) {
       console.log(error);
     }
     setcargando(false);
-    setJugado(!jugado);
+    setPuntosOctavos(!puntosOctavos);
   };
 
   const editarPuntoOctavos = async (id: any) => {
     setcargando(true);
     try {
       await tesloApi({
-        url: `/grupos/grupoa`,
-        method: "POST",
-        data: datos && datos[id],
+        url: `/posiciones`,
+        method: "PATCH",
+        data: { grupo: "A" },
       });
     } catch (error) {
       console.log(error);
     }
     setcargando(false);
-    setJugado(!jugado);
+    setPuntosOctavos(!puntosOctavos);
   };
 
   return (
@@ -1264,28 +1264,27 @@ export const Grupoa = () => {
                   border: "1px solid",
                 }}
               >
-                {puntosOctavos ? (
-                  <Button
-                    onClick={() => editarPuntoOctavos}
-                    variant="contained"
-                    color="warning"
-                    sx={{ marginLeft: "10px", marginRight: "10px" }}
-                    disabled={botonenv}
-                  >
-                    editar puntos octavos
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    sx={{ marginLeft: "10px", marginRight: "10px" }}
-                    type="submit"
-                    color="primary"
-                    disabled={botonenv}
-                    onClick={() => puntoOctavos}
-                  >
-                    puntos octavos
-                  </Button>
-                )}
+                <Button
+                  variant="contained"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  type="submit"
+                  color="primary"
+                  disabled={botonenv}
+                  onClick={puntoOctavos}
+                >
+                  puntos octavos
+                </Button>
+
+                <Button
+                  onClick={editarPuntoOctavos}
+                  variant="contained"
+                  color="warning"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  disabled={botonenv}
+                >
+                  editar puntos octavos
+                </Button>
+
                 <Grid container>
                   <Grid
                     item
