@@ -44,21 +44,21 @@ const getOctavos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const session: any = await getSession({ req });
 
   const octavos = await OctavoAp.find({ user: session.user._id })
-    // .sort({ titulo: "asc" })
+    .sort({ name: "asc" })
     .populate({ path: "partido", populate: { path: "local visitante" } })
     .lean();
 
   const cuartos = await CuartoAp.find({ user: session.user._id })
-    // .sort({ titulo: "asc" })
+    .sort({ name: "asc" })
     .populate({ path: "partido", populate: { path: "local visitante" } })
     .lean();
   const semis = await SemiAp.find({ user: session.user._id })
-    // .sort({ titulo: "asc" })
+    .sort({ name: "asc" })
     .populate({ path: "partido", populate: { path: "local visitante" } })
     .lean();
 
   const finales = await FinalAp.find({ user: session.user._id })
-    // .sort({ titulo: "asc" })
+    .sort({ name: "asc" })
     .populate({ path: "partido", populate: { path: "local visitante" } })
     .lean();
 
