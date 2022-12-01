@@ -25,14 +25,14 @@ export default async function handler(
 
   await db.connect();
   //const usuario = "6361a76561185f0f078fd7a5";
-  await PartidoAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
-  await SemiAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
-  await OctavoAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
-  await CuartoAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
-  await EquipoAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
-  await DatosFinal.deleteMany({ user: "637933c5edf58e69cfb8e511" });
-  await GrupoAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
-  await FinalAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
+  // await PartidoAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
+  // await SemiAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
+  // await OctavoAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
+  // await CuartoAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
+  // await EquipoAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
+  // await DatosFinal.deleteMany({ user: "637933c5edf58e69cfb8e511" });
+  // await GrupoAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
+  // await FinalAp.deleteMany({ user: "637933c5edf58e69cfb8e511" });
 
   // await User.insertMany(seedDatabase.initialData.users);
 
@@ -59,14 +59,14 @@ export default async function handler(
   //   }
   // );
 
-  // await User.updateMany(
-  //   {},
-  //   {
-  //     $set: {
-  //       puntos: 0,
-  //     },
-  //   }
-  // );
+  await DatosFinal.updateMany(
+    {},
+    {
+      $set: {
+        puntos: 0,
+      },
+    }
+  );
 
   // await PartidoAp.updateMany(
   //   { user: "635b78c1266ea8891e6efb23" },

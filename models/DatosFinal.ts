@@ -5,6 +5,7 @@ const datosfinalSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: "User" },
     name: { type: String, required: true },
+    puntos: { type: Number },
     campeon: {
       type: Schema.Types.ObjectId,
       ref: "EquipoAp",

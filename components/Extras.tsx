@@ -93,6 +93,138 @@ export const Extras = () => {
     setJugado(!jugado);
   };
 
+  const puntogoleador = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/datosfinales`,
+        method: "PUT",
+        data: { extra: "goleador" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+  };
+  const puntoamarillas = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/datosfinales`,
+        method: "PUT",
+        data: { extra: "amarillas" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+  };
+  const puntorojas = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/datosfinales`,
+        method: "PUT",
+        data: { extra: "rojas" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+  };
+  const puntogrupomas = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/datosfinales`,
+        method: "PUT",
+        data: { extra: "grupomasgoles" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+  };
+  const puntogrupomenos = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/datosfinales`,
+        method: "PUT",
+        data: { extra: "grupomenosgoles" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+  };
+  const puntomasgoles = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/datosfinales`,
+        method: "PUT",
+        data: { extra: "masgoles" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+  };
+  const puntomenosgoles = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/datosfinales`,
+        method: "PUT",
+        data: { extra: "menosgoles" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+  };
+  const puntomasvencida = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/datosfinales`,
+        method: "PUT",
+        data: { extra: "masvencida" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+  };
+  const puntomenosvencida = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/datosfinales`,
+        method: "PUT",
+        data: { extra: "menosvencida" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+  };
+
+  const editarPuntogoleador = async (id: any) => {
+    setcargando(true);
+    try {
+      await tesloApi({
+        url: `/datosfinales`,
+        method: "PATCH",
+        data: { extra: "goleador" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setcargando(false);
+  };
+
   return (
     <>
       {cargando === true ? (
@@ -166,6 +298,16 @@ export const Extras = () => {
                 >
                   Seleccionado: {datos && datos.goleador}
                 </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  type="submit"
+                  color="primary"
+                  disabled={botonenv}
+                  onClick={puntogoleador}
+                >
+                  goleador
+                </Button>
               </Box>
               <Box
                 sx={{
@@ -244,6 +386,16 @@ export const Extras = () => {
                 >
                   Seleccinado: {datos && datos.masvencida}
                 </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  type="submit"
+                  color="primary"
+                  disabled={botonenv}
+                  onClick={puntomasvencida}
+                >
+                  mas vencida
+                </Button>
               </Box>
               <Box
                 sx={{
@@ -322,6 +474,16 @@ export const Extras = () => {
                 >
                   Seleccionado: {datos && datos.menosvencida}
                 </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  type="submit"
+                  color="primary"
+                  disabled={botonenv}
+                  onClick={puntomenosvencida}
+                >
+                  menos vencida
+                </Button>
               </Box>
               <Box
                 sx={{
@@ -400,6 +562,16 @@ export const Extras = () => {
                 >
                   Seleccionado: {datos && datos.rojas}
                 </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  type="submit"
+                  color="primary"
+                  disabled={botonenv}
+                  onClick={puntorojas}
+                >
+                  Rojas
+                </Button>
               </Box>
               <Box
                 sx={{
@@ -478,6 +650,16 @@ export const Extras = () => {
                 >
                   Seleccionado: {datos && datos.amarillas}
                 </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  type="submit"
+                  color="primary"
+                  disabled={botonenv}
+                  onClick={puntoamarillas}
+                >
+                  Amarillas
+                </Button>
               </Box>
               <Box
                 sx={{
@@ -556,6 +738,16 @@ export const Extras = () => {
                 >
                   Seleccionado: {datos && datos.masgoles}
                 </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  type="submit"
+                  color="primary"
+                  disabled={botonenv}
+                  onClick={puntomasgoles}
+                >
+                  mas goles
+                </Button>
               </Box>
               <Box
                 sx={{
@@ -634,6 +826,16 @@ export const Extras = () => {
                 >
                   Seleccionado: {datos && datos.menosgoles}
                 </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  type="submit"
+                  color="primary"
+                  disabled={botonenv}
+                  onClick={puntomenosgoles}
+                >
+                  menos goles
+                </Button>
               </Box>
               <Box
                 sx={{
@@ -715,6 +917,16 @@ export const Extras = () => {
                 >
                   Seleccionado: {datos && datos.grupomasgoles}
                 </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  type="submit"
+                  color="primary"
+                  disabled={botonenv}
+                  onClick={puntogrupomas}
+                >
+                  grupo mas
+                </Button>
               </Box>
               <Box
                 sx={{
@@ -795,6 +1007,16 @@ export const Extras = () => {
                 >
                   Seleccionado: {datos && datos.grupomenosgoles}
                 </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ marginLeft: "10px", marginRight: "10px" }}
+                  type="submit"
+                  color="primary"
+                  disabled={botonenv}
+                  onClick={puntogrupomenos}
+                >
+                  grupo menos
+                </Button>
               </Box>
               <Box display="flex" justifyContent="center">
                 {datos && datos.jugado ? (

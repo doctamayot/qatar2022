@@ -280,9 +280,10 @@ export const Octavos = () => {
         form.resultado = "visitante";
       }
     }
-    //form._id = octavos[0].partido._id;
+    form._id = octavos[0].partido._id;
     form._idoctavo = octavos[0]._id;
     form.jugado = true;
+    form.nombre = octavos[0].partido.nombre;
     setCargando(true);
 
     try {
@@ -318,6 +319,7 @@ export const Octavos = () => {
     //form._id = octavos[0].partido._id;
     form._idoctavo = octavos[1]._id;
     form.jugado = true;
+    form.nombre = octavos[1].partido.nombre;
     setCargando(true);
 
     try {
@@ -351,6 +353,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = octavos[2]._id;
+    form.nombre = octavos[2].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -385,6 +388,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = octavos[3]._id;
+    form.nombre = octavos[3].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -419,6 +423,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = octavos[4]._id;
+    form.nombre = octavos[4].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -453,6 +458,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = octavos[5]._id;
+    form.nombre = octavos[5].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -487,6 +493,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = octavos[6]._id;
+    form.nombre = octavos[6].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -522,6 +529,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = octavos[7]._id;
+    form.nombre = octavos[7].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -557,6 +565,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = cuartos[0]._id;
+    form.nombre = cuartos[0].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -591,6 +600,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = cuartos[1]._id;
+    form.nombre = cuartos[1].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -626,6 +636,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = cuartos[2]._id;
+    form.nombre = cuartos[2].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -661,6 +672,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = cuartos[3]._id;
+    form.nombre = cuartos[3].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -696,6 +708,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = semis[0]._id;
+    form.nombre = semis[0].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -731,6 +744,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = semis[1]._id;
+    form.nombre = semis[1].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -766,6 +780,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = final[0]._id;
+    form.nombre = final[0].partido.nombre;
     form.jugado = true;
     setCargando(true);
 
@@ -801,6 +816,7 @@ export const Octavos = () => {
       }
     }
     form._idoctavo = final[1]._id;
+    form.nombre = final[1].partido.nombre;
     form.jugado = true;
     setCargando(true);
 

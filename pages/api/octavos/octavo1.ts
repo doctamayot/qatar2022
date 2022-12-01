@@ -11,6 +11,7 @@ import {
   SemiAp,
   FinalAp,
   DatosFinal,
+  User,
 } from "../../../models";
 
 type Data = { message: string } | any | any[];
@@ -75,7 +76,7 @@ const updateOctavos = async (
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) => {
-  const { resultado, _idoctavo } = req.body;
+  const { resultado, _idoctavo, nombre } = req.body;
 
   //console.log(req.body);
 
@@ -93,8 +94,6 @@ const updateOctavos = async (
     const partido = octavo.partido;
     await partido.updateOne(req.body);
 
-    console.log(partido.local);
-
     //partido de cuartos al que pertenece este ganador
     const partidoCuartos: any = await PartidoAp.find({
       user: session.user._id,
@@ -109,7 +108,58 @@ const updateOctavos = async (
       await partidoCuartos[0].updateOne({ local: partido.visitante });
     }
 
-    console.log(req.body);
+    //Puntuacion //////////////////////////////////////////////////////////////////
+
+    if (session.user._id === "635b78c1266ea8891e6efb23") {
+      const partidosAdmin: any = await PartidoAp.find({
+        user: "635b78c1266ea8891e6efb23",
+        //grupo: "A",
+        nombre: nombre,
+      })
+        // .populate("local visitante")
+        .lean();
+
+      const partidosTodos: any = await PartidoAp.find({
+        // grupo: "A",
+        nombre: nombre,
+      })
+        .populate("user")
+        // .populate("local visitante")
+        .lean();
+
+      //console.log(partidosAdmin);
+
+      for (const partido of partidosTodos) {
+        if (
+          partido.golocal === partidosAdmin[0].golocal &&
+          partido.golvisitante === partidosAdmin[0].golvisitante
+        ) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 6 });
+
+          await PartidoAp.updateOne({ _id: partido._id }, { puntos: 6 });
+
+          await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 6 } });
+        } else if (
+          partido.resultado === partidosAdmin[0].resultado &&
+          (partido.golocal === partidosAdmin[0].golocal ||
+            partido.golvisitante === partidosAdmin[0].golvisitante)
+        ) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 3 });
+          await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 3 } });
+        } else if (partido.resultado === partidosAdmin[0].resultado) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 2 });
+          await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 2 } });
+        } else if (
+          partido.golocal === partidosAdmin[0].golocal ||
+          partido.golvisitante === partidosAdmin[0].golvisitante
+        ) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 1 });
+          await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 1 } });
+        } else {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+        }
+      }
+    }
 
     await db.disconnect();
 
@@ -122,7 +172,8 @@ const updateOctavos = async (
 };
 
 const editOctavos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  const { resultado, _id } = req.body;
+  const { resultado, _id, nombre } = req.body;
+  const session: any = await getSession({ req });
 
   try {
     await db.connect();
@@ -131,7 +182,63 @@ const editOctavos = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     await partido.updateOne({ jugado: false });
 
-    //partido de cuartos al que pertenece este ganador
+    //Puntuacion //////////////////////////////////////////////////////////////////
+
+    if (session.user._id === "635b78c1266ea8891e6efb23") {
+      const partidosAdmin: any = await PartidoAp.find({
+        user: "635b78c1266ea8891e6efb23",
+        //grupo: "A",
+        nombre: nombre,
+      })
+        // .populate("local visitante")
+        .lean();
+
+      const partidosTodos: any = await PartidoAp.find({
+        //grupo: "A",
+        nombre: nombre,
+      })
+        .populate("user")
+        // .populate("local visitante")
+        .lean();
+
+      for (const partido of partidosTodos) {
+        // console.log("usuario", partido.golocal);
+        // console.log("admin", partidosAdmin[0].golocal);
+        if (
+          partido.golocal === partidosAdmin[0].golocal &&
+          partido.golvisitante === partidosAdmin[0].golvisitante
+        ) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+          await User.findByIdAndUpdate(partido.user, {
+            $inc: { puntos: -6 },
+          });
+        } else if (
+          partido.resultado === partidosAdmin[0].resultado &&
+          (partido.golocal === partidosAdmin[0].golocal ||
+            partido.golvisitante === partidosAdmin[0].golvisitante)
+        ) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+          await User.findByIdAndUpdate(partido.user, {
+            $inc: { puntos: -3 },
+          });
+        } else if (partido.resultado === partidosAdmin[0].resultado) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+          await User.findByIdAndUpdate(partido.user, {
+            $inc: { puntos: -2 },
+          });
+        } else if (
+          partido.golocal === partidosAdmin[0].golocal ||
+          partido.golvisitante === partidosAdmin[0].golvisitante
+        ) {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+          await User.findByIdAndUpdate(partido.user, {
+            $inc: { puntos: -1 },
+          });
+        } else {
+          await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+        }
+      }
+    }
 
     await db.disconnect();
 

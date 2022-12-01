@@ -3,7 +3,7 @@ import { getSession } from "next-auth/react";
 
 import { db } from "../../../database";
 
-import { FinalAp, DatosFinal } from "../../../models";
+import { FinalAp, DatosFinal, User, PartidoAp } from "../../../models";
 
 type Data = { message: string } | any | any[];
 
@@ -21,7 +21,7 @@ export default function handler(
 }
 
 const updateFinal = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  const { resultado, _idoctavo } = req.body;
+  const { resultado, _idoctavo, nombre } = req.body;
 
   const session: any = await getSession({ req });
   try {
@@ -46,6 +46,53 @@ const updateFinal = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     if (resultado === "visitante") {
       await partidoTercer[0].updateOne({ campeon: partido.visitante });
       await partidoTercer[0].updateOne({ sub: partido.local });
+    }
+
+    const partidosAdmin: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      //grupo: "A",
+      nombre: nombre,
+    })
+      // .populate("local visitante")
+      .lean();
+
+    const partidosTodos: any = await PartidoAp.find({
+      // grupo: "A",
+      nombre: nombre,
+    })
+      .populate("user")
+      // .populate("local visitante")
+      .lean();
+
+    for (const partido of partidosTodos) {
+      if (
+        partido.golocal === partidosAdmin[0].golocal &&
+        partido.golvisitante === partidosAdmin[0].golvisitante
+      ) {
+        await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 6 });
+
+        await PartidoAp.updateOne({ _id: partido._id }, { puntos: 6 });
+
+        await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 6 } });
+      } else if (
+        partido.resultado === partidosAdmin[0].resultado &&
+        (partido.golocal === partidosAdmin[0].golocal ||
+          partido.golvisitante === partidosAdmin[0].golvisitante)
+      ) {
+        await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 3 });
+        await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 3 } });
+      } else if (partido.resultado === partidosAdmin[0].resultado) {
+        await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 2 });
+        await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 2 } });
+      } else if (
+        partido.golocal === partidosAdmin[0].golocal ||
+        partido.golvisitante === partidosAdmin[0].golvisitante
+      ) {
+        await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 1 });
+        await User.findByIdAndUpdate(partido.user, { $inc: { puntos: 1 } });
+      } else {
+        await PartidoAp.findByIdAndUpdate(partido._id, { puntos: 0 });
+      }
     }
 
     //console.log(req.body);
