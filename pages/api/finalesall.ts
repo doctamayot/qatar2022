@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { db } from "../../database";
 
-import { DatosFinal, User, GrupoAp, OctavoAp } from "../../models";
+import { DatosFinal, User, GrupoAp, PartidoAp, CuartoAp } from "../../models";
 
 type Data = { message: string } | any | any[];
 
@@ -76,21 +76,20 @@ export default function handler(
 const getDatos = async (req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
 
-  const datosAdmin = await DatosFinal.find({
+  const datosAdmin = await PartidoAp.find({
     user: "635b78c1266ea8891e6efb23",
+    ronda: "cuartos",
   })
-    .select(
-      "goleador amarillas grupomasgoles grupomenosgoles masgoles masvencida menosgoles rojas menosvencida -_id"
-    )
+    .populate("local visitante user")
+    .sort({ partido: 1 })
     .lean();
-  //.populate("campeon sub tercero cuarto user")
 
-  const datosTodos = await DatosFinal.find()
-    .select(
-      "goleador amarillas grupomasgoles grupomenosgoles masgoles masvencida menosgoles rojas menosvencida puntos"
-    )
-    .populate("user")
+  console.log(datosAdmin);
+
+  const datosTodos = await PartidoAp.find({ ronda: "cuartos" })
+    .populate("local visitante user")
     .sort({ puntos: -1, user: 1 })
+    .sort({ partido: 1 })
     .lean();
 
   //console.log(datosAdmin);
@@ -105,10 +104,9 @@ const postPartidos = async (req: NextApiRequest, res: NextApiResponse) => {
   const { nomb } = req.body;
   //console.log(nomb);
   await db.connect();
-  const users = await DatosFinal.find()
-    .select(`${nomb} puntos`)
-    .populate("user")
-    .sort({ puntos: -1 })
+  const users = await PartidoAp.find({ ronda: nomb })
+    .populate("local visitante user")
+    .sort({ partido: 1 })
     .lean();
   // const partidos = await PartidoAp.find({ user: "635b78c1266ea8891e6efb23" })
   //   .select("nombre ronda")
@@ -126,22 +124,16 @@ const putPosicion = async (req: NextApiRequest, res: NextApiResponse) => {
     await db.connect();
     const posicionesAdmin: any = await DatosFinal.find({
       user: "635b78c1266ea8891e6efb23",
-    })
-      .select(`${extra}`)
-      .populate("user");
+    }).select(`${extra}`);
 
-    const posicionesTodos: any = await DatosFinal.find().select(
-      `${extra} user`
-    );
+    const posicionesTodos: any = await DatosFinal.find().select(`${extra}`);
 
     for (const posicion of posicionesTodos) {
       if (posicion[extra] === posicionesAdmin[0][extra]) {
         await DatosFinal.findByIdAndUpdate(posicion._id, {
           $inc: { puntos: 5 },
         });
-        await User.findByIdAndUpdate(posicion.user, {
-          $inc: { puntos: 5 },
-        });
+        await User.findByIdAndUpdate(posicion.user, { $inc: { puntos: 5 } });
       }
     }
 

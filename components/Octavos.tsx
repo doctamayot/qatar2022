@@ -274,11 +274,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._id = octavos[0].partido._id;
     form._idoctavo = octavos[0]._id;
@@ -310,11 +311,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local2 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local2 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     //form._id = octavos[0].partido._id;
     form._idoctavo = octavos[1]._id;
@@ -346,11 +348,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local3 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local3 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = octavos[2]._id;
     form.nombre = octavos[2].partido.nombre;
@@ -381,11 +384,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local4 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local4 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = octavos[3]._id;
     form.nombre = octavos[3].partido.nombre;
@@ -416,11 +420,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local5 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local5 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = octavos[4]._id;
     form.nombre = octavos[4].partido.nombre;
@@ -451,11 +456,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local6 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local6 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = octavos[5]._id;
     form.nombre = octavos[5].partido.nombre;
@@ -486,11 +492,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local7 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local7 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = octavos[6]._id;
     form.nombre = octavos[6].partido.nombre;
@@ -522,11 +529,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local8 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local8 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = octavos[7]._id;
     form.nombre = octavos[7].partido.nombre;
@@ -558,11 +566,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local9 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local9 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = cuartos[0]._id;
     form.nombre = cuartos[0].partido.nombre;
@@ -593,11 +602,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local10 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local10 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = cuartos[1]._id;
     form.nombre = cuartos[1].partido.nombre;
@@ -629,11 +639,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local11 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local11 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = cuartos[2]._id;
     form.nombre = cuartos[2].partido.nombre;
@@ -665,11 +676,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local12 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local12 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = cuartos[3]._id;
     form.nombre = cuartos[3].partido.nombre;
@@ -701,11 +713,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local13 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local13 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = semis[0]._id;
     form.nombre = semis[0].partido.nombre;
@@ -737,11 +750,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local14 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local14 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = semis[1]._id;
     form.nombre = semis[1].partido.nombre;
@@ -773,11 +787,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local15 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local15 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = final[0]._id;
     form.nombre = final[0].partido.nombre;
@@ -809,11 +824,12 @@ export const Octavos = () => {
     ) {
       form.resultado = "visitante";
     } else {
-      if (local16 === true) {
-        form.resultado = "local";
-      } else {
-        form.resultado = "visitante";
-      }
+      // if (local16 === true) {
+      //   form.resultado = "local";
+      // } else {
+      //   form.resultado = "visitante";
+      // }
+      form.resultado = "empate";
     }
     form._idoctavo = final[1]._id;
     form.nombre = final[1].partido.nombre;

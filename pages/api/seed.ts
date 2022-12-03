@@ -38,7 +38,8 @@ export default async function handler(
 
   // await Equipo.deleteMany();
   // await PartidoAp.updateMany(
-  //   { nombre: "E" },
+  //   { nombre: "50" },
+
   //   {
   //     $set: {
   //       partido: 43,
@@ -59,14 +60,14 @@ export default async function handler(
   //   }
   // );
 
-  await DatosFinal.updateMany(
-    {},
-    {
-      $set: {
-        puntos: 0,
-      },
-    }
-  );
+  // await DatosFinal.updateMany(
+  //   {},
+  //   {
+  //     $set: {
+  //       puntos: 0,
+  //     },
+  //   }
+  // );
 
   // await PartidoAp.updateMany(
   //   { user: "635b78c1266ea8891e6efb23" },

@@ -15,7 +15,7 @@ import { tesloApi } from "../../axios";
 
 import { Loadingdatos } from "../ui";
 
-export const Resultados = () => {
+export const Finalesall = () => {
   const [datos, setdatos] = useState<any>([]);
   const [jugadores, setJugadores] = useState<any>("1");
   const [allPartidos, setAllPartidos] = useState<any>();
@@ -34,11 +34,11 @@ export const Resultados = () => {
   const partidosLlamada = async () => {
     setIsLoading(true);
     const { data }: any = await tesloApi({
-      url: `/partidos`,
+      url: `/finalesall`,
       method: "GET",
     });
 
-    setAllPartidos(data.partidos);
+    setAllPartidos(data.posiciones);
     setdatos(data.users);
     setJugadores(data.jugadores);
     setIsLoading(false);
@@ -49,7 +49,7 @@ export const Resultados = () => {
     child: React.ReactNode
   ) => {
     const { data }: any = await tesloApi({
-      url: `/partidos`,
+      url: `/finalesall`,
       method: "POST",
       data: { nomb: event.target.value },
     });
@@ -75,13 +75,16 @@ export const Resultados = () => {
       ) : (
         <Grid container display="flex" justifyContent="center">
           <Grid item md={5} xs={12} sx={{ textAlign: "center" }}>
+            <Typography variant="subtitle1">
+              Puntuación de grupo exacto y equipo puesto en octavos
+            </Typography>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Partido</InputLabel>
+              <InputLabel id="demo-simple-select-label">Grupo</InputLabel>
               <Select
                 //value={partido}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                defaultValue="1"
+                defaultValue="A"
                 label="Valla más vencida"
                 onChange={handleChange}
                 sx={{
@@ -91,22 +94,9 @@ export const Resultados = () => {
                   marginLeft: "10px",
                 }}
               >
-                {allPartidos &&
-                  allPartidos.map((p: any) => (
-                    <MenuItem value={p.nombre} key={p._id}>
-                      {p.ronda === "grupos"
-                        ? `Grupos partido No ${p.nombre} ${p.local.name} vs ${p.visitante.name}`
-                        : p.ronda === "octavos"
-                        ? `Octavos partido No ${p.nombre} ${p.local.name} vs ${p.visitante.name}`
-                        : p.ronda === "cuartos"
-                        ? `Cuartos partido No ${p.nombre} `
-                        : p.ronda === "semis"
-                        ? `Semis partido No ${p.nombre} `
-                        : p.ronda === "final"
-                        ? `Finales partido No ${p.nombre} `
-                        : null}
-                    </MenuItem>
-                  ))}
+                <MenuItem value="cuartos">Cuartos de Final</MenuItem>
+                <MenuItem value="cuartos">Semifinales</MenuItem>
+                <MenuItem value="cuartos">Finales</MenuItem>
               </Select>
             </FormControl>
 
@@ -118,34 +108,45 @@ export const Resultados = () => {
                 key={datos[0] && datos[0]?._id}
                 sx={{ marginTop: "20px", textAlign: "center" }}
               >
-                <Image
-                  src={datos[0] && datos[0].local.bandera}
-                  alt={datos[0] && datos[0]?.nombre}
-                  width={60}
-                  height={30}
-                  layout="fixed"
-                />
-                <Typography
-                  variant="subtitle1"
-                  sx={{ margin: "5px 10px", color: "#439638" }}
-                >
-                  {datos[0] && datos[0]?.golocal}
-                </Typography>
-                <Divider orientation="vertical" flexItem />
-                <Typography
-                  variant="subtitle1"
-                  sx={{ margin: "5px 10px", color: "#439638" }}
-                >
-                  {datos[0] && datos[0]?.golvisitante}
-                </Typography>
+                <Box sx={{ marginLeft: "5px" }}>
+                  <Image
+                    src={datos[0] && datos[0].posicion1.bandera}
+                    alt={datos[0] && datos[0]?.posicion1.nombre}
+                    width={40}
+                    height={30}
+                    layout="fixed"
+                  />
+                </Box>
 
-                <Image
-                  src={datos[0] && datos[0].visitante.bandera}
-                  alt={datos[0] && datos[0]?.nombre}
-                  width={60}
-                  height={30}
-                  layout="fixed"
-                />
+                <Box sx={{ marginLeft: "5px" }}>
+                  <Image
+                    src={datos[0] && datos[0].posicion2.bandera}
+                    alt={datos[0] && datos[0]?.posicion1.nombre}
+                    width={40}
+                    height={30}
+                    layout="fixed"
+                  />
+                </Box>
+
+                <Box sx={{ marginLeft: "5px" }}>
+                  <Image
+                    src={datos[0] && datos[0].posicion3.bandera}
+                    alt={datos[0] && datos[0]?.posicion1.nombre}
+                    width={40}
+                    height={30}
+                    layout="fixed"
+                  />
+                </Box>
+
+                <Box sx={{ marginLeft: "5px" }}>
+                  <Image
+                    src={datos[0] && datos[0].posicion4.bandera}
+                    alt={datos[0] && datos[0]?.posicion1.nombre}
+                    width={40}
+                    height={30}
+                    layout="fixed"
+                  />
+                </Box>
 
                 <Typography
                   variant="subtitle1"
@@ -168,27 +169,45 @@ export const Resultados = () => {
                     marginLeft: { md: "100px", xs: "35px" },
                   }}
                 >
-                  <Image
-                    src={p.local.bandera}
-                    alt={p.nombre}
-                    width={60}
-                    height={30}
-                    layout="fixed"
-                  />
-                  <Typography variant="subtitle1" sx={{ margin: "5px 10px" }}>
-                    {p.golocal}
-                  </Typography>
-                  <Divider orientation="vertical" flexItem />
-                  <Typography variant="subtitle1" sx={{ margin: "5px 10px" }}>
-                    {p.golvisitante}
-                  </Typography>
-                  <Image
-                    src={p.visitante.bandera}
-                    alt={p.nombre}
-                    width={60}
-                    height={30}
-                    layout="fixed"
-                  />
+                  <Box sx={{ marginLeft: "5px" }}>
+                    <Image
+                      src={p.posicion1.bandera}
+                      alt={p.posicion1.nombre}
+                      width={40}
+                      height={30}
+                      layout="fixed"
+                    />
+                  </Box>
+
+                  <Box sx={{ marginLeft: "5px" }}>
+                    <Image
+                      src={p.posicion2.bandera}
+                      alt={p.posicion1.nombre}
+                      width={40}
+                      height={30}
+                      layout="fixed"
+                    />
+                  </Box>
+
+                  <Box sx={{ marginLeft: "5px" }}>
+                    <Image
+                      src={p.posicion3.bandera}
+                      alt={p.posicion1.nombre}
+                      width={40}
+                      height={30}
+                      layout="fixed"
+                    />
+                  </Box>
+
+                  <Box sx={{ marginLeft: "5px" }}>
+                    <Image
+                      src={p.posicion4.bandera}
+                      alt={p.posicion1.nombre}
+                      width={40}
+                      height={30}
+                      layout="fixed"
+                    />
+                  </Box>
 
                   <Typography
                     variant="subtitle1"
@@ -196,11 +215,11 @@ export const Resultados = () => {
                       margin: "5px 10px",
                       fontSize: { xs: "10px", md: "20px" },
                       color:
-                        p.puntos === 6
+                        p.puntos === 13
                           ? "#439638"
-                          : p.puntos === 3
+                          : p.puntos === 6
                           ? "#133e9b"
-                          : p.puntos === 2
+                          : p.puntos === 3
                           ? "#dbc816"
                           : p.puntos === 1
                           ? "#db541e"

@@ -78,7 +78,7 @@ const updateOctavos = async (
 ) => {
   const { resultado, _idoctavo, nombre } = req.body;
 
-  //console.log(req.body);
+  console.log(req.body);
 
   // if (!isValidObjectId(_id)) {
   //   return res.status(400).json({ message: "El id del producto no es válido" });
