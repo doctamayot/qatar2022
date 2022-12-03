@@ -19,6 +19,7 @@ export const Finalesall = () => {
   const [datos, setdatos] = useState<any>([]);
   const [jugadores, setJugadores] = useState<any>("1");
   const [allPartidos, setAllPartidos] = useState<any>();
+  const [objeto, setObjeto] = useState<any>();
   const [isLoading, setIsLoading] = useState<any>(true);
 
   // const {
@@ -31,6 +32,10 @@ export const Finalesall = () => {
     partidosLlamada();
   }, []);
 
+  // useEffect(() => {
+  //   recorrer();
+  // }, []);
+
   const partidosLlamada = async () => {
     setIsLoading(true);
     const { data }: any = await tesloApi({
@@ -38,12 +43,13 @@ export const Finalesall = () => {
       method: "GET",
     });
 
-    setAllPartidos(data.datosAdmin);
-    setdatos(data.datosTodos);
+    setAllPartidos(data.matrizcuartos);
+    setdatos(data.matrix);
     setJugadores(data.jugadores);
+    setObjeto(data.arreglo);
     setIsLoading(false);
   };
-  //console.log(datos);
+
   const handleChange = async (
     event: SelectChangeEvent<string>,
     child: React.ReactNode
@@ -65,6 +71,17 @@ export const Finalesall = () => {
       const palabra2 = nombreArray[1] || undefined;
       const nuevo = palabra1 + " " + palabra2;
       return nuevo;
+    }
+  };
+  let matrix: any = [];
+
+  const recorrer = () => {
+    for (const dato of objeto) {
+      matrix.push({
+        user: dato[0],
+        locales: dato[1].map((x: any) => x.local),
+        visitantes: dato[1].map((x: any) => x.visitante),
+      });
     }
   };
 
@@ -94,43 +111,44 @@ export const Finalesall = () => {
                   marginLeft: "10px",
                 }}
               >
-                <MenuItem value="57">Cuartos 1</MenuItem>
-                <MenuItem value="58">Cuartos 2</MenuItem>
+                <MenuItem value="57">Cuartos</MenuItem>
+                {/* <MenuItem value="58">Cuartos 2</MenuItem>
                 <MenuItem value="59">Cuartos 3</MenuItem>
-                <MenuItem value="60">Cuartos 4</MenuItem>
+                <MenuItem value="60">Cuartos 4</MenuItem> */}
               </Select>
             </FormControl>
 
-            {allPartidos &&
-              allPartidos.map((p: any) => (
-                <Box
-                  display="flex"
-                  justifyContent="center"
-                  //alignItems="center"
-                  key={p?._id}
-                  sx={{ marginTop: "20px", textAlign: "center" }}
-                >
-                  <Box sx={{ marginLeft: "5px" }}>
+            <Box
+              display="flex"
+              justifyContent="center"
+              //alignItems="center"
+              key={datos[0]?._id}
+              sx={{ marginTop: "20px", textAlign: "center" }}
+            >
+              {allPartidos &&
+                allPartidos.map((p: any, i: any) => (
+                  <Box sx={{ marginLeft: "5px" }} key={i}>
                     <Image
-                      src={p.local.bandera}
-                      alt={p?.local.nombre}
-                      width={40}
-                      height={30}
+                      src={p}
+                      alt={p}
+                      width={30}
+                      height={20}
                       layout="fixed"
                     />
                   </Box>
+                ))}
 
-                  <Box sx={{ marginLeft: "5px" }}>
-                    <Image
-                      src={p.visitante.bandera}
-                      alt={p?.visitante.nombre}
-                      width={40}
-                      height={30}
-                      layout="fixed"
-                    />
-                  </Box>
-                </Box>
-              ))}
+              {/* <Box sx={{ marginLeft: "5px" }}>
+                <Image
+                  src={datos[0].visitante.bandera}
+                  alt={datos[0]?.visitante.nombre}
+                  width={40}
+                  height={30}
+                  layout="fixed"
+                />
+              </Box> */}
+            </Box>
+
             <Divider />
             <Typography
               variant="subtitle1"
@@ -139,37 +157,43 @@ export const Finalesall = () => {
               {cambioNombre(datos && datos[0] && datos[0]?.user.name)}
             </Typography>
 
-            {datos &&
-              datos.slice(1).map((p: any) => (
+            {objeto &&
+              objeto.slice(1).map((p: any) => (
                 <Box
                   display="flex"
-                  // justifyContent="center"
+                  justifyContent="center"
                   alignItems="center"
-                  key={p._id}
+                  key={p[0]}
                   sx={{
                     marginTop: "20px",
-                    marginLeft: { md: "100px", xs: "35px" },
+                    marginLeft: { md: "50px", xs: "20x" },
                   }}
                 >
-                  <Box sx={{ marginLeft: "5px" }}>
-                    <Image
-                      src={p.local.bandera}
-                      alt={p.local.nombre}
-                      width={40}
-                      height={30}
-                      layout="fixed"
-                    />
-                  </Box>
-
-                  <Box sx={{ marginLeft: "5px" }}>
-                    <Image
-                      src={p.visitante.bandera}
-                      alt={p.visitante.nombre}
-                      width={40}
-                      height={30}
-                      layout="fixed"
-                    />
-                  </Box>
+                  <Typography variant="subtitle2" sx={{ fontSize: "15px" }}>
+                    {p[0] && cambioNombre(p[0])}
+                  </Typography>
+                  {p[1].map((x: any) => (
+                    <Grid key={x.local} display="flex">
+                      <Box sx={{ marginLeft: "5px" }}>
+                        <Image
+                          src={x.local}
+                          alt={x.visitante}
+                          width={22}
+                          height={20}
+                          layout="fixed"
+                        />
+                      </Box>
+                      <Box sx={{ marginLeft: "5px" }}>
+                        <Image
+                          src={x.visitante}
+                          alt={x.visitante}
+                          width={22}
+                          height={20}
+                          layout="fixed"
+                        />
+                      </Box>
+                    </Grid>
+                  ))}
 
                   <Typography
                     variant="subtitle1"
@@ -177,27 +201,27 @@ export const Finalesall = () => {
                       margin: "5px 10px",
                       fontSize: { xs: "10px", md: "20px" },
                       color:
-                        p.puntos === 13
+                        p.puntoscuartos === 8
                           ? "#439638"
-                          : p.puntos === 6
+                          : p.puntoscuartos === 4
                           ? "#133e9b"
-                          : p.puntos === 3
+                          : p.puntoscuartos === 4
                           ? "#dbc816"
-                          : p.puntos === 1
+                          : p.puntoscuartos === 1
                           ? "#db541e"
                           : "#000000",
                     }}
                   >
-                    puntos: {p.puntos}
+                    puntos: {p.puntoscuartos}
                   </Typography>
                   <Typography
                     variant="subtitle1"
                     sx={{
                       margin: "5px 10px",
-                      fontSize: { xs: "12px", md: "20px" },
+                      fontSize: { xs: "1px", md: "20px" },
                     }}
                   >
-                    {p.user && cambioNombre(p.user.name)}
+                    {p.user && cambioNombre(p.user)}
                   </Typography>
                   <Divider />
                 </Box>

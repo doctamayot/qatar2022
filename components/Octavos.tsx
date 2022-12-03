@@ -1025,7 +1025,59 @@ export const Octavos = () => {
       [event.target.name]: event.target.checked,
     });
   };
+  const puntoCuartos1 = async (id: any) => {
+    setCargando(true);
+    try {
+      await tesloApi({
+        url: `/finalesall`,
+        method: "PUT",
+        data: { nomb: "57" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setCargando(false);
+  };
 
+  const puntoCuartos2 = async (id: any) => {
+    setCargando(true);
+    try {
+      await tesloApi({
+        url: `/finalesall`,
+        method: "PUT",
+        data: { nomb: "58" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setCargando(false);
+  };
+  const puntoCuartos3 = async (id: any) => {
+    setCargando(true);
+    try {
+      await tesloApi({
+        url: `/finalesall`,
+        method: "PUT",
+        data: { nomb: "59" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setCargando(false);
+  };
+  const puntoCuartos4 = async (id: any) => {
+    setCargando(true);
+    try {
+      await tesloApi({
+        url: `/finalesall`,
+        method: "PUT",
+        data: { nomb: "60" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setCargando(false);
+  };
   return (
     <>
       {cargando ? (
@@ -2299,6 +2351,16 @@ export const Octavos = () => {
                     }}
                   >
                     {cuartos && cuartos[0].name}
+                    <Button
+                      variant="contained"
+                      sx={{ marginLeft: "10px", marginRight: "10px" }}
+                      type="submit"
+                      color="primary"
+                      disabled={botonenv}
+                      onClick={puntoCuartos1}
+                    >
+                      puntos cuartos
+                    </Button>
                   </Typography>
                   <Grid
                     container
@@ -2452,6 +2514,16 @@ export const Octavos = () => {
                   >
                     {cuartos && cuartos[1].name}
                   </Typography>
+                  <Button
+                    variant="contained"
+                    sx={{ marginLeft: "10px", marginRight: "10px" }}
+                    type="submit"
+                    color="primary"
+                    disabled={botonenv}
+                    onClick={puntoCuartos2}
+                  >
+                    puntos cuartos
+                  </Button>
                   <Grid
                     container
                     sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
@@ -2605,6 +2677,16 @@ export const Octavos = () => {
                   >
                     {cuartos && cuartos[2].name}
                   </Typography>
+                  <Button
+                    variant="contained"
+                    sx={{ marginLeft: "10px", marginRight: "10px" }}
+                    type="submit"
+                    color="primary"
+                    disabled={botonenv}
+                    onClick={puntoCuartos3}
+                  >
+                    puntos cuartos
+                  </Button>
                   <Grid
                     container
                     sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
@@ -2757,6 +2839,16 @@ export const Octavos = () => {
                   >
                     {cuartos && cuartos[3].name}
                   </Typography>
+                  <Button
+                    variant="contained"
+                    sx={{ marginLeft: "10px", marginRight: "10px" }}
+                    type="submit"
+                    color="primary"
+                    disabled={botonenv}
+                    onClick={puntoCuartos4}
+                  >
+                    puntos cuartos
+                  </Button>
                   <Grid
                     container
                     sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
