@@ -38,12 +38,12 @@ export const Finalesall = () => {
       method: "GET",
     });
 
-    setAllPartidos(data.posiciones);
-    setdatos(data.users);
+    setAllPartidos(data.datosAdmin);
+    setdatos(data.datosTodos);
     setJugadores(data.jugadores);
     setIsLoading(false);
   };
-
+  //console.log(datos);
   const handleChange = async (
     event: SelectChangeEvent<string>,
     child: React.ReactNode
@@ -53,7 +53,7 @@ export const Finalesall = () => {
       method: "POST",
       data: { nomb: event.target.value },
     });
-    //console.log(partido);
+
     setdatos(data);
     setIsLoading(false);
   };
@@ -76,7 +76,7 @@ export const Finalesall = () => {
         <Grid container display="flex" justifyContent="center">
           <Grid item md={5} xs={12} sx={{ textAlign: "center" }}>
             <Typography variant="subtitle1">
-              Puntuación de grupo exacto y equipo puesto en octavos
+              Equipo puesto en Cuartos de final
             </Typography>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Grupo</InputLabel>
@@ -84,7 +84,7 @@ export const Finalesall = () => {
                 //value={partido}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                defaultValue="A"
+                defaultValue="57"
                 label="Valla más vencida"
                 onChange={handleChange}
                 sx={{
@@ -94,69 +94,51 @@ export const Finalesall = () => {
                   marginLeft: "10px",
                 }}
               >
-                <MenuItem value="cuartos">Cuartos de Final</MenuItem>
-                <MenuItem value="cuartos">Semifinales</MenuItem>
-                <MenuItem value="cuartos">Finales</MenuItem>
+                <MenuItem value="57">Cuartos 1</MenuItem>
+                <MenuItem value="58">Cuartos 2</MenuItem>
+                <MenuItem value="59">Cuartos 3</MenuItem>
+                <MenuItem value="60">Cuartos 4</MenuItem>
               </Select>
             </FormControl>
 
-            {datos && (
-              <Box
-                display="flex"
-                justifyContent="center"
-                //alignItems="center"
-                key={datos[0] && datos[0]?._id}
-                sx={{ marginTop: "20px", textAlign: "center" }}
-              >
-                <Box sx={{ marginLeft: "5px" }}>
-                  <Image
-                    src={datos[0] && datos[0].posicion1.bandera}
-                    alt={datos[0] && datos[0]?.posicion1.nombre}
-                    width={40}
-                    height={30}
-                    layout="fixed"
-                  />
-                </Box>
-
-                <Box sx={{ marginLeft: "5px" }}>
-                  <Image
-                    src={datos[0] && datos[0].posicion2.bandera}
-                    alt={datos[0] && datos[0]?.posicion1.nombre}
-                    width={40}
-                    height={30}
-                    layout="fixed"
-                  />
-                </Box>
-
-                <Box sx={{ marginLeft: "5px" }}>
-                  <Image
-                    src={datos[0] && datos[0].posicion3.bandera}
-                    alt={datos[0] && datos[0]?.posicion1.nombre}
-                    width={40}
-                    height={30}
-                    layout="fixed"
-                  />
-                </Box>
-
-                <Box sx={{ marginLeft: "5px" }}>
-                  <Image
-                    src={datos[0] && datos[0].posicion4.bandera}
-                    alt={datos[0] && datos[0]?.posicion1.nombre}
-                    width={40}
-                    height={30}
-                    layout="fixed"
-                  />
-                </Box>
-
-                <Typography
-                  variant="subtitle1"
-                  sx={{ margin: "5px 10px", fontSize: "20px" }}
+            {allPartidos &&
+              allPartidos.map((p: any) => (
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  //alignItems="center"
+                  key={p?._id}
+                  sx={{ marginTop: "20px", textAlign: "center" }}
                 >
-                  {cambioNombre(datos && datos[0] && datos[0]?.user.name)}
-                </Typography>
-                <Divider />
-              </Box>
-            )}
+                  <Box sx={{ marginLeft: "5px" }}>
+                    <Image
+                      src={p.local.bandera}
+                      alt={p?.local.nombre}
+                      width={40}
+                      height={30}
+                      layout="fixed"
+                    />
+                  </Box>
+
+                  <Box sx={{ marginLeft: "5px" }}>
+                    <Image
+                      src={p.visitante.bandera}
+                      alt={p?.visitante.nombre}
+                      width={40}
+                      height={30}
+                      layout="fixed"
+                    />
+                  </Box>
+                </Box>
+              ))}
+            <Divider />
+            <Typography
+              variant="subtitle1"
+              sx={{ margin: "5px 10px", fontSize: "20px" }}
+            >
+              {cambioNombre(datos && datos[0] && datos[0]?.user.name)}
+            </Typography>
+
             {datos &&
               datos.slice(1).map((p: any) => (
                 <Box
@@ -171,8 +153,8 @@ export const Finalesall = () => {
                 >
                   <Box sx={{ marginLeft: "5px" }}>
                     <Image
-                      src={p.posicion1.bandera}
-                      alt={p.posicion1.nombre}
+                      src={p.local.bandera}
+                      alt={p.local.nombre}
                       width={40}
                       height={30}
                       layout="fixed"
@@ -181,28 +163,8 @@ export const Finalesall = () => {
 
                   <Box sx={{ marginLeft: "5px" }}>
                     <Image
-                      src={p.posicion2.bandera}
-                      alt={p.posicion1.nombre}
-                      width={40}
-                      height={30}
-                      layout="fixed"
-                    />
-                  </Box>
-
-                  <Box sx={{ marginLeft: "5px" }}>
-                    <Image
-                      src={p.posicion3.bandera}
-                      alt={p.posicion1.nombre}
-                      width={40}
-                      height={30}
-                      layout="fixed"
-                    />
-                  </Box>
-
-                  <Box sx={{ marginLeft: "5px" }}>
-                    <Image
-                      src={p.posicion4.bandera}
-                      alt={p.posicion1.nombre}
+                      src={p.visitante.bandera}
+                      alt={p.visitante.nombre}
                       width={40}
                       height={30}
                       layout="fixed"

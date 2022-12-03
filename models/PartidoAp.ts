@@ -22,6 +22,7 @@ const partidoapSchema = new Schema(
     golocal: { type: Number },
     golvisitante: { type: Number },
     puntos: { type: Number },
+    puntoscuartos: { type: Number },
     partido: { type: Number },
     resultado: { type: String },
     ronda: { type: String },

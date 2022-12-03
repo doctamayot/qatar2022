@@ -78,21 +78,25 @@ const getDatos = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const datosAdmin = await PartidoAp.find({
     user: "635b78c1266ea8891e6efb23",
-    ronda: "cuartos",
+    nombre: "57",
   })
     .populate("local visitante user")
     .sort({ partido: 1 })
     .lean();
 
-  console.log(datosAdmin);
+  //console.log(datosAdmin);
 
-  const datosTodos = await PartidoAp.find({ ronda: "cuartos" })
+  const datosTodos = await PartidoAp.find({ nombre: "57" })
     .populate("local visitante user")
     .sort({ puntos: -1, user: 1 })
-    .sort({ partido: 1 })
     .lean();
 
-  //console.log(datosAdmin);
+  // const datosTodos = await CuartoAp.find({ name: "Cuartos 1" })
+  //   .populate({ path: "partido", populate: { path: "local visitante" } })
+  //   .sort({ user: 1 })
+  //   .lean();
+
+  //console.log(datosTodos);
 
   const jugadores = await User.find().sort({ puntos: -1 }).lean();
 
@@ -104,9 +108,9 @@ const postPartidos = async (req: NextApiRequest, res: NextApiResponse) => {
   const { nomb } = req.body;
   //console.log(nomb);
   await db.connect();
-  const users = await PartidoAp.find({ ronda: nomb })
+  const users = await PartidoAp.find({ nombre: nomb })
     .populate("local visitante user")
-    .sort({ partido: 1 })
+    .sort({ puntos: -1, user: 1 })
     .lean();
   // const partidos = await PartidoAp.find({ user: "635b78c1266ea8891e6efb23" })
   //   .select("nombre ronda")
