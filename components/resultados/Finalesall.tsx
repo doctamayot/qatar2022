@@ -246,7 +246,7 @@ export const Finalesall = () => {
                         variant="subtitle1"
                         sx={{
                           margin: "5px 1px",
-                          fontSize: { xs: "5px", md: "14px" },
+                          fontSize: { xs: "10px", md: "14px" },
                           color:
                             x.puntos === 8
                               ? "#439638"
