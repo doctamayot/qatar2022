@@ -50,6 +50,8 @@ export const Finalesall = () => {
     setIsLoading(false);
   };
 
+  console.log(objeto);
+
   const handleChange = async (
     event: SelectChangeEvent<string>,
     child: React.ReactNode
@@ -173,47 +175,114 @@ export const Finalesall = () => {
                     {p[0] && cambioNombre(p[0])}
                   </Typography>
                   {p[1].map((x: any) => (
-                    <Grid key={x.local} display="flex">
-                      <Box sx={{ marginLeft: "5px" }}>
-                        <Image
-                          src={x.local}
-                          alt={x.visitante}
-                          width={22}
-                          height={20}
-                          layout="fixed"
-                        />
+                    <Grid key={x.local} display="flex" flexDirection="column">
+                      <Box display="flex">
+                        <Box
+                          sx={{ marginLeft: "15px" }}
+                          display="flex"
+                          flexDirection="column"
+                        >
+                          <Image
+                            src={x.local}
+                            alt={x.visitante}
+                            width={26}
+                            height={20}
+                            layout="fixed"
+                          />
+                          {/* <Typography
+                          variant="subtitle1"
+                          sx={{
+                            margin: "5px 1px",
+                            fontSize: { xs: "5px", md: "14px" },
+                            color:
+                              x.puntos === 4
+                                ? "#439638"
+                                : x.puntos === 3
+                                ? "#133e9b"
+                                : x.puntos === 4
+                                ? "#dbc816"
+                                : x.puntos === 1
+                                ? "#db541e"
+                                : "#000000",
+                          }}
+                        >
+                          Pts: {x.puntos}
+                        </Typography> */}
+                        </Box>
+                        <Box
+                          sx={{ marginLeft: "15px" }}
+                          display="flex"
+                          flexDirection="column"
+                        >
+                          <Image
+                            src={x.visitante}
+                            alt={x.visitante}
+                            width={26}
+                            height={20}
+                            layout="fixed"
+                          />
+                          {/* <Typography
+                          variant="subtitle1"
+                          sx={{
+                            margin: "5px 1px",
+                            fontSize: { xs: "5px", md: "14px" },
+                            color:
+                              x.puntos === 4
+                                ? "#439638"
+                                : x.puntos === 3
+                                ? "#133e9b"
+                                : x.puntos === 4
+                                ? "#dbc816"
+                                : x.puntos === 1
+                                ? "#db541e"
+                                : "#000000",
+                          }}
+                        >
+                          Pts: {x.puntos}
+                        </Typography> */}
+                        </Box>
                       </Box>
-                      <Box sx={{ marginLeft: "5px" }}>
-                        <Image
-                          src={x.visitante}
-                          alt={x.visitante}
-                          width={22}
-                          height={20}
-                          layout="fixed"
-                        />
-                      </Box>
+                      <Typography
+                        variant="subtitle1"
+                        sx={{
+                          margin: "5px 1px",
+                          fontSize: { xs: "5px", md: "14px" },
+                          color:
+                            x.puntos === 8
+                              ? "#439638"
+                              : x.puntos === 4
+                              ? "#133e9b"
+                              : x.puntos === 4
+                              ? "#dbc816"
+                              : x.puntos === 1
+                              ? "#db541e"
+                              : "#000000",
+                        }}
+                      >
+                        Puntos: {x.puntos}
+                      </Typography>
                     </Grid>
                   ))}
 
-                  <Typography
+                  {/* <Typography
                     variant="subtitle1"
                     sx={{
                       margin: "5px 10px",
                       fontSize: { xs: "10px", md: "20px" },
                       color:
-                        p.puntoscuartos === 8
+                        p.puntos === 8
                           ? "#439638"
-                          : p.puntoscuartos === 4
+                          : p.puntos === 4
                           ? "#133e9b"
-                          : p.puntoscuartos === 4
+                          : p.puntos === 4
                           ? "#dbc816"
-                          : p.puntoscuartos === 1
+                          : p.puntos === 1
                           ? "#db541e"
                           : "#000000",
                     }}
                   >
-                    puntos: {p.puntoscuartos}
-                  </Typography>
+                    puntos: {p[1].map((x: any) => `${x.puntos} - `)}
+                  </Typography> */}
                   <Typography
                     variant="subtitle1"
                     sx={{

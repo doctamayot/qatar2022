@@ -79,7 +79,7 @@ export default async function handler(
   //   }
   // );
 
-  await PartidoAp.updateMany({}, { $set: { puntoscuartos: 0 } });
+  await CuartoAp.updateMany({}, { $set: { puntos: 0 } });
 
   // await Resultado.insertMany(seedDatabase.initialData.resultados);
 

@@ -124,19 +124,6 @@ const getDatos = async (req: NextApiRequest, res: NextApiResponse) => {
     .sort({ puntoscuartos: -1, user: 1 })
     .lean();
 
-  const datosTodos2: any = await PartidoAp.find({ nombre: "58" })
-    .populate("local visitante user")
-    .sort({ puntoscuartos: -1, user: 1 })
-    .lean();
-  const datosTodos3: any = await PartidoAp.find({ nombre: "59" })
-    .populate("local visitante user")
-    .sort({ puntoscuartos: -1, user: 1 })
-    .lean();
-  const datosTodos4: any = await PartidoAp.find({ nombre: "60" })
-    .populate("local visitante user")
-    .sort({ puntoscuartos: -1, user: 1 })
-    .lean();
-
   let matrix = [];
 
   for (const dato of datosTodos) {
@@ -144,6 +131,7 @@ const getDatos = async (req: NextApiRequest, res: NextApiResponse) => {
       user: dato.partido.user.name,
       local: dato.partido.local.bandera,
       visitante: dato.partido.visitante.bandera,
+      puntos: dato.puntos,
     });
   }
 
@@ -158,29 +146,12 @@ const getDatos = async (req: NextApiRequest, res: NextApiResponse) => {
     nuevoObjeto[p.user].push({
       local: p.local,
       visitante: p.visitante,
+      puntos: p.puntos,
     });
   }
 
   let arreglo = Object.entries(nuevoObjeto);
   //console.log(arreglo);
-
-  // const matrizcuartostodos: any = [
-  //   datosTodos.local.bandera,
-  //   datosTodos2.local.bandera,
-  //   datosTodos3.local.bandera,
-  //   datosTodos4.local.bandera,
-  //   datosTodos.visitante.bandera,
-  //   datosTodos2.visitante.bandera,
-  //   datosTodos3.visitante.bandera,
-  //   datosTodos4.visitante.bandera,
-  // ];
-
-  // const datosTodos = await CuartoAp.find({ name: "Cuartos 1" })
-  //   .populate({ path: "partido", populate: { path: "local visitante" } })
-  //   .sort({ user: 1 })
-  //   .lean();
-
-  //console.log(datosTodos);
 
   const jugadores = await User.find().sort({ puntos: -1 }).lean();
 
@@ -210,37 +181,122 @@ const putPosicion = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     await db.connect();
-    const posicionesAdmin: any = await PartidoAp.find({
+    const datosAdmin: any = await PartidoAp.find({
       user: "635b78c1266ea8891e6efb23",
-      nombre: nomb,
-    }).populate("local visitante user");
+      nombre: "57",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
 
-    const posicionesTodos: any = await PartidoAp.find({
-      nombre: nomb,
-    }).populate("local visitante user");
+    const datosAdmin2: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "58",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
+    const datosAdmin3: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "59",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
+    const datosAdmin4: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "60",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
 
-    for (const posicion of posicionesTodos) {
+    const matrizcuartos: any = [
+      datosAdmin[0].local.name,
+      datosAdmin2[0].local.name,
+      datosAdmin3[0].local.name,
+      datosAdmin4[0].local.name,
+      datosAdmin[0].visitante.name,
+      datosAdmin2[0].visitante.name,
+      datosAdmin3[0].visitante.name,
+      datosAdmin4[0].visitante.name,
+    ];
+
+    //console.log(matrizcuartos);
+
+    const datosTodos: any = await CuartoAp.find({ name: nomb })
+      .select("partido")
+      .populate({ path: "partido", populate: { path: "local visitante user" } })
+      .sort({ puntoscuartos: -1, user: 1 })
+      .lean();
+
+    let matrix = [];
+
+    //console.log(datosTodos);
+
+    for (const dato of datosTodos) {
       if (
-        posicion.local.name === posicionesAdmin[0].local.name &&
-        posicion.visitante.name === posicionesAdmin[0].visitante.name
+        matrizcuartos.includes(dato.partido.local.name) &&
+        matrizcuartos.includes(dato.partido.visitante.name)
       ) {
-        await PartidoAp.findByIdAndUpdate(posicion._id, {
-          $set: { puntoscuartos: 8 },
+        await CuartoAp.findByIdAndUpdate(dato._id, {
+          $set: { puntos: 8 },
         });
-        //console.log(posicion.user);
-        //await User.findByIdAndUpdate(posicion.user, { $inc: { puntos: 8 } });
+        await User.findByIdAndUpdate(dato.partido.user._id, {
+          $inc: { puntos: 8 },
+        });
       } else if (
-        posicion.local.name === posicionesAdmin[0].local.name ||
-        posicion.visitante.name === posicionesAdmin[0].visitante.name
+        matrizcuartos.includes(dato.partido.local.name) ||
+        matrizcuartos.includes(dato.partido.visitante.name)
       ) {
-        await PartidoAp.findByIdAndUpdate(posicion._id, {
-          $set: { puntoscuartos: 4 },
+        await CuartoAp.findByIdAndUpdate(dato._id, {
+          $set: { puntos: 4 },
         });
-        //await User.findByIdAndUpdate(posicion.user, { $inc: { puntos: 4 } });
+        await User.findByIdAndUpdate(dato.partido.user._id, {
+          $inc: { puntos: 4 },
+        });
       }
     }
 
+    // for (const dato of datosTodos) {
+    //   if (matrizcuartos.includes(dato.partido.visitante.name)) {
+    //     await CuartoAp.findByIdAndUpdate(dato._id, {
+    //       $inc: { puntos: 4 },
+    //     });
+    //   }
+    // }
+
+    //console.log(matrix);
+
+    // let nuevoObjeto: any = {};
+
+    // for (const p of matrix) {
+    //   if (!nuevoObjeto.hasOwnProperty(p.user)) {
+    //     nuevoObjeto[p.user] = [];
+    //   }
+    //   nuevoObjeto[p.user].push({
+    //     local: p.local,
+    //     visitante: p.visitante,
+    //   });
+    // }
+
+    // let arreglo = Object.entries(nuevoObjeto);
+
+    // let keys = Object.values(nuevoObjeto);
+
+    // console.log(keys);
+
+    //console.log(arreglo);
+
+    // for (const arr of arreglo) {
+    //   for (const jug of arr[1]) {
+    //     if (matrizcuartos.includes(jug.visitante)) {
+    //       console.log(`${jug.visitante} esta en cuartos`);
+    //     }
+    //   }
+    // }
+
     await db.disconnect();
-    res.status(200).json(posicionesAdmin);
+    res.status(200).json({});
   } catch (error) {}
 };

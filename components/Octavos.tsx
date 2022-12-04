@@ -1031,7 +1031,7 @@ export const Octavos = () => {
       await tesloApi({
         url: `/finalesall`,
         method: "PUT",
-        data: { nomb: "57" },
+        data: { nomb: "Cuartos 1" },
       });
     } catch (error) {
       console.log(error);
@@ -1045,7 +1045,7 @@ export const Octavos = () => {
       await tesloApi({
         url: `/finalesall`,
         method: "PUT",
-        data: { nomb: "58" },
+        data: { nomb: "Cuartos 2" },
       });
     } catch (error) {
       console.log(error);
@@ -1058,7 +1058,7 @@ export const Octavos = () => {
       await tesloApi({
         url: `/finalesall`,
         method: "PUT",
-        data: { nomb: "59" },
+        data: { nomb: "Cuartos 3" },
       });
     } catch (error) {
       console.log(error);
@@ -1071,7 +1071,7 @@ export const Octavos = () => {
       await tesloApi({
         url: `/finalesall`,
         method: "PUT",
-        data: { nomb: "60" },
+        data: { nomb: "Cuartos 4" },
       });
     } catch (error) {
       console.log(error);
