@@ -99,7 +99,7 @@ export const Resultados = () => {
                         : p.ronda === "octavos"
                         ? `Octavos partido No ${p.nombre} ${p.local.name} vs ${p.visitante.name}`
                         : p.ronda === "cuartos"
-                        ? `Cuartos partido No ${p.nombre} `
+                        ? `Cuartos partido No ${p.nombre} ${p.local.name} vs ${p.visitante.name}`
                         : p.ronda === "semis"
                         ? `Semis partido No ${p.nombre} `
                         : p.ronda === "final"

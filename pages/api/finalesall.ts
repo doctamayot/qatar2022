@@ -167,11 +167,7 @@ const postPartidos = async (req: NextApiRequest, res: NextApiResponse) => {
     .populate("local visitante user")
     .sort({ puntoscuartos: -1, user: 1 })
     .lean();
-  // const partidos = await PartidoAp.find({ user: "635b78c1266ea8891e6efb23" })
-  //   .select("nombre ronda")
-  //   .populate("local visitante user")
-  //   .lean();
-  //console.log(users);
+
   res.status(200).json(users);
   await db.disconnect();
 };
@@ -257,44 +253,6 @@ const putPosicion = async (req: NextApiRequest, res: NextApiResponse) => {
         });
       }
     }
-
-    // for (const dato of datosTodos) {
-    //   if (matrizcuartos.includes(dato.partido.visitante.name)) {
-    //     await CuartoAp.findByIdAndUpdate(dato._id, {
-    //       $inc: { puntos: 4 },
-    //     });
-    //   }
-    // }
-
-    //console.log(matrix);
-
-    // let nuevoObjeto: any = {};
-
-    // for (const p of matrix) {
-    //   if (!nuevoObjeto.hasOwnProperty(p.user)) {
-    //     nuevoObjeto[p.user] = [];
-    //   }
-    //   nuevoObjeto[p.user].push({
-    //     local: p.local,
-    //     visitante: p.visitante,
-    //   });
-    // }
-
-    // let arreglo = Object.entries(nuevoObjeto);
-
-    // let keys = Object.values(nuevoObjeto);
-
-    // console.log(keys);
-
-    //console.log(arreglo);
-
-    // for (const arr of arreglo) {
-    //   for (const jug of arr[1]) {
-    //     if (matrizcuartos.includes(jug.visitante)) {
-    //       console.log(`${jug.visitante} esta en cuartos`);
-    //     }
-    //   }
-    // }
 
     await db.disconnect();
     res.status(200).json({});
