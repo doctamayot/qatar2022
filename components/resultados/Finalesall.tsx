@@ -118,8 +118,8 @@ export const Finalesall = () => {
               >
                 <MenuItem value="cuartos">Cuartos</MenuItem>
                 <MenuItem value="semis">Semis</MenuItem>
-                <MenuItem value="tercer">Tercer</MenuItem>
-                <MenuItem value="final">FInal</MenuItem>
+                <MenuItem value="tercer">Tercer Puesto</MenuItem>
+                <MenuItem value="final">Final</MenuItem>
               </Select>
             </FormControl>
 

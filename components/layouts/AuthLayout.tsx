@@ -120,7 +120,7 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
                   variant="subtitle2"
                   sx={{ fontSize: { md: "17.2px", xs: "14px" } }}
                 >
-                  Equipo en Cuartos
+                  Equipos en finales
                 </Typography>
               </Button>
             </Link>
