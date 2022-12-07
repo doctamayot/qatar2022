@@ -384,7 +384,7 @@ const postPartidos = async (req: NextApiRequest, res: NextApiResponse) => {
 
     //console.log(matrizcuartos);
 
-    const datosTodos: any = await FinalAp.find({ name: "Final" })
+    const datosTodos: any = await FinalAp.find({ name: "Tercer Puesto" })
       .populate({ path: "partido", populate: { path: "local visitante user" } })
       .sort({ puntoscuartos: -1, user: 1 })
       .lean();
