@@ -50,7 +50,7 @@ export const Finalesall = () => {
     setIsLoading(false);
   };
 
-  console.log(objeto);
+  //console.log(objeto);
 
   const handleChange = async (
     event: SelectChangeEvent<string>,
@@ -61,9 +61,12 @@ export const Finalesall = () => {
       method: "POST",
       data: { nomb: event.target.value },
     });
-
-    setdatos(data);
+    setAllPartidos(data.matrizcuartos);
+    setdatos(data.matrix);
+    setJugadores(data.jugadores);
+    setObjeto(data.arreglo);
     setIsLoading(false);
+    //console.log(data);
   };
 
   const cambioNombre = (nombre: any) => {
@@ -95,7 +98,7 @@ export const Finalesall = () => {
         <Grid container display="flex" justifyContent="center">
           <Grid item md={5} xs={12} sx={{ textAlign: "center" }}>
             <Typography variant="subtitle1">
-              Equipo puesto en Cuartos de final
+              Equipo puesto en finales
             </Typography>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Grupo</InputLabel>
@@ -103,7 +106,7 @@ export const Finalesall = () => {
                 //value={partido}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                defaultValue="57"
+                defaultValue="cuartos"
                 label="Valla más vencida"
                 onChange={handleChange}
                 sx={{
@@ -113,10 +116,10 @@ export const Finalesall = () => {
                   marginLeft: "10px",
                 }}
               >
-                <MenuItem value="57">Cuartos</MenuItem>
-                {/* <MenuItem value="58">Cuartos 2</MenuItem>
-                <MenuItem value="59">Cuartos 3</MenuItem>
-                <MenuItem value="60">Cuartos 4</MenuItem> */}
+                <MenuItem value="cuartos">Cuartos</MenuItem>
+                <MenuItem value="semis">Semis</MenuItem>
+                <MenuItem value="tercer">Tercer</MenuItem>
+                <MenuItem value="final">FInal</MenuItem>
               </Select>
             </FormControl>
 

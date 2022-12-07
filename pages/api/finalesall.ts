@@ -2,7 +2,15 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { db } from "../../database";
 
-import { DatosFinal, User, GrupoAp, PartidoAp, CuartoAp } from "../../models";
+import {
+  DatosFinal,
+  User,
+  GrupoAp,
+  PartidoAp,
+  CuartoAp,
+  SemiAp,
+  FinalAp,
+} from "../../models";
 
 type Data = { message: string } | any | any[];
 
@@ -163,12 +171,258 @@ const postPartidos = async (req: NextApiRequest, res: NextApiResponse) => {
   const { nomb } = req.body;
   console.log(nomb);
   await db.connect();
-  const users = await PartidoAp.find({ nombre: nomb })
-    .populate("local visitante user")
-    .sort({ puntoscuartos: -1, user: 1 })
-    .lean();
 
-  res.status(200).json(users);
+  if (nomb === "cuartos") {
+    const datosAdmin: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "57",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
+
+    const datosAdmin2: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "58",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
+    const datosAdmin3: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "59",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
+    const datosAdmin4: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "60",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
+
+    const matrizcuartos: any = [
+      datosAdmin[0].local.bandera,
+      datosAdmin2[0].local.bandera,
+      datosAdmin3[0].local.bandera,
+      datosAdmin4[0].local.bandera,
+      datosAdmin[0].visitante.bandera,
+      datosAdmin2[0].visitante.bandera,
+      datosAdmin3[0].visitante.bandera,
+      datosAdmin4[0].visitante.bandera,
+    ];
+
+    //console.log(matrizcuartos);
+
+    const datosTodos: any = await CuartoAp.find()
+      .populate({ path: "partido", populate: { path: "local visitante user" } })
+      .sort({ puntoscuartos: -1, user: 1 })
+      .lean();
+
+    let matrix = [];
+
+    for (const dato of datosTodos) {
+      matrix.push({
+        user: dato.partido.user.name,
+        local: dato.partido.local.bandera,
+        visitante: dato.partido.visitante.bandera,
+        puntos: dato.puntos,
+      });
+    }
+
+    //console.log(matrix);
+
+    let nuevoObjeto: any = {};
+
+    for (const p of matrix) {
+      if (!nuevoObjeto.hasOwnProperty(p.user)) {
+        nuevoObjeto[p.user] = [];
+      }
+      nuevoObjeto[p.user].push({
+        local: p.local,
+        visitante: p.visitante,
+        puntos: p.puntos,
+      });
+    }
+
+    let arreglo = Object.entries(nuevoObjeto);
+    //console.log(arreglo);
+
+    const jugadores = await User.find().sort({ puntos: -1 }).lean();
+    res.status(200).json({ matrix, matrizcuartos, jugadores, arreglo });
+  } else if (nomb === "semis") {
+    const datosAdmin: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "61",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
+
+    const datosAdmin2: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "62",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
+
+    const matrizcuartos: any = [
+      datosAdmin[0].local.bandera,
+      datosAdmin2[0].local.bandera,
+      datosAdmin[0].visitante.bandera,
+      datosAdmin2[0].visitante.bandera,
+    ];
+
+    //console.log(matrizcuartos);
+
+    const datosTodos: any = await SemiAp.find()
+      .populate({ path: "partido", populate: { path: "local visitante user" } })
+      .sort({ puntoscuartos: -1, user: 1 })
+      .lean();
+
+    let matrix = [];
+
+    for (const dato of datosTodos) {
+      matrix.push({
+        user: dato.partido.user.name,
+        local: dato.partido.local.bandera,
+        visitante: dato.partido.visitante.bandera,
+        puntos: dato.puntos,
+      });
+    }
+
+    //console.log(matrix);
+
+    let nuevoObjeto: any = {};
+
+    for (const p of matrix) {
+      if (!nuevoObjeto.hasOwnProperty(p.user)) {
+        nuevoObjeto[p.user] = [];
+      }
+      nuevoObjeto[p.user].push({
+        local: p.local,
+        visitante: p.visitante,
+        puntos: p.puntos,
+      });
+    }
+
+    let arreglo = Object.entries(nuevoObjeto);
+    //console.log(arreglo);
+
+    const jugadores = await User.find().sort({ puntos: -1 }).lean();
+
+    res.status(200).json({ matrix, matrizcuartos, jugadores, arreglo });
+  } else if (nomb === "final") {
+    const datosAdmin: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "64",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
+
+    const matrizcuartos: any = [
+      datosAdmin[0].local.bandera,
+      datosAdmin[0].visitante.bandera,
+    ];
+
+    //console.log(matrizcuartos);
+
+    const datosTodos: any = await FinalAp.find({ name: "Final" })
+      .populate({ path: "partido", populate: { path: "local visitante user" } })
+      .sort({ puntoscuartos: -1, user: 1 })
+      .lean();
+
+    let matrix = [];
+
+    for (const dato of datosTodos) {
+      matrix.push({
+        user: dato.partido.user.name,
+        local: dato.partido.local.bandera,
+        visitante: dato.partido.visitante.bandera,
+        puntos: dato.puntos,
+      });
+    }
+
+    //console.log(matrix);
+
+    let nuevoObjeto: any = {};
+
+    for (const p of matrix) {
+      if (!nuevoObjeto.hasOwnProperty(p.user)) {
+        nuevoObjeto[p.user] = [];
+      }
+      nuevoObjeto[p.user].push({
+        local: p.local,
+        visitante: p.visitante,
+        puntos: p.puntos,
+      });
+    }
+
+    let arreglo = Object.entries(nuevoObjeto);
+    //console.log(arreglo);
+
+    const jugadores = await User.find().sort({ puntos: -1 }).lean();
+
+    res.status(200).json({ matrix, matrizcuartos, jugadores, arreglo });
+  } else if (nomb === "tercer") {
+    const datosAdmin: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "63",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
+
+    const matrizcuartos: any = [
+      datosAdmin[0].local.bandera,
+      datosAdmin[0].visitante.bandera,
+    ];
+
+    //console.log(matrizcuartos);
+
+    const datosTodos: any = await FinalAp.find({ name: "Final" })
+      .populate({ path: "partido", populate: { path: "local visitante user" } })
+      .sort({ puntoscuartos: -1, user: 1 })
+      .lean();
+
+    let matrix = [];
+
+    for (const dato of datosTodos) {
+      matrix.push({
+        user: dato.partido.user.name,
+        local: dato.partido.local.bandera,
+        visitante: dato.partido.visitante.bandera,
+        puntos: dato.puntos,
+      });
+    }
+
+    //console.log(matrix);
+
+    let nuevoObjeto: any = {};
+
+    for (const p of matrix) {
+      if (!nuevoObjeto.hasOwnProperty(p.user)) {
+        nuevoObjeto[p.user] = [];
+      }
+      nuevoObjeto[p.user].push({
+        local: p.local,
+        visitante: p.visitante,
+        puntos: p.puntos,
+      });
+    }
+
+    let arreglo = Object.entries(nuevoObjeto);
+    //console.log(arreglo);
+
+    const jugadores = await User.find().sort({ puntos: -1 }).lean();
+
+    res.status(200).json({ matrix, matrizcuartos, jugadores, arreglo });
+  }
+
   await db.disconnect();
 };
 
