@@ -101,7 +101,7 @@ export const Resultados = () => {
                         : p.ronda === "cuartos"
                         ? `Cuartos partido No ${p.nombre} ${p.local.name} vs ${p.visitante.name}`
                         : p.ronda === "semis"
-                        ? `Semis partido No ${p.nombre} `
+                        ? `Semis partido No ${p.nombre} ${p.local.name} vs ${p.visitante.name}`
                         : p.ronda === "final"
                         ? `Finales partido No ${p.nombre} `
                         : null}
