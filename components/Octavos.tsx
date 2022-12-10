@@ -2351,7 +2351,7 @@ export const Octavos = () => {
                     }}
                   >
                     {cuartos && cuartos[0].name}
-                    <Button
+                    {/* <Button
                       variant="contained"
                       sx={{ marginLeft: "10px", marginRight: "10px" }}
                       type="submit"
@@ -2360,7 +2360,7 @@ export const Octavos = () => {
                       onClick={puntoCuartos1}
                     >
                       puntos cuartos
-                    </Button>
+                    </Button> */}
                   </Typography>
                   <Grid
                     container
@@ -2514,7 +2514,7 @@ export const Octavos = () => {
                   >
                     {cuartos && cuartos[1].name}
                   </Typography>
-                  <Button
+                  {/* <Button
                     variant="contained"
                     sx={{ marginLeft: "10px", marginRight: "10px" }}
                     type="submit"
@@ -2523,7 +2523,7 @@ export const Octavos = () => {
                     onClick={puntoCuartos2}
                   >
                     puntos cuartos
-                  </Button>
+                  </Button> */}
                   <Grid
                     container
                     sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
@@ -2677,7 +2677,7 @@ export const Octavos = () => {
                   >
                     {cuartos && cuartos[2].name}
                   </Typography>
-                  <Button
+                  {/* <Button
                     variant="contained"
                     sx={{ marginLeft: "10px", marginRight: "10px" }}
                     type="submit"
@@ -2686,7 +2686,7 @@ export const Octavos = () => {
                     onClick={puntoCuartos3}
                   >
                     puntos cuartos
-                  </Button>
+                  </Button> */}
                   <Grid
                     container
                     sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}
@@ -2839,7 +2839,7 @@ export const Octavos = () => {
                   >
                     {cuartos && cuartos[3].name}
                   </Typography>
-                  <Button
+                  {/* <Button
                     variant="contained"
                     sx={{ marginLeft: "10px", marginRight: "10px" }}
                     type="submit"
@@ -2848,7 +2848,7 @@ export const Octavos = () => {
                     onClick={puntoCuartos4}
                   >
                     puntos cuartos
-                  </Button>
+                  </Button> */}
                   <Grid
                     container
                     sx={{ backgroundColor: "#bbb7be33", padding: "10px" }}

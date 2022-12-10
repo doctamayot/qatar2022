@@ -27,8 +27,8 @@ export default function handler(
 
     case "PUT":
       return putPosicion(req, res);
-    // case "PATCH":
-    //   return editPosicion(req, res);
+    case "PATCH":
+      return putSemis(req, res);
   }
 }
 
@@ -504,6 +504,75 @@ const putPosicion = async (req: NextApiRequest, res: NextApiResponse) => {
         });
         await User.findByIdAndUpdate(dato.partido.user._id, {
           $inc: { puntos: 4 },
+        });
+      }
+    }
+
+    await db.disconnect();
+    res.status(200).json({});
+  } catch (error) {}
+};
+
+const putSemis = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { nomb } = req.body;
+
+  try {
+    await db.connect();
+    const datosAdmin: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "61",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
+
+    const datosAdmin2: any = await PartidoAp.find({
+      user: "635b78c1266ea8891e6efb23",
+      nombre: "62",
+    })
+      .populate("local visitante user")
+      .sort({ partido: 1 })
+      .lean();
+
+    const matrizcuartos: any = [
+      datosAdmin[0].local.name,
+      datosAdmin2[0].local.name,
+      datosAdmin[0].visitante.name,
+      datosAdmin2[0].visitante.name,
+    ];
+
+    //console.log(matrizcuartos);
+
+    const datosTodos: any = await SemiAp.find()
+      .select("partido")
+      .populate({ path: "partido", populate: { path: "local visitante user" } })
+      .sort({ puntoscuartos: -1, user: 1 })
+      .lean();
+
+    let matrix = [];
+
+    //console.log(datosTodos);
+
+    for (const dato of datosTodos) {
+      if (
+        matrizcuartos.includes(dato.partido.local.name) &&
+        matrizcuartos.includes(dato.partido.visitante.name)
+      ) {
+        await SemiAp.findByIdAndUpdate(dato._id, {
+          $set: { puntos: 10 },
+        });
+        await User.findByIdAndUpdate(dato.partido.user._id, {
+          $inc: { puntos: 10 },
+        });
+      } else if (
+        matrizcuartos.includes(dato.partido.local.name) ||
+        matrizcuartos.includes(dato.partido.visitante.name)
+      ) {
+        await SemiAp.findByIdAndUpdate(dato._id, {
+          $set: { puntos: 5 },
+        });
+        await User.findByIdAndUpdate(dato.partido.user._id, {
+          $inc: { puntos: 5 },
         });
       }
     }
