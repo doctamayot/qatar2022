@@ -251,9 +251,15 @@ export const Finalesall = () => {
                           margin: "5px 1px",
                           fontSize: { xs: "10px", md: "14px" },
                           color:
-                            x.puntos === 8 || x.puntos === 10
+                            x.puntos === 8 ||
+                            x.puntos === 10 ||
+                            x.puntos === 14 ||
+                            x.puntos === 12
                               ? "#439638"
-                              : x.puntos === 4 || x.puntos === 5
+                              : x.puntos === 4 ||
+                                x.puntos === 5 ||
+                                x.puntos === 6 ||
+                                x.puntos === 7
                               ? "#133e9b"
                               : x.puntos === 1
                               ? "#dbc816"

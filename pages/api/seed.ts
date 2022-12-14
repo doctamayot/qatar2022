@@ -79,7 +79,7 @@ export default async function handler(
   //   }
   // );
 
-  await SemiAp.updateMany({}, { $set: { puntos: 0 } });
+  await FinalAp.updateMany({}, { $set: { puntos: 0 } });
   //await FinalAp.updateMany({}, { $set: { puntos: 0 } });
 
   // await Resultado.insertMany(seedDatabase.initialData.resultados);
