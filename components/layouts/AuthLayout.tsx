@@ -82,7 +82,7 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
                 sx={{
                   fontFamily: "Roboto Condensed, sans-serif",
                   fontWeight: "700",
-                  marginLeft: "10px",
+                  marginLeft: "1px",
                   color: "#ffffff",
                   backgroundColor: "#202894",
 
@@ -107,7 +107,7 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
                 sx={{
                   fontFamily: "Roboto Condensed, sans-serif",
                   fontWeight: "700",
-                  marginLeft: "10px",
+                  marginLeft: "1px",
                   color: "#ffffff",
                   backgroundColor: "#aeb127",
 
@@ -125,6 +125,31 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
               </Button>
             </Link>
           </NextLink>
+          <NextLink href="/campeon" passHref>
+            <Link>
+              <Button
+                variant="text"
+                sx={{
+                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontWeight: "700",
+                  marginLeft: "1px",
+                  color: "#ffffff",
+                  backgroundColor: "#7d866d",
+
+                  padding: "10px",
+
+                  cursor: "pointer",
+                }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontSize: { md: "17.2px", xs: "14px" } }}
+                >
+                  Posiciones Finales
+                </Typography>
+              </Button>
+            </Link>
+          </NextLink>
           <NextLink href="/datosfinal" passHref>
             <Link>
               <Button
@@ -132,7 +157,7 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
                 sx={{
                   fontFamily: "Roboto Condensed, sans-serif",
                   fontWeight: "700",
-                  marginLeft: "10px",
+                  marginLeft: "1px",
                   color: "#ffffff",
                   backgroundColor: "#289455",
 
@@ -157,7 +182,7 @@ export const AuthLayout: FC<Props> = ({ children, title, aviso }) => {
                 sx={{
                   fontFamily: "Roboto Condensed, sans-serif",
                   fontWeight: "700",
-                  marginLeft: "10px",
+                  marginLeft: "1px",
                   width: "100%",
 
                   color: "#ffffff",

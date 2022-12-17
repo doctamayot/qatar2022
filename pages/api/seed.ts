@@ -60,14 +60,14 @@ export default async function handler(
   //   }
   // );
 
-  // await DatosFinal.updateMany(
-  //   {},
-  //   {
-  //     $set: {
-  //       puntos: 0,
-  //     },
-  //   }
-  // );
+  await DatosFinal.updateMany(
+    {},
+    {
+      $set: {
+        puntoscampeon: 0,
+      },
+    }
+  );
 
   // await PartidoAp.updateMany(
   //   { user: "635b78c1266ea8891e6efb23" },
@@ -79,7 +79,7 @@ export default async function handler(
   //   }
   // );
 
-  await FinalAp.updateMany({}, { $set: { puntos: 0 } });
+  //await FinalAp.updateMany({}, { $set: { puntos: 0 } });
   //await FinalAp.updateMany({}, { $set: { puntos: 0 } });
 
   // await Resultado.insertMany(seedDatabase.initialData.resultados);
