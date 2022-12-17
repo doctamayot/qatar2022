@@ -801,7 +801,7 @@ export const Octavos = () => {
 
     try {
       const { data } = await tesloApi({
-        url: `/finales/tercer`,
+        url: `/finales/final`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });
@@ -838,7 +838,7 @@ export const Octavos = () => {
 
     try {
       const { data } = await tesloApi({
-        url: `/finales/final`,
+        url: `/finales/tercer`,
         method: "PUT", // si tenemos un _id, entonces actualizar, si no crear
         data: form,
       });

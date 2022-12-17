@@ -41,7 +41,7 @@ const getDatos = async (req: NextApiRequest, res: NextApiResponse) => {
     datosAdmin[0].cuarto.bandera,
   ];
 
-  console.log(matrizcuartos);
+  //console.log(matrizcuartos);
 
   const datosTodos: any = await DatosFinal.find()
     .populate("campeon sub tercero cuarto user")
@@ -113,20 +113,39 @@ const putPosicion = async (req: NextApiRequest, res: NextApiResponse) => {
     const posicionesAdmin: any = await DatosFinal.find({
       user: "635b78c1266ea8891e6efb23",
     })
-      .select(`${extra}`)
-      .populate("user");
+      .select("campeon sub tercero cuarto")
+      .populate("campeon sub tercero cuarto user");
 
-    const posicionesTodos: any = await DatosFinal.find().select(
-      `${extra} user`
-    );
+    const posicionesTodos: any = await DatosFinal.find()
+      .select("campeon sub tercero cuarto user")
+      .populate("campeon sub tercero cuarto user");
+
+    //console.log(posicionesAdmin);
 
     for (const posicion of posicionesTodos) {
-      if (posicion[extra] === posicionesAdmin[0][extra]) {
+      if (
+        posicion.campeon.name === posicionesAdmin[0].campeon.name &&
+        posicion.sub.name === posicionesAdmin[0].sub.name
+      ) {
         await DatosFinal.findByIdAndUpdate(posicion._id, {
-          $inc: { puntos: 5 },
+          $set: { puntoscampeon: 17 },
         });
         await User.findByIdAndUpdate(posicion.user, {
-          $inc: { puntos: 5 },
+          $inc: { puntos: 17 },
+        });
+      } else if (posicion.campeon.name === posicionesAdmin[0].campeon.name) {
+        await DatosFinal.findByIdAndUpdate(posicion._id, {
+          $set: { puntoscampeon: 10 },
+        });
+        await User.findByIdAndUpdate(posicion.user, {
+          $inc: { puntos: 10 },
+        });
+      } else if (posicion.sub.name === posicionesAdmin[0].sub.name) {
+        await DatosFinal.findByIdAndUpdate(posicion._id, {
+          $set: { puntoscampeon: 7 },
+        });
+        await User.findByIdAndUpdate(posicion.user, {
+          $inc: { puntos: 7 },
         });
       }
     }
